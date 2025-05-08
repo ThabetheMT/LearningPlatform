@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Zone</title>
     <style>
         body {
@@ -15,9 +16,9 @@
         .container {
             position: relative;
             max-width: 900px;
-            margin: 50px auto;
+            margin: 20px auto;
             background-color: rgba(255, 255, 255, 0.95);
-            padding: 40px;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -35,50 +36,54 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 100%;
+            opacity: 0.3; /* Reduced opacity for better readability */
             z-index: -1;
             border-radius: 20px;
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 2.5rem;
             color: #a100ff;
             margin-bottom: 10px;
         }
 
         p {
-            font-size: 18px;
+            font-size: 1.2rem;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             background-color: burlywood;
-            padding: 10px;
+            padding: 8px;
             border-radius: 10px;
         }
 
         .game-grid {
             display: flex;
-            justify-content: space-between;
-            gap: 40px;
+            justify-content: center;
+            gap: 20px;
             flex-wrap: wrap;
         }
 
         .left-column, .right-column {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
+            flex: 1 1 200px;
+            min-width: 200px;
         }
 
         .game-card {
             border-radius: 15px;
-            padding: 20px;
-            width: 200px;
+            padding: 15px;
+            width: 100%;
+            max-width: 200px;
             color: white;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease;
             cursor: pointer;
+            text-align: center;
         }
 
         .game-card:hover {
@@ -92,19 +97,72 @@
         .green { background-color: #28a745; }
 
         .footer {
-            margin-top: 40px;
-            font-size: 14px;
+            margin-top: 20px;
+            font-size: 0.9rem;
             color: black;
             background-color: burlywood;
             padding: 5px;
             border-radius: 8px;
         }
 
-        /* Responsive for smaller screens */
+        /* Media Queries for Responsive Design */
         @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1rem;
+                padding: 6px;
+            }
+
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
             .game-grid {
                 flex-direction: column;
                 align-items: center;
+                gap: 15px;
+            }
+
+            .left-column, .right-column {
+                min-width: 100%;
+                align-items: center;
+            }
+
+            .game-card {
+                max-width: 250px;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                padding: 5px;
+            }
+
+            .container {
+                margin: 5px;
+                padding: 10px;
+            }
+
+            .game-card {
+                max-width: 100%;
+                padding: 10px;
+                font-size: 0.85rem;
+            }
+
+            .footer {
+                font-size: 0.8rem;
+                padding: 4px;
             }
         }
     </style>
