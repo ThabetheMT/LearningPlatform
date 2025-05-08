@@ -1,243 +1,1123 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Funny Faces & Colourful Cupcakes Quiz</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            position: relative;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baking Fun Quiz</title>
+  <style>
+    :root {
+      --primary: hsl(0, 100%, 68%);
+      --secondary: #03f7e6;
+      --accent: #FFE66D;
+      --background: #F7FFF7;
+      --text: #292F36;
+      --highlight: #FF9F1C;
+    }
 
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: navajowhite;
-            background-size: cover;
-            opacity: 0.1;
-            z-index: -1;
-        }
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-image: url(images/background.jpeg);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      color: var(--text);
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 15px;
+      overflow-x: hidden;
+    }
 
-        .container {
-            position: relative;
-            max-width: 1000px;
-            margin: 50px auto;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            z-index: 1;
-        }
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
 
-        h1 {
-            color: #007bff;
-            text-align: center;
-            margin-bottom: 10px;
-        }
+    .timer {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
 
-        #timer {
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #d32f2f;
-            margin-bottom: 20px;
-        }
+    h2 {
+      color: black;
+      font-weight: bold;
+      border-bottom: 3px dotted var(--highlight);
+      padding-bottom: 5px;
+      margin-top: 20px;
+      font-size: 1.8rem;
+    }
 
-        .question {
-            margin-bottom: 25px;
-        }
+    p {
+      font-size: 1.6rem;
+      margin: 10px 0;
+    }
 
-        .question p {
-            font-size: 18px;
-            font-weight: bold;
-            color: #dc3545;
-        }
+    .quiz-container {
+      position: relative;
+      font-weight: bold;
+      min-height: 300px;
+      overflow-y: auto;
+      max-height: 60vh;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 6px solid var(--highlight);
+      border-radius: 15px;
+      background-color: var(--accent);
+    }
 
-        .question label {
-            display: block;
-            margin: 5px 0;
-            cursor: pointer;
-            color: #333;
-        }
+    .quiz-section {
+      display: none;
+      padding: 10px;
+    }
 
-        button {
-            display: block;
-            margin: 30px auto;
-            padding: 10px 25px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+    .quiz-section.active {
+      display: block;
+      animation: fadeIn 0.8s ease-in-out;
+    }
 
-        button:hover {
-            background-color: #218838;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-        #result {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-            color: #ffc107;
-        }
+    .question {
+      margin-bottom: 20px;
+      font-weight: bolder;
+      padding: 12px;
+      background-color: var(--background);
+      border-radius: 15px;
+      border-left: 8px solid var(--secondary);
+    }
 
-        .sticker {
-            position: fixed;
-            z-index: 0;
-            width: 80px;
-            pointer-events: none;
-            opacity: 0.9;
-        }
+    .options {
+      margin-left: 15px;
+    }
 
-        .sticker.sticker1 { top: 10px; right: 10px; }
-        .sticker.sticker2 { bottom: 10px; left: 10px; }
-        .sticker.sticker3 { top: 50%; right: 10px; transform: translateY(-50%); }
-    </style>
+    .option {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .option input {
+      margin-right: 10px;
+      transform: scale(1.5);
+    }
+
+    .option label {
+      font-size: 1.4rem;
+      color: var(--text);
+    }
+
+    select {
+      font-size: 1.4rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 2px solid var(--secondary);
+      background-color: var(--background);
+      font-family: inherit;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .baking-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 10px auto;
+      display: block;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+      max-height: 150px;
+    }
+
+    button {
+      background-color: var(--primary);
+      margin: 8px 5px;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1.4rem;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: 0 0 5px rgba(8, 240, 248, 0.7);
+      transition: all 0.3s ease-in-out;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+      transform: scale(1.1);
+    }
+
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .section-nav {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .section-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: #ccc;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .section-dot.active {
+      background-color: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .section-dot.answered {
+      background-color: var(--secondary);
+    }
+
+    .progress-container {
+      width: 100%;
+      background-color: var(--background);
+      border-radius: 8px;
+      margin: 15px 0;
+    }
+
+    .progress-bar {
+      height: 15px;
+      background-color: var(--secondary);
+      border-radius: 8px;
+      width: 0%;
+      transition: width 0.5s;
+    }
+
+    .progress-text {
+      text-align: center;
+      font-weight: bold;
+      font-size: 1rem;
+      color: black;
+      margin-bottom: 8px;
+    }
+
+    .celebration {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 1000;
+      text-align: center;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .celebration-content {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+      max-width: 90%;
+      position: relative;
+      z-index: 1001;
+    }
+
+    .emoji {
+      font-size: 80px;
+      animation: bounce 1s infinite alternate;
+      margin-bottom: 15px;
+    }
+
+    .falling-emoji {
+      position: absolute;
+      font-size: 25px;
+      animation: fall linear forwards;
+      z-index: 1000;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .floating-sticker {
+      position: absolute;
+      animation: float 4s ease-in-out infinite;
+      font-size: 30px;
+      z-index: 1000;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-20px); }
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
+      }
+      100% {
+        transform: translateY(calc(100vh + 100px)) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(8deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    .sticker-1 { top: 15%; left: 5%; animation-delay: 0s; }
+    .sticker-2 { top: 25%; right: 5%; animation-delay: 0.5s; }
+    .sticker-3 { bottom: 20%; left: 10%; animation-delay: 1s; }
+    .sticker-4 { bottom: 10%; right: 10%; animation-delay: 1.5s; }
+
+    .time-up {
+      color: red;
+      font-weight: bold;
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      p {
+        font-size: 1.3rem;
+      }
+
+      .timer {
+        font-size: 1.2rem;
+      }
+
+      .quiz-container {
+        min-height: 250px;
+        max-height: 70vh;
+        padding: 8px;
+        border-width: 4px;
+      }
+
+      .question {
+        padding: 10px;
+        border-left-width: 6px;
+      }
+
+      .option input {
+        transform: scale(1.3);
+      }
+
+      .option label {
+        font-size: 1.2rem;
+      }
+
+      select {
+        font-size: 1.2rem;
+        padding: 5px 8px;
+      }
+
+      .baking-image {
+        max-height: 120px;
+      }
+
+      button {
+        padding: 8px 15px;
+        font-size: 1.2rem;
+      }
+
+      .section-dot {
+        width: 10px;
+        height: 10px;
+      }
+
+      .progress-bar {
+        height: 12px;
+      }
+
+      .progress-text {
+        font-size: 0.9rem;
+      }
+
+      .celebration-content {
+        padding: 15px;
+        max-width: 95%;
+      }
+
+      .emoji {
+        font-size: 60px;
+      }
+
+      .floating-sticker {
+        font-size: 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 8px;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+        margin-top: 15px;
+      }
+
+      p {
+        font-size: 1.1rem;
+      }
+
+      .timer {
+        font-size: 1rem;
+      }
+
+      .quiz-container {
+        min-height: 200px;
+        padding: 6px;
+        border-width: 3px;
+      }
+
+      .question {
+        padding: 8px;
+        border-left-width: 4px;
+      }
+
+      .options {
+        margin-left: 10px;
+      }
+
+      .option {
+        margin: 8px 0;
+      }
+
+      .option input {
+        transform: scale(1.2);
+      }
+
+      .option label {
+        font-size: 1rem;
+      }
+
+      select {
+        font-size: 1rem;
+        padding: 4px 6px;
+        max-width: 100%;
+      }
+
+      .baking-image {
+        max-height: 100px;
+      }
+
+      .nav-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        padding: 6px 12px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 200px;
+      }
+
+      .section-nav {
+        gap: 6px;
+      }
+
+      .section-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .progress-bar {
+        height: 10px;
+      }
+
+      .progress-text {
+        font-size: 0.8rem;
+      }
+
+      .celebration-content {
+        padding: 10px;
+      }
+
+      .emoji {
+        font-size: 50px;
+      }
+
+      .floating-sticker {
+        font-size: 20px;
+      }
+
+      .falling-emoji {
+        font-size: 20px;
+      }
+    }
+  </style>
 </head>
+
 <body>
+<h1>🌟 Funny Faces Quiz 🌟</h1>
+<div class="timer" id="timer">Time left: 10:00</div>
 
-<!-- Sticker images -->
-<img src="./images/funny1.jpg" alt="Sticker 1" class="sticker sticker1">
-<img src="./images/cupcake.png" alt="Sticker 3" class="sticker sticker3">
+<div class="progress-text">
+  Progress: <span id="cards-progress">0</span>/<span id="cards-total">0</span> answered
+</div>
 
-<div class="container">
-    <h1>Funny Faces & Colourful Cupcakes Quiz</h1>
-    <div id="timer">Time left: <span id="timeLeft">60</span> seconds</div>
+<div class="progress-container">
+  <div class="progress-bar" id="progress-bar"></div>
+</div>
 
-    <form id="quizForm">
-        <div class="question">
-            <p>1. What is the first ingredient to be added to the bowl?</p>
-            <label><input type="radio" name="q1" value="b"> Icing sugar</label>
-            <label><input type="radio" name="q1" value="a"> Water</label>
-            <label><input type="radio" name="q1" value="c"> Blue food colouring</label>
-            <label><input type="radio" name="q1" value="d"> Smarties</label>
-        </div>
+<div class="section-nav" id="section-nav">
+  <!-- Navigation dots will be inserted here -->
+</div>
 
-        <div class="question">
-            <p>2. What should be used to spread the icing mixture onto the biscuits?</p>
-            <label><input type="radio" name="q2" value="c"> Blunt knife</label>
-            <label><input type="radio" name="q2" value="a"> Fork</label>
-            <label><input type="radio" name="q2" value="b"> Spoon</label>
-            <label><input type="radio" name="q2" value="d"> Knife</label>
-        </div>
+<div class="quiz-container" id="quiz-container">
+  <!-- Sections will be dynamically inserted here -->
+</div>
 
-        <div class="question">
-            <p>3. How many bowls should the icing mixture be divided into?</p>
-            <label><input type="radio" name="q3" value="b"> Two</label>
-            <label><input type="radio" name="q3" value="a"> One</label>
-            <label><input type="radio" name="q3" value="c"> Three</label>
-            <label><input type="radio" name="q3" value="d"> Four</label>
-        </div>
+<div class="nav-buttons">
+  <button id="prev-btn" disabled>⬅️ Previous</button>
+  <button id="next-btn">Next ➡️</button>
+</div>
 
-        <div class="question">
-            <p>4. What should be used to decorate the biscuits?</p>
-            <label><input type="radio" name="q4" value="c"> Smarties, Jelly Tots and shoe laces</label>
-            <label><input type="radio" name="q4" value="a"> Chocolate chips</label>
-            <label><input type="radio" name="q4" value="b"> Fruit pieces</label>
-            <label><input type="radio" name="q4" value="d"> Raisins and nuts</label>
-        </div>
+<div class="celebration" id="celebration">
+  <div class="floating-sticker sticker-1">🍰</div>
+  <div class="floating-sticker sticker-2">🧁</div>
+  <div class="floating-sticker sticker-3">🎂</div>
+  <div class="floating-sticker sticker-4">🍪</div>
 
-        <div class="question">
-            <p>5. What is the last instruction in the recipe?</p>
-            <label><input type="radio" name="q5" value="c"> Enjoy your treat</label>
-            <label><input type="radio" name="q5" value="a"> Place the biscuits on a tray</label>
-            <label><input type="radio" name="q5" value="b"> Mix the icing</label>
-            <label><input type="radio" name="q5" value="d"> Leave the icing to set</label>
-        </div>
-
-        <div class="question">
-            <p>6. How many eggs are used in the cupcake recipe?</p>
-            <label><input type="radio" name="q6" value="b"> 2</label>
-            <label><input type="radio" name="q6" value="a"> 1</label>
-            <label><input type="radio" name="q6" value="c"> 3</label>
-            <label><input type="radio" name="q6" value="d"> 4</label>
-        </div>
-
-        <div class="question">
-            <p>7. What tool is used to cream the margarine and sugar?</p>
-            <label><input type="radio" name="q7" value="c"> Wooden spoon</label>
-            <label><input type="radio" name="q7" value="a"> Whisk</label>
-            <label><input type="radio" name="q7" value="b"> Fork</label>
-            <label><input type="radio" name="q7" value="d"> Teaspoon</label>
-        </div>
-
-        <div class="question">
-            <p>8. What is the baking temperature mentioned?</p>
-            <label><input type="radio" name="q8" value="c"> 180°C</label>
-            <label><input type="radio" name="q8" value="a"> 160°C</label>
-            <label><input type="radio" name="q8" value="b"> 170°C</label>
-            <label><input type="radio" name="q8" value="d"> 200°C</label>
-        </div>
-
-        <div class="question">
-            <p>9. What goes on top of the cupcakes after the icing?</p>
-            <label><input type="radio" name="q9" value="b"> Smarties and sprinkles</label>
-            <label><input type="radio" name="q9" value="a"> Sliced fruit</label>
-            <label><input type="radio" name="q9" value="c"> Chocolate sauce</label>
-            <label><input type="radio" name="q9" value="d"> Nuts and berries</label>
-        </div>
-
-        <div class="question">
-            <p>10. Which of these is NOT listed as a utensil?</p>
-            <label><input type="radio" name="q10" value="c"> Measuring jug</label>
-            <label><input type="radio" name="q10" value="a"> Cooling rack</label>
-            <label><input type="radio" name="q10" value="b"> Oven gloves</label>
-            <label><input type="radio" name="q10" value="d"> Fork</label>
-        </div>
-
-        <button type="button" id="submitBtn" onclick="submitQuiz()">Submit</button>
-    </form>
-    <div id="result"></div>
+  <div class="celebration-content">
+    <div class="emoji" id="celebration-emoji">🎉</div>
+    <h2 id="celebration-title">Awesome Baking Skills!</h2>
+    <div class="score-display" id="score-display">You scored 0/0!</div>
+    <div class="feedback-message" id="feedback-message"></div>
+    <button class="restart-btn" id="celeb-restart-btn">🍪 Try Again</button>
+    <button class="restart-btn" onclick="location.href='funny_faces_flashcards.html'">🍪 Take lesson</button>
+  </div>
 </div>
 
 <script>
-    const correctAnswers = {
-        q1: 'b', q2: 'c', q3: 'b', q4: 'c', q5: 'c',
-        q6: 'b', q7: 'c', q8: 'c', q9: 'b', q10: 'c'
-    };
+  document.addEventListener('DOMContentLoaded', function () {
+    // Quiz data
+    const quizData = [
+      {
+        title: "Section 1: Multiple Choice (Select the correct answer)",
+        type: "multiple",
+        questions: [
+          {
+            question: "1. Which ingredient makes the cake fluffy?",
+            options: ["Eggs", "Salt", "Water"],
+            answer: "Eggs",
+            image: "images/ingridiants.jpeg"
+          },
+          {
+            question: "2. How does this Character feel?",
+            options: ["Happy", "Worried", "Angry"],
+            answer: "Happy",
+            image: "images/happy face.jpeg"
+          },
+          {
+            question: "3. What should you do before spreading icing on the biscuits?",
+            options: ["Bake them", "Place them on a tray", "Eat them"],
+            answer: "Place them on a tray",
+            image: "images/cakes on tray.jpg"
+          },
+          {
+            question: "4. What do you use to remove lumps from icing sugar?",
+            options: ["Fork", "Sieve", "Spoon"],
+            answer: "Sieve",
+            image: "images/siftting.jpg"
+          }
+        ]
+      },
+      {
+        title: "Section 2: True or False (Select True or False)",
+        type: "truefalse",
+        questions: [
+          {
+            question: "1. We bake cupcakes at 200°C.",
+            answer: "false",
+            image: "images/baking heat.jpeg"
+          },
+          {
+            question: "2. Smarties can be used to decorate funny faces.",
+            answer: "true",
+            image: "images/smaties.jpg"
+          },
+          {
+            question: "3. This picture shows the correct way to spread icing mixture onto the biscuits.",
+            answer: "false",
+            image: "images/cupcake with icing.jpeg"
+          },
+          {
+            question: "4. You use a blunt knife to spread icing.",
+            answer: "true",
+            image: "images/knife.jpg"
+          }
+        ]
+      },
+      {
+        title: "Section 3: Fill in the Blanks",
+        type: "fillblank",
+        questions: [
+          {
+            question: "1. Mix until the icing is ____________.",
+            options: ["sweet", "crunchy", "smooth", "blue"],
+            answer: "smooth",
+            image: "images/smooth icing.jpg"
+          },
+          {
+            question: "2. Sift the ____________ into a bowl.",
+            options: ["flour", "salt", "icing sugar", "water", "milk"],
+            answer: "icing sugar",
+            image: "images/bowl.jpg"
+          }
+        ]
+      }
+    ];
 
-    let quizSubmitted = false;
+    // Celebration items
+    const celebrationItems = [
+      "🍰", "🧁", "🎂", "🍪", "🍩", "🍫", "🍬", "🍭", "🥧", "🍮",
+      "🥮", "🍯", "🧂", "🥛", "☕", "🍓", "🍒", "🍍", "🍋", "🍉"
+    ];
 
-    function submitQuiz() {
-        if (quizSubmitted) return;
-        quizSubmitted = true;
+    // DOM elements
+    const quizContainer = document.getElementById('quiz-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const sectionNav = document.getElementById('section-nav');
+    const progressBar = document.getElementById('progress-bar');
+    const cardsProgress = document.getElementById('cards-progress');
+    const cardsTotal = document.getElementById('cards-total');
+    const celebrationDiv = document.getElementById('celebration');
+    const celebrationEmoji = document.getElementById('celebration-emoji');
+    const celebrationTitle = document.getElementById('celebration-title');
+    const scoreDisplay = document.getElementById('score-display');
+    const feedbackMessage = document.getElementById('feedback-message');
+    const celebRestartBtn = document.getElementById('celeb-restart-btn');
+    const timerElement = document.getElementById('timer');
 
-        let score = 0;
-        for (let q in correctAnswers) {
-            const selected = document.querySelector(`input[name="${q}"]:checked`);
-            if (selected && selected.value === correctAnswers[q]) {
-                score++;
+    // Quiz state
+    let currentSection = 0;
+    let totalQuestions = 0;
+    let answeredQuestions = 0;
+    let timeLeft = 600; // 10 minutes in seconds
+    let timerInterval;
+    let celebrationInterval;
+
+    // Initialize the quiz
+    function initQuiz() {
+      // Calculate total questions
+      totalQuestions = quizData.reduce((total, section) => total + section.questions.length, 0);
+      cardsTotal.textContent = totalQuestions;
+
+      // Start timer
+      startTimer();
+
+      // Create navigation dots
+      quizData.forEach((section, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'section-dot';
+        dot.dataset.sectionIndex = index;
+        dot.addEventListener('click', () => {
+          currentSection = index;
+          showSection(currentSection);
+        });
+        sectionNav.appendChild(dot);
+      });
+
+      // Create sections
+      quizData.forEach((section, index) => {
+        const sectionElement = document.createElement('div');
+        sectionElement.className = 'quiz-section';
+        sectionElement.id = `section-${index}`;
+
+        // Add title
+        const title = document.createElement('h2');
+        title.textContent = section.title;
+        sectionElement.appendChild(title);
+
+        // Add questions
+        section.questions.forEach((q, qIndex) => {
+          const questionDiv = document.createElement('div');
+          questionDiv.className = 'question';
+
+          // Add image if available
+          if (q.image) {
+            const img = document.createElement('img');
+            img.src = q.image;
+            img.className = 'baking-image';
+            img.alt = 'Baking illustration';
+            questionDiv.appendChild(img);
+          }
+
+          // Question text
+          const questionText = document.createElement('p');
+          questionText.textContent = q.question;
+          questionDiv.appendChild(questionText);
+
+          // Options container
+          const optionsDiv = document.createElement('div');
+          optionsDiv.className = 'options';
+
+          if (section.type === "multiple") {
+            // Multiple choice options
+            q.options.forEach((option, oIndex) => {
+              const optionDiv = document.createElement('div');
+              optionDiv.className = 'option';
+
+              const input = document.createElement('input');
+              input.type = 'radio';
+              input.name = `q${index}-${qIndex}`;
+              input.id = `q${index}-${qIndex}-${oIndex}`;
+              input.value = option;
+              input.addEventListener('change', updateProgress);
+
+              const label = document.createElement('label');
+              label.htmlFor = `q${index}-${qIndex}-${oIndex}`;
+              label.textContent = option;
+
+              optionDiv.appendChild(input);
+              optionDiv.appendChild(label);
+              optionsDiv.appendChild(optionDiv);
+            });
+          } else if (section.type === "truefalse") {
+            // True/False dropdown
+            const select = document.createElement('select');
+            select.id = `q${index}-${qIndex}`;
+            select.addEventListener('change', updateProgress);
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select answer";
+            select.appendChild(defaultOption);
+
+            const trueOption = document.createElement('option');
+            trueOption.value = "true";
+            trueOption.textContent = "True";
+            select.appendChild(trueOption);
+
+            const falseOption = document.createElement('option');
+            falseOption.value = "false";
+            falseOption.textContent = "False";
+            select.appendChild(falseOption);
+
+            optionsDiv.appendChild(select);
+          } else if (section.type === "fillblank") {
+            // Fill in the blank dropdown
+            const parts = q.question.split('______');
+
+            const questionText = document.createElement('p');
+            questionText.innerHTML = parts[0];
+
+            const select = document.createElement('select');
+            select.id = `q${index}-${qIndex}`;
+            select.addEventListener('change', updateProgress);
+
+            const defaultOption = document.createElement('option');
+            defaultOption.value = "";
+            defaultOption.textContent = "Select answer";
+            select.appendChild(defaultOption);
+
+            q.options.forEach(option => {
+              const optionElement = document.createElement('option');
+              optionElement.value = option.toLowerCase();
+              optionElement.textContent = option;
+              select.appendChild(optionElement);
+            });
+
+            questionText.appendChild(select);
+
+            if (parts[1]) {
+              questionText.appendChild(document.createTextNode(parts[1]));
             }
-        }
 
-        document.getElementById("result").textContent = `You got ${score} out of 10 correct!`;
-        document.getElementById("submitBtn").disabled = true;
+            optionsDiv.appendChild(questionText);
+          }
+
+          questionDiv.appendChild(optionsDiv);
+          sectionElement.appendChild(questionDiv);
+        });
+
+        quizContainer.appendChild(sectionElement);
+      });
+
+      // Show first section
+      showSection(0);
+
+      // Set up event listeners
+      prevBtn.addEventListener('click', goToPrevSection);
+      nextBtn.addEventListener('click', goToNextSection);
+      celebRestartBtn.addEventListener('click', restartQuiz);
     }
 
-    // ⏲️ Timer logic
-    let timeLeft = 600;
-    const timerSpan = document.getElementById('timeLeft');
-    const countdown = setInterval(() => {
+    // Timer functions
+    function startTimer() {
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
         timeLeft--;
-        timerSpan.textContent = timeLeft;
+        updateTimerDisplay();
 
         if (timeLeft <= 0) {
-            clearInterval(countdown);
-            document.getElementById('timer').textContent = "⏰ Time's up!";
-            submitQuiz();
+          clearInterval(timerInterval);
+          timeUp();
         }
-    }, 1000);
-</script>
+      }, 1000);
+    }
 
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerElement.textContent = `Time left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      // Add warning when time is running low
+      if (timeLeft <= 60) {
+        timerElement.classList.add('time-up');
+      }
+    }
+
+    function timeUp() {
+      timerElement.textContent = "Time's up!";
+      checkAnswers(true);
+    }
+
+    // Show specific section
+    function showSection(index) {
+      // Hide all sections
+      document.querySelectorAll('.quiz-section').forEach(section => {
+        section.classList.remove('active');
+      });
+
+      // Show current section
+      document.getElementById(`section-${index}`).classList.add('active');
+
+      // Update navigation dots
+      document.querySelectorAll('.section-dot').forEach((dot, i) => {
+        dot.classList.remove('active');
+        if (i === index) {
+          dot.classList.add('active');
+        }
+      });
+
+      // Update navigation buttons
+      prevBtn.disabled = index === 0;
+
+      // On last section, show submit button instead of next button
+      if (index === quizData.length - 1) {
+        nextBtn.style.display = 'none';
+
+        // Create submit button if it doesn't exist
+        if (!document.getElementById('submit-btn')) {
+          const submitBtn = document.createElement('button');
+          submitBtn.id = 'submit-btn';
+          submitBtn.textContent = 'Submit Quiz';
+          submitBtn.addEventListener('click', () => checkAnswers(false));
+          nextBtn.parentNode.appendChild(submitBtn);
+        }
+      } else {
+        nextBtn.style.display = 'block';
+        const existingSubmitBtn = document.getElementById('submit-btn');
+        if (existingSubmitBtn) {
+          existingSubmitBtn.remove();
+        }
+      }
+
+      // Scroll to top of quiz container
+      quizContainer.scrollTo(0, 0);
+    }
+
+    // Navigation functions
+    function goToPrevSection() {
+      if (currentSection > 0) {
+        currentSection--;
+        showSection(currentSection);
+      }
+    }
+
+    function goToNextSection() {
+      if (currentSection < quizData.length - 1) {
+        currentSection++;
+        showSection(currentSection);
+      }
+    }
+
+    // Update progress tracking
+    function updateProgress() {
+      let newlyAnswered = 0;
+
+      // Check all questions in all sections
+      quizData.forEach((section, sIndex) => {
+        section.questions.forEach((q, qIndex) => {
+          let isAnswered = false;
+
+          if (section.type === "multiple") {
+            const selected = document.querySelector(`input[name="q${sIndex}-${qIndex}"]:checked`);
+            isAnswered = selected !== null;
+          } else {
+            const select = document.getElementById(`q${sIndex}-${qIndex}`);
+            isAnswered = select && select.value !== "";
+          }
+
+          if (isAnswered) {
+            newlyAnswered++;
+          }
+        });
+      });
+
+      // Update progress only if changed
+      if (newlyAnswered !== answeredQuestions) {
+        answeredQuestions = newlyAnswered;
+        cardsProgress.textContent = answeredQuestions;
+
+        const progress = Math.round((answeredQuestions / totalQuestions) * 100);
+        progressBar.style.width = progress + '%';
+
+        // Change color based on progress
+        if (progress < 30) {
+          progressBar.style.backgroundColor = '#ff6b6b';
+        } else if (progress < 70) {
+          progressBar.style.backgroundColor = '#ffd166';
+        } else {
+          progressBar.style.backgroundColor = '#4ecdc4';
+        }
+
+        // Update section dots for answered sections
+        quizData.forEach((section, sIndex) => {
+          let sectionAnswered = 0;
+          section.questions.forEach((q, qIndex) => {
+            let isAnswered = false;
+
+            if (section.type === "multiple") {
+              const selected = document.querySelector(`input[name="q${sIndex}-${qIndex}"]:checked`);
+              isAnswered = selected !== null;
+            } else {
+              const select = document.getElementById(`q${sIndex}-${qIndex}`);
+              isAnswered = select && select.value !== "";
+            }
+
+            if (isAnswered) sectionAnswered++;
+          });
+
+          const sectionDot = document.querySelector(`.section-dot[data-section-index="${sIndex}"]`);
+          if (sectionDot) {
+            if (sectionAnswered === section.questions.length) {
+              sectionDot.classList.add('answered');
+            } else {
+              sectionDot.classList.remove('answered');
+            }
+          }
+        });
+      }
+    }
+
+    // Check answers and show results
+    function checkAnswers(isTimeUp) {
+      let score = 0;
+
+      quizData.forEach((section, sIndex) => {
+        section.questions.forEach((q, qIndex) => {
+          let userAnswer;
+
+          if (section.type === "multiple") {
+            const selectedOption = document.querySelector(`input[name="q${sIndex}-${qIndex}"]:checked`);
+            userAnswer = selectedOption ? selectedOption.value : null;
+          } else {
+            const select = document.getElementById(`q${sIndex}-${qIndex}`);
+            userAnswer = select ? select.value : null;
+          }
+
+          if (userAnswer && userAnswer.toLowerCase() === q.answer.toLowerCase()) {
+            score++;
+          }
+        });
+      });
+
+      // Stop the timer
+      clearInterval(timerInterval);
+
+      // Display celebration popup with results
+      showResults(score, isTimeUp);
+    }
+
+    function showResults(score, isTimeUp) {
+      // Update celebration popup content
+      scoreDisplay.textContent = `You scored ${score}/${totalQuestions}!`;
+
+      // Provide feedback based on score
+      if (score === totalQuestions) {
+        celebrationEmoji.textContent = "🎂";
+        celebrationTitle.textContent = "Perfect!!";
+        feedbackMessage.textContent = "Wow! You're amazing! You got all questions right!";
+        feedbackMessage.style.color = "#4ecdc4";
+        startCelebration(true);
+      } else if (score >= totalQuestions * 0.7) {
+        celebrationEmoji.textContent = "🧁";
+        celebrationTitle.textContent = "Great Job!!";
+        feedbackMessage.textContent = "Excellent! Keep it up!";
+        feedbackMessage.style.color = "#4ecdc4";
+        startCelebration(true);
+      } else if (score >= totalQuestions * 0.4) {
+        celebrationEmoji.textContent = "🍪";
+        celebrationTitle.textContent = "Good Try!!";
+        feedbackMessage.textContent = "You're getting there! Practice makes perfect!";
+        feedbackMessage.style.color = "#ffd166";
+        startCelebration(false);
+      } else {
+        celebrationEmoji.textContent = "🥣";
+        celebrationTitle.textContent = isTimeUp ? "Time's Up!" : "Nice Try!";
+        feedbackMessage.textContent = isTimeUp
+                ? "Time ran out! Try again to improve your knowledge!"
+                : "Review the lessons steps and try again! You can do it!";
+        feedbackMessage.style.color = "#ff6b6b";
+        startCelebration(false);
+      }
+
+      // Show celebration popup
+      celebrationDiv.style.display = 'flex';
+    }
+
+    function startCelebration(intense) {
+      // Clear any existing celebration
+      clearInterval(celebrationInterval);
+      document.querySelectorAll('.falling-emoji').forEach(el => el.remove());
+
+      if (!intense) return;
+
+      // Start intense celebration
+      celebrationInterval = setInterval(() => {
+        createFallingEmoji();
+      }, 300);
+
+      // Create initial burst of emojis
+      for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+          createFallingEmoji();
+        }, i * 100);
+      }
+    }
+
+    function createFallingEmoji() {
+      const emoji = document.createElement('div');
+      emoji.className = 'falling-emoji';
+      emoji.textContent = celebrationItems[Math.floor(Math.random() * celebrationItems.length)];
+
+      // Random position across the screen
+      const startPosition = Math.random() * 100;
+      emoji.style.left = `${startPosition}vw`;
+
+      // Random animation duration (3-5 seconds)
+      const duration = 3 + Math.random() * 2;
+      emoji.style.animationDuration = `${duration}s`;
+
+      // Random size
+      const size = 15 + Math.random() * 20;
+      emoji.style.fontSize = `${size}px`;
+
+      // Random rotation
+      const rotation = Math.random() * 360;
+      emoji.style.transform = `rotate(${rotation}deg)`;
+
+      document.body.appendChild(emoji);
+
+      // Remove after animation completes
+      setTimeout(() => {
+        emoji.remove();
+      }, duration * 1000);
+    }
+
+    function restartQuiz() {
+      // Clear all intervals
+      clearInterval(timerInterval);
+      clearInterval(celebrationInterval);
+
+      // Remove all falling emojis
+      document.querySelectorAll('.falling-emoji').forEach(el => el.remove());
+
+      // Reset timer
+      timeLeft = 600;
+      startTimer();
+
+      // Reset all answers
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.checked = false;
+      });
+
+      document.querySelectorAll('select').forEach(select => {
+        select.value = "";
+      });
+
+      // Hide celebration popup
+      celebrationDiv.style.display = 'none';
+
+      // Go back to first section
+      currentSection = 0;
+      showSection(currentSection);
+
+      // Reset progress
+      answeredQuestions = 0;
+      cardsProgress.textContent = answeredQuestions;
+      progressBar.style.width = '0%';
+      progressBar.style.backgroundColor = '#4ecdc4';
+
+      // Remove time up class if it exists
+      timerElement.classList.remove('time-up');
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Start the quiz
+    initQuiz();
+  });
+</script>
 </body>
+
 </html>

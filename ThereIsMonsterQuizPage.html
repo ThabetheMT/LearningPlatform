@@ -1,181 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>There's a Monster in My Cupboard Quiz</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: navajowhite;
-      background-size: cover;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>There's a Monster in My Cupboard Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: navajowhite url('./images/quiz_background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            background-color: navajowhite; /* Fallback background color */
+        }
 
-    .container {
-      max-width: 900px;
-      margin: 50px auto;
-      background-color: burlywood;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: burlywood;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
 
-    h1 {
-      color: #007bff;
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        h1 {
+            color: #007bff;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
 
-    .question {
-      margin-bottom: 25px;
-    }
+        .question {
+            margin-bottom: 20px;
+        }
 
-    .question p {
-      font-size: 18px;
-      font-weight: bold;
-      color: #dc3545;
-    }
+        .question p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #dc3545;
+            margin-bottom: 10px;
+        }
 
-    .question label {
-      display: block;
-      margin: 5px 0;
-      cursor: pointer;
-      color: #333;
-    }
+        .question label {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            cursor: pointer;
+            color: #333;
+            font-size: 1rem;
+        }
 
-    button {
-      display: block;
-      margin: 30px auto;
-      padding: 10px 25px;
-      font-size: 16px;
-      background-color: #28a745;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+        .question input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.3);
+        }
 
-    button:hover {
-      background-color: #218838;
-    }
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-    #result {
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      margin-top: 20px;
-      color: #ffc107;
-    }
-  </style>
+        button:hover {
+            background-color: #218838;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 15px;
+            color: #ffc107;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question p {
+                font-size: 1.1rem;
+            }
+
+            .question label {
+                font-size: 0.9rem;
+            }
+
+            .question input[type="radio"] {
+                transform: scale(1.2);
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            #result {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question p {
+                font-size: 1rem;
+            }
+
+            .question label {
+                font-size: 0.85rem;
+                margin: 6px 0;
+            }
+
+            .question input[type="radio"] {
+                transform: scale(1.1);
+            }
+
+            button {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            #result {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container">
-  <h1>There's a Monster in My Cupboard Quiz</h1>
-  <form id="quizForm">
-    <div class="question">
-      <p>1. What was John playing with before going to bed?</p>
-      <label><input type="radio" name="q1" value="a"> Nintendo</label>
-      <label><input type="radio" name="q1" value="b"> A book</label>
-      <label><input type="radio" name="q1" value="c"> A toy</label>
-      <label><input type="radio" name="q1" value="d"> A phone</label>
-    </div>
+    <h1>There's a Monster in My Cupboard Quiz</h1>
+    <form id="quizForm">
+        <div class="question">
+            <p>1. What was John playing with before going to bed?</p>
+            <label><input type="radio" name="q1" value="a" aria-label="Nintendo"> Nintendo</label>
+            <label><input type="radio" name="q1" value="b" aria-label="A book"> A book</label>
+            <label><input type="radio" name="q1" value="c" aria-label="A toy"> A toy</label>
+            <label><input type="radio" name="q1" value="d" aria-label="A phone"> A phone</label>
+        </div>
 
-    <div class="question">
-      <p>2. What was making the strange noises in John's cupboard?</p>
-      <label><input type="radio" name="q2" value="a"> A monster</label>
-      <label><input type="radio" name="q2" value="b"> A cat</label>
-      <label><input type="radio" name="q2" value="c"> A ghost</label>
-      <label><input type="radio" name="q2" value="d"> A dinosaur</label>
-    </div>
+        <div class="question">
+            <p>2. What was making the strange noises in John's cupboard?</p>
+            <label><input type="radio" name="q2" value="a" aria-label="A monster"> A monster</label>
+            <label><input type="radio" name="q2" value="b" aria-label="A cat"> A cat</label>
+            <label><input type="radio" name="q2" value="c" aria-label="A ghost"> A ghost</label>
+            <label><input type="radio" name="q2" value="d" aria-label="A dinosaur"> A dinosaur</label>
+        </div>
 
-    <div class="question">
-      <p>3. What did John use to block the cupboard door?</p>
-      <label><input type="radio" name="q3" value="a"> A chair</label>
-      <label><input type="radio" name="q3" value="b"> A table</label>
-      <label><input type="radio" name="q3" value="c"> A bed</label>
-      <label><input type="radio" name="q3" value="d"> A book</label>
-    </div>
+        <div class="question">
+            <p>3. What did John use to block the cupboard door?</p>
+            <label><input type="radio" name="q3" value="a" aria-label="A chair"> A chair</label>
+            <label><input type="radio" name="q3" value="b" aria-label="A table"> A table</label>
+            <label><input type="radio" name="q3" value="c" aria-label="A bed"> A bed</label>
+            <label><input type="radio" name="q3" value="d" aria-label="A book"> A book</label>
+        </div>
 
-    <div class="question">
-      <p>4. What did Robert think John was dreaming about?</p>
-      <label><input type="radio" name="q4" value="a"> A monster</label>
-      <label><input type="radio" name="q4" value="b"> A game</label>
-      <label><input type="radio" name="q4" value="c"> A dinosaur</label>
-      <label><input type="radio" name="q4" value="d"> A nightmare</label>
-    </div>
+        <div class="question">
+            <p>4. What did Robert think John was dreaming about?</p>
+            <label><input type="radio" name="q4" value="a" aria-label="A monster"> A monster</label>
+            <label><input type="radio" name="q4" value="b" aria-label="A game"> A game</label>
+            <label><input type="radio" name="q4" value="c" aria-label="A dinosaur"> A dinosaur</label>
+            <label><input type="radio" name="q4" value="d" aria-label="A nightmare"> A nightmare</label>
+        </div>
 
-    <div class="question">
-      <p>5. What did John and Robert find inside the cupboard?</p>
-      <label><input type="radio" name="q5" value="a"> A toy</label>
-      <label><input type="radio" name="q5" value="b"> A monster</label>
-      <label><input type="radio" name="q5" value="c"> A cat</label>
-      <label><input type="radio" name="q5" value="d"> A dinosaur</label>
-    </div>
+        <div class="question">
+            <p>5. What did John and Robert find inside the cupboard?</p>
+            <label><input type="radio" name="q5" value="a" aria-label="A toy"> A toy</label>
+            <label><input type="radio" name="q5" value="b" aria-label="A monster"> A monster</label>
+            <label><input type="radio" name="q5" value="c" aria-label="A cat"> A cat</label>
+            <label><input type="radio" name="q5" value="d" aria-label="A dinosaur"> A dinosaur</label>
+        </div>
 
-    <div class="question">
-      <p>6. What is impossible to do while sneezing?</p>
-      <label><input type="radio" name="q6" value="a"> Open your eyes</label>
-      <label><input type="radio" name="q6" value="b"> Hold your breath</label>
-      <label><input type="radio" name="q6" value="c"> Talk</label>
-      <label><input type="radio" name="q6" value="d"> Jump</label>
-    </div>
+        <div class="question">
+            <p>6. What is impossible to do while sneezing?</p>
+            <label><input type="radio" name="q6" value="a" aria-label="Open your eyes"> Open your eyes</label>
+            <label><input type="radio" name="q6" value="b" aria-label="Hold your breath"> Hold your breath</label>
+            <label><input type="radio" name="q6" value="c" aria-label="Talk"> Talk</label>
+            <label><input type="radio" name="q6" value="d" aria-label="Jump"> Jump</label>
+        </div>
 
-    <div class="question">
-      <p>7. How many vertebrae do both giraffes and humans have in their necks?</p>
-      <label><input type="radio" name="q7" value="a"> 5</label>
-      <label><input type="radio" name="q7" value="b"> 6</label>
-      <label><input type="radio" name="q7" value="c"> 7</label>
-      <label><input type="radio" name="q7" value="d"> 8</label>
-    </div>
+        <div class="question">
+            <p>7. How many vertebrae do both giraffes and humans have in their necks?</p>
+            <label><input type="radio" name="q7" value="a" aria-label="5"> 5</label>
+            <label><input type="radio" name="q7" value="b" aria-label="6"> 6</label>
+            <label><input type="radio" name="q7" value="c" aria-label="7"> 7</label>
+            <label><input type="radio" name="q7" value="d" aria-label="8"> 8</label>
+        </div>
 
-    <div class="question">
-      <p>8. What is a flea capable of doing that is impressive?</p>
-      <label><input type="radio" name="q8" value="a"> Flying</label>
-      <label><input type="radio" name="q8" value="b"> Jumping 300 times its body length</label>
-      <label><input type="radio" name="q8" value="c"> Running very fast</label>
-      <label><input type="radio" name="q8" value="d"> Swimming</label>
-    </div>
+        <div class="question">
+            <p>8. What is a flea capable of doing that is impressive?</p>
+            <label><input type="radio" name="q8" value="a" aria-label="Flying"> Flying</label>
+            <label><input type="radio" name="q8" value="b" aria-label="Jumping 300 times its body length"> Jumping 300 times its body length</label>
+            <label><input type="radio" name="q8" value="c" aria-label="Running very fast"> Running very fast</label>
+            <label><input type="radio" name="q8" value="d" aria-label="Swimming"> Swimming</label>
+        </div>
 
-    <div class="question">
-      <p>9. What can a chameleon or octopus do to hide from enemies?</p>
-      <label><input type="radio" name="q9" value="a"> Change color</label>
-      <label><input type="radio" name="q9" value="b"> Grow bigger</label>
-      <label><input type="radio" name="q9" value="c"> Shoot ink</label>
-      <label><input type="radio" name="q9" value="d"> Make noise</label>
-    </div>
+        <div class="question">
+            <p>9. What can a chameleon or octopus do to hide from enemies?</p>
+            <label><input type="radio" name="q9" value="a" aria-label="Change color"> Change color</label>
+            <label><input type="radio" name="q9" value="b" aria-label="Grow bigger"> Grow bigger</label>
+            <label><input type="radio" name="q9" value="c" aria-label="Shoot ink"> Shoot ink</label>
+            <label><input type="radio" name="q9" value="d" aria-label="Make noise"> Make noise</label>
+        </div>
 
-    <div class="question">
-      <p>10. What happens if an octopus is attacked?</p>
-      <label><input type="radio" name="q10" value="a"> It hides</label>
-      <label><input type="radio" name="q10" value="b"> It fights back</label>
-      <label><input type="radio" name="q10" value="c"> It shoots ink</label>
-      <label><input type="radio" name="q10" value="d"> It runs away</label>
-    </div>
+        <div class="question">
+            <p>10. What happens if an octopus is attacked?</p>
+            <label><input type="radio" name="q10" value="a" aria-label="It hides"> It hides</label>
+            <label><input type="radio" name="q10" value="b" aria-label="It fights back"> It fights back</label>
+            <label><input type="radio" name="q10" value="c" aria-label="It shoots ink"> It shoots ink</label>
+            <label><input type="radio" name="q10" value="d" aria-label="It runs away"> It runs away</label>
+        </div>
 
-    <button type="button" onclick="submitQuiz()">Submit</button>
-  </form>
-  <div id="result"></div>
+        <button type="button" onclick="submitQuiz()" aria-label="Submit quiz answers">Submit</button>
+    </form>
+    <div id="result"></div>
 </div>
 
 <script>
-  function submitQuiz() {
-    const answers = {
-      q1: 'a', q2: 'b', q3: 'a', q4: 'b', q5: 'c',
-      q6: 'a', q7: 'c', q8: 'b', q9: 'a', q10: 'c'
-    };
+    function submitQuiz() {
+        const answers = {
+            q1: 'a', q2: 'b', q3: 'a', q4: 'b', q5: 'c',
+            q6: 'a', q7: 'c', q8: 'b', q9: 'a', q10: 'c'
+        };
 
-    let score = 0;
-    for (let q in answers) {
-      const selected = document.querySelector(`input[name="${q}"]:checked`);
-      if (selected && selected.value === answers[q]) {
-        score++;
-      }
+        let score = 0;
+        let allAnswered = true;
+        for (let q in answers) {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            if (!selected) {
+                allAnswered = false;
+                break;
+            }
+            if (selected.value === answers[q]) {
+                score++;
+            }
+        }
+
+        const resultDiv = document.getElementById("result");
+        if (!allAnswered) {
+            resultDiv.textContent = "Please answer all questions!";
+            resultDiv.style.color = "#dc3545"; // Red for error
+        } else {
+            resultDiv.textContent = `You got ${score} out of 10 correct! ${score === 10 ? 'Perfect Score! 🎉' : 'Great effort! Try again to improve!'}`;
+            resultDiv.style.color = score === 10 ? "#28a745" : "#ffc107"; // Green for perfect, yellow otherwise
+        }
     }
-
-    document.getElementById("result").textContent = `You got ${score} out of 10 correct!`;
-  }
 </script>
 </body>
 </html>

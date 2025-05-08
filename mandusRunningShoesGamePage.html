@@ -1,114 +1,232 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Story Categorization Game - Extended</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Story Categorization Game – Detailed Edition</title>
     <style>
         body {
-            background: #FFF4E6; /* A soft pastel cream background */
+            background: #FFF4E6; /* Soft pastel cream background */
             color: #4E342E; /* Dark brown text for contrast */
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             margin: 0;
             position: relative;
         }
+
         h1 {
-            color: #6A1B9A;  /* Bold purple for headings */
+            color: #6A1B9A; /* Bold purple for headings */
+            font-size: 2.5rem;
             margin-bottom: 10px;
         }
+
         p#instructions {
-            font-size: 20px;
-            margin-bottom: 20px;
-            color: #BF360C;  /* A warm, bright orange-brown */
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #BF360C; /* Warm, bright orange-brown */
         }
+
         /* Sticker styles – decorative background images */
         .sticker {
             position: fixed;
             z-index: 0;
-            width: 80px; /* Adjust size as needed */
+            width: 60px; /* Adjusted for responsiveness */
             pointer-events: none;
             opacity: 0.9;
         }
+
         .sticker.sticker1 { top: 10px; left: 10px; }
         .sticker.sticker2 { top: 10px; right: 10px; }
         .sticker.sticker3 { bottom: 10px; left: 10px; }
         .sticker.sticker4 { bottom: 10px; right: 10px; }
         .sticker.sticker5 { top: 50%; left: 10px; transform: translateY(-50%); }
         .sticker.sticker6 { top: 50%; right: 10px; transform: translateY(-50%); }
+
         /* Container for drop zones */
         .dropzone-container {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
+
         .dropzone {
-            border: 2px dashed #8E24AA;  /* Deep purple dashed border */
+            border: 2px dashed #8E24AA; /* Deep purple dashed border */
             border-radius: 8px;
-            width: 45%;
-            min-height: 200px;
-            padding: 10px;
-            background: #C8E6C9;  /* Light pastel green */
+            width: 100%;
+            max-width: 400px;
+            min-height: 150px;
+            padding: 8px;
+            background: #C8E6C9; /* Light pastel green */
             position: relative;
             z-index: 1;
         }
+
         .dropzone h2 {
             margin-top: 0;
-            color: #1B5E20;  /* Dark green */
+            color: #1B5E20; /* Dark green */
+            font-size: 1.4rem;
         }
+
         /* Card styles */
         #cards {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 15px;
             position: relative;
             z-index: 1;
         }
+
         .card {
-            background: #FFCC80;  /* Soft orange */
+            background: #FFCC80; /* Soft orange */
             color: #BF360C;
-            padding: 10px;
+            padding: 8px;
             border-radius: 6px;
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
             cursor: move;
             transition: background 0.2s ease;
-            font-size: 16px;
+            font-size: 1rem;
+            touch-action: none; /* Prevent default touch behaviors */
         }
+
         .card:hover {
-            background: #FFB74D;  /* A brighter orange on hover */
+            background: #FFB74D; /* Brighter orange on hover */
         }
+
         button {
-            background-color: #F4511E;  /* A vivid, warm red-orange */
+            background-color: #F4511E; /* Vivid, warm red-orange */
             border: none;
             color: #fff;
-            padding: 12px 24px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            margin-top: 10px;
+            margin-top: 8px;
         }
+
         button:hover {
-            background-color: #E64A19;  /* Slightly darker red-orange */
+            background-color: #E64A19; /* Slightly darker red-orange */
         }
+
         #result {
-            font-size: 22px;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 15px;
+            min-height: 24px;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            p#instructions {
+                font-size: 1.1rem;
+            }
+
+            .dropzone-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .dropzone {
+                max-width: 100%;
+                min-height: 120px;
+            }
+
+            .dropzone h2 {
+                font-size: 1.2rem;
+            }
+
+            .card {
+                max-width: 300px;
+                font-size: 0.9rem;
+                padding: 6px;
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+
+            #result {
+                font-size: 1.1rem;
+            }
+
+            .sticker {
+                width: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p#instructions {
+                font-size: 1rem;
+            }
+
+            .dropzone {
+                min-height: 100px;
+                padding: 6px;
+            }
+
+            .dropzone h2 {
+                font-size: 1.1rem;
+            }
+
+            .card {
+                max-width: 100%;
+                font-size: 0.85rem;
+                padding: 5px;
+            }
+
+            button {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            #result {
+                font-size: 1rem;
+            }
+
+            .sticker {
+                width: 40px;
+            }
+
+            .sticker.sticker5, .sticker.sticker6 {
+                display: none; /* Hide side stickers on small screens */
+            }
         }
     </style>
 </head>
 <body>
 
 <!-- Decorative Stickers -->
-<img src="./images/mandus1.png" alt="Sticker 1" class="sticker sticker1">
-<img src="./images/mandus2.png" alt="Sticker 2" class="sticker sticker2">
-<img src="./images/mandus3.png" alt="Sticker 3" class="sticker sticker3">
-<img src="./images/mandus4.png" alt="Sticker 4" class="sticker sticker4">
-<img src="./images/mandus5.png" alt="Sticker 5" class="sticker sticker5">
-<img src="./images/mandus6.png" alt="Sticker 6" class="sticker sticker6">
+<img src="./images/mandus1.png" alt="Decorative sticker 1" class="sticker sticker1">
+<img src="./images/mandus2.png" alt="Decorative sticker 2" class="sticker sticker2">
+<img src="./images/mandus3.png" alt="Decorative sticker 3" class="sticker sticker3">
+<img src="./images/mandus4.png" alt="Decorative sticker 4" class="sticker sticker4">
+<img src="./images/mandus5.png" alt="Decorative sticker 5" class="sticker sticker5">
+<img src="./images/mandus6.png" alt="Decorative sticker 6" class="sticker sticker6">
 
 <h1>Story Categorization Game – Detailed Edition</h1>
 <p id="instructions">
@@ -149,7 +267,6 @@
     </div>
     <div class="card" draggable="true" data-story="mandu">
         She shouted with joy and looked at her new "magic" shoes.
-
     </div>
 
     <!-- Anansi story cards -->
@@ -179,19 +296,20 @@
     </div>
 </div>
 
-<button id="checkButton">Check Answers</button>
+<button id="checkButton" aria-label="Check answers">Check Answers</button>
 <p id="result"></p>
 
 <script>
-    // Same Drag & Drop logic as your current game
     const cards = document.querySelectorAll('.card');
     const dropzones = document.querySelectorAll('.dropzone');
     let draggedCard = null;
 
+    // Desktop drag-and-drop events
     cards.forEach(card => {
         card.addEventListener('dragstart', (e) => {
             draggedCard = card;
             card.style.opacity = '0.5';
+            e.dataTransfer.setData('text/plain', ''); // Required for Firefox
         });
         card.addEventListener('dragend', (e) => {
             card.style.opacity = '1';
@@ -214,6 +332,46 @@
                 zone.appendChild(draggedCard);
             }
         });
+    });
+
+    // Touch events for mobile devices
+    cards.forEach(card => {
+        card.addEventListener('touchstart', (e) => {
+            draggedCard = card;
+            card.style.opacity = '0.5';
+            card.style.zIndex = '1000'; // Bring to front
+        }, { passive: true });
+
+        card.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            card.style.position = 'absolute';
+            card.style.left = `${touch.clientX - card.offsetWidth / 2}px`;
+            card.style.top = `${touch.clientY - card.offsetHeight / 2}px`;
+        }, { passive: false });
+
+        card.addEventListener('touchend', (e) => {
+            card.style.opacity = '1';
+            card.style.zIndex = '1';
+            card.style.position = 'static';
+
+            const touch = e.changedTouches[0];
+            const dropzone = Array.from(dropzones).find(zone => {
+                const rect = zone.getBoundingClientRect();
+                return (
+                    touch.clientX >= rect.left &&
+                    touch.clientX <= rect.right &&
+                    touch.clientY >= rect.top &&
+                    touch.clientY <= rect.bottom
+                );
+            });
+
+            if (dropzone && draggedCard) {
+                dropzone.appendChild(draggedCard);
+            }
+
+            draggedCard = null;
+        }, { passive: true });
     });
 
     document.getElementById('checkButton').addEventListener('click', () => {

@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hot Toast & Happy Moon Quiz</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('/') no-repeat center center fixed;
+            background: url('./images/quiz_background.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 0;
+            background-color: #f0f0f0; /* Fallback background color */
         }
 
         .container {
             max-width: 900px;
-            margin: 50px auto;
+            margin: 20px auto;
             background-color: navajowhite;
-            padding: 30px;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
@@ -24,31 +26,40 @@
         h1 {
             color: #6f42c1;
             text-align: center;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
         }
 
         .question {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .question p {
-            font-size: 18px;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #e83e8c;
+            margin-bottom: 10px;
         }
 
         .question label {
-            display: block;
-            margin: 5px 0;
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
             cursor: pointer;
             color: #333;
+            font-size: 1rem;
+        }
+
+        .question input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.3);
         }
 
         button {
             display: block;
-            margin: 30px auto;
-            padding: 10px 25px;
-            font-size: 16px;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
             background-color: #007bff;
             color: white;
             border: none;
@@ -63,10 +74,78 @@
 
         #result {
             text-align: center;
-            font-size: 20px;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 15px;
             color: #ffc107;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .question p {
+                font-size: 1.1rem;
+            }
+
+            .question label {
+                font-size: 0.9rem;
+            }
+
+            .question input[type="radio"] {
+                transform: scale(1.2);
+            }
+
+            button {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            #result {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 5px;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question p {
+                font-size: 1rem;
+            }
+
+            .question label {
+                font-size: 0.85rem;
+                margin: 6px 0;
+            }
+
+            .question input[type="radio"] {
+                transform: scale(1.1);
+            }
+
+            button {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            #result {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -76,69 +155,69 @@
     <form id="quizForm">
         <div class="question">
             <p>1. Why was Sibongile’s mom in bed?</p>
-            <label><input type="radio" name="q1" value="a"> She was tired</label>
-            <label><input type="radio" name="q1" value="b"> She had a cold</label>
-            <label><input type="radio" name="q1" value="c"> She was reading</label>
-            <label><input type="radio" name="q1" value="d"> She was sleeping</label>
+            <label><input type="radio" name="q1" value="a" aria-label="She was tired"> She was tired</label>
+            <label><input type="radio" name="q1" value="b" aria-label="She had a cold"> She had a cold</label>
+            <label><input type="radio" name="q1" value="c" aria-label="She was reading"> She was reading</label>
+            <label><input type="radio" name="q1" value="d" aria-label="She was sleeping"> She was sleeping</label>
         </div>
 
         <div class="question">
             <p>2. What did Sibongile want to make for her mom?</p>
-            <label><input type="radio" name="q2" value="a"> Porridge</label>
-            <label><input type="radio" name="q2" value="b"> Hot toast</label>
-            <label><input type="radio" name="q2" value="c"> Tea</label>
-            <label><input type="radio" name="q2" value="d"> Soup</label>
+            <label><input type="radio" name="q2" value="a" aria-label="Porridge"> Porridge</label>
+            <label><input type="radio" name="q2" value="b" aria-label="Hot toast"> Hot toast</label>
+            <label><input type="radio" name="q2" value="c" aria-label="Tea"> Tea</label>
+            <label><input type="radio" name="q2" value="d" aria-label="Soup"> Soup</label>
         </div>
 
         <div class="question">
             <p>3. Why did the toast keep getting cold?</p>
-            <label><input type="radio" name="q3" value="a"> The toaster was broken</label>
-            <label><input type="radio" name="q3" value="b"> Sibongile forgot about it</label>
-            <label><input type="radio" name="q3" value="c"> Sipho burned it</label>
-            <label><input type="radio" name="q3" value="d"> It was too late</label>
+            <label><input type="radio" name="q3" value="a" aria-label="The toaster was broken"> The toaster was broken</label>
+            <label><input type="radio" name="q3" value="b" aria-label="Sibongile forgot about it"> Sibongile forgot about it</label>
+            <label><input type="radio" name="q3" value="c" aria-label="Sipho burned it"> Sipho burned it</label>
+            <label><input type="radio" name="q3" value="d" aria-label="It was too late"> It was too late</label>
         </div>
 
         <div class="question">
             <p>4. What did Sibongile make from the red socks?</p>
-            <label><input type="radio" name="q4" value="a"> A scarf</label>
-            <label><input type="radio" name="q4" value="b"> A doll</label>
-            <label><input type="radio" name="q4" value="c"> A puppet monster</label>
-            <label><input type="radio" name="q4" value="d"> A blanket</label>
+            <label><input type="radio" name="q4" value="a" aria-label="A scarf"> A scarf</label>
+            <label><input type="radio" name="q4" value="b" aria-label="A doll"> A doll</label>
+            <label><input type="radio" name="q4" value="c" aria-label="A puppet monster"> A puppet monster</label>
+            <label><input type="radio" name="q4" value="d" aria-label="A blanket"> A blanket</label>
         </div>
 
         <div class="question">
             <p>5. How did Sibongile make her mom smile?</p>
-            <label><input type="radio" name="q5" value="a"> Gave her flowers</label>
-            <label><input type="radio" name="q5" value="b"> Made hot tea</label>
-            <label><input type="radio" name="q5" value="c"> Performed a puppet show</label>
-            <label><input type="radio" name="q5" value="d"> Told a joke</label>
+            <label><input type="radio" name="q5" value="a" aria-label="Gave her flowers"> Gave her flowers</label>
+            <label><input type="radio" name="q5" value="b" aria-label="Made hot tea"> Made hot tea</label>
+            <label><input type="radio" name="q5" value="c" aria-label="Performed a puppet show"> Performed a puppet show</label>
+            <label><input type="radio" name="q5" value="d" aria-label="Told a joke"> Told a joke</label>
         </div>
 
         <div class="question">
             <p>6. Why was the moon sad in the second story?</p>
-            <label><input type="radio" name="q6" value="a"> It was too hot</label>
-            <label><input type="radio" name="q6" value="b"> It was lonely and couldn’t move</label>
-            <label><input type="radio" name="q6" value="c"> The stars ignored it</label>
-            <label><input type="radio" name="q6" value="d"> It missed the sun</label>
+            <label><input type="radio" name="q6" value="a" aria-label="It was too hot"> It was too hot</label>
+            <label><input type="radio" name="q6" value="b" aria-label="It was lonely and couldn’t move"> It was lonely and couldn’t move</label>
+            <label><input type="radio" name="q6" value="c" aria-label="The stars ignored it"> The stars ignored it</label>
+            <label><input type="radio" name="q6" value="d" aria-label="It missed the sun"> It missed the sun</label>
         </div>
 
         <div class="question">
             <p>7. What made the moon happy again?</p>
-            <label><input type="radio" name="q7" value="a"> A bright star</label>
-            <label><input type="radio" name="q7" value="b"> Mother Sky moved it closer to Earth</label>
-            <label><input type="radio" name="q7" value="c"> A rainbow appeared</label>
-            <label><input type="radio" name="q7" value="d"> It got to sleep</label>
+            <label><input type="radio" name="q7" value="a" aria-label="A bright star"> A bright star</label>
+            <label><input type="radio" name="q7" value="b" aria-label="Mother Sky moved it closer to Earth"> Mother Sky moved it closer to Earth</label>
+            <label><input type="radio" name="q7" value="c" aria-label="A rainbow appeared"> A rainbow appeared</label>
+            <label><input type="radio" name="q7" value="d" aria-label="It got to sleep"> It got to sleep</label>
         </div>
 
         <div class="question">
             <p>8. What did the moon do after it became happy?</p>
-            <label><input type="radio" name="q8" value="a"> Told stories to stars</label>
-            <label><input type="radio" name="q8" value="b"> Slept all day</label>
-            <label><input type="radio" name="q8" value="c"> Visited the sun</label>
-            <label><input type="radio" name="q8" value="d"> Stayed in one place</label>
+            <label><input type="radio" name="q8" value="a" aria-label="Told stories to stars"> Told stories to stars</label>
+            <label><input type="radio" name="q8" value="b" aria-label="Slept all day"> Slept all day</label>
+            <label><input type="radio" name="q8" value="c" aria-label="Visited the sun"> Visited the sun</label>
+            <label><input type="radio" name="q8" value="d" aria-label="Stayed in one place"> Stayed in one place</label>
         </div>
 
-        <button type="button" onclick="submitQuiz()">Submit</button>
+        <button type="button" onclick="submitQuiz()" aria-label="Submit quiz answers">Submit</button>
     </form>
     <div id="result"></div>
 </div>

@@ -1,100 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Story Quiz: Hot Toast & Happy Moon</title>
     <style>
         body {
-            background: #FFF4E6;  /* Background color */
+            background: #FFF4E6; /* Background color */
             color: #333;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
-            padding: 20px;
+            padding: 15px;
             margin: 0;
             position: relative;
         }
+
         h1 {
             color: blue;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
+            margin-bottom: 15px;
         }
+
         .quiz-container {
             background: #fefbd8;
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 1;
         }
+
         .question {
-            font-size: 20px;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            font-weight: bold;
         }
+
         .options {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
+
         .option {
             display: block;
             background: #ef5350;
             color: #fff;
             border: none;
-            padding: 10px;
-            margin: 8px 0;
+            padding: 8px;
+            margin: 6px 0;
             border-radius: 6px;
-            font-size: 18px;
+            font-size: 1.1rem;
             width: 100%;
             cursor: pointer;
             transition: background 0.2s ease;
+            text-align: center;
         }
+
         .option:hover {
             background: #d32f2f;
         }
+
+        .option:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
         #nextButton, #restartButton {
             background-color: #00897b;
             border: none;
             color: #fff;
-            padding: 12px 24px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
             border-radius: 6px;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            margin-top: 10px;
+            margin-top: 8px;
+            display: inline-block;
         }
+
         #nextButton:hover, #restartButton:hover {
             background-color: #00695c;
         }
+
         #feedback {
-            font-size: 18px;
-            margin-top: 10px;
-            min-height: 24px;
+            font-size: 1.1rem;
+            margin-top: 8px;
+            min-height: 20px;
         }
+
         /* Sticker styles – decorative background images */
         .sticker {
             position: fixed;
             z-index: 0;
-            width: 80px; /* Adjust size as needed */
+            width: 60px; /* Adjusted for responsiveness */
             pointer-events: none;
             opacity: 0.9;
         }
+
         .sticker.sticker1 { top: 10px; left: 10px; }
         .sticker.sticker2 { top: 10px; right: 10px; }
         .sticker.sticker3 { bottom: 10px; left: 10px; }
         .sticker.sticker4 { bottom: 10px; right: 10px; }
         .sticker.sticker5 { top: 50%; left: 10px; transform: translateY(-50%); }
         .sticker.sticker6 { top: 50%; right: 10px; transform: translateY(-50%); }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .quiz-container {
+                max-width: 100%;
+                padding: 12px;
+            }
+
+            .question {
+                font-size: 1.2rem;
+            }
+
+            .option {
+                font-size: 1rem;
+                padding: 6px;
+                margin: 5px 0;
+            }
+
+            #nextButton, #restartButton {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+
+            #feedback {
+                font-size: 1rem;
+            }
+
+            .sticker {
+                width: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .quiz-container {
+                padding: 10px;
+            }
+
+            .question {
+                font-size: 1.1rem;
+            }
+
+            .options {
+                margin-bottom: 10px;
+            }
+
+            .option {
+                font-size: 0.9rem;
+                padding: 5px;
+                margin: 4px 0;
+            }
+
+            #nextButton, #restartButton {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+                width: 100%;
+                max-width: 200px;
+            }
+
+            #feedback {
+                font-size: 0.9rem;
+            }
+
+            .sticker {
+                width: 40px;
+            }
+
+            .sticker.sticker5, .sticker.sticker6 {
+                display: none; /* Hide side stickers on small screens to avoid clutter */
+            }
+        }
     </style>
 </head>
 <body>
 
 <!-- Decorative Sticker Images -->
-<img src="./images/hottoast1.png" alt="Sticker 1" class="sticker sticker1">
-<img src="./images/hottoast2.png" alt="Sticker 2" class="sticker sticker2">
-<img src="./images/hottoast3.png" alt="Sticker 3" class="sticker sticker3">
-<img src="./images/hottoast4.png" alt="Sticker 4" class="sticker sticker4">
-<img src="./images/hottoast5.png" alt="Sticker 5" class="sticker sticker5">
-<img src="./images/hottoast6.png" alt="Sticker 6" class="sticker sticker6">
+<img src="./images/hottoast1.png" alt="Decorative sticker 1" class="sticker sticker1">
+<img src="./images/hottoast2.png" alt="Decorative sticker 2" class="sticker sticker2">
+<img src="./images/hottoast3.png" alt="Decorative sticker 3" class="sticker sticker3">
+<img src="./images/hottoast4.png" alt="Decorative sticker 4" class="sticker sticker4">
+<img src="./images/hottoast5.png" alt="Decorative sticker 5" class="sticker sticker5">
+<img src="./images/hottoast6.png" alt="Decorative sticker 6" class="sticker sticker6">
 
 <h1>Story Quiz: Hot Toast & Happy Moon</h1>
 <div class="quiz-container">
@@ -102,8 +209,8 @@
         <!-- Quiz content will be inserted here by JavaScript -->
     </div>
     <div id="feedback"></div>
-    <button id="nextButton" style="display:none;">Next</button>
-    <button id="restartButton" style="display:none;">Restart Quiz</button>
+    <button id="nextButton" style="display:none;" aria-label="Go to next question">Next</button>
+    <button id="restartButton" style="display:none;" aria-label="Restart quiz">Restart Quiz</button>
 </div>
 
 <script>
@@ -147,11 +254,11 @@
     function showQuestion(index) {
         const q = quizQuestions[index];
         quizContainer.innerHTML = `
-      <div class="question">${q.question}</div>
-      <div class="options">
-        ${q.options.map(option => `<button class="option">${option}</button>`).join('')}
-      </div>
-    `;
+            <div class="question">${q.question}</div>
+            <div class="options">
+                ${q.options.map(option => `<button class="option" aria-label="Select ${option}">${option}</button>`).join('')}
+            </div>
+        `;
         feedbackEl.textContent = "";
         nextButton.style.display = "none";
 
@@ -170,7 +277,7 @@
                 // Disable all options
                 document.querySelectorAll('.option').forEach(btn => btn.disabled = true);
                 nextButton.style.display = "inline-block";
-            });
+            }, { once: true }); // Ensure click event fires only once per option
         });
     }
 
