@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 6 - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+    <h1>The Great White Shark Intel</h1>
+    
+    <!--button onclick="restartQuiz()">Restart Quiz</button-->
+    <div class="timer" id="timer">Time Remaining: 10:00</div>
+    <div class="quiz">
+        <h2>Test Your Shark Knowledge!</h2>
+        
+       
+        <div class="question">
+            <p>6. BONUS: What is the name of our planet? 🌍</p>
+            <input type="text" id="q6" name="q6" placeholder="Type your answer here..." oninput="saveAnswer('q6', this.value)">
+            <br>
+        </div>
+
+        <div id="navigation-section">
+            <button onclick="window.location.href='question5.html'">Previous</button>
+            <button onclick="redirectBasedOnScore()">Submit</button>
+        </div>
+    </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // Load saved answer
+        const savedAnswer = loadAnswer('q6');
+        if (savedAnswer) {
+            document.getElementById('q6').value = savedAnswer;
+        }
+     
+        function submitQuiz() {
+    stopTimer();
+    window.location.href = 'results.html';
+    }
+        updateTimer();
+    </script>
+</body>
+</html>

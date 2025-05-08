@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kangaroo | Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FFF9C4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #story-container,
+        #flashcard-container,
+        #summary-container {
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        #story-container {
+            background-color: #FFCC80;
+            border: 2px solid #FF9800;
+        }
+
+        #flashcard-container {
+            font-family: 'Roboto', sans-serif;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 2px solid #4CAF50;
+            display: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #summary-container {
+            font-family: 'Roboto', sans-serif;
+            background-color: #B2FF59;
+            border: 2px solid #76FF03;
+            display: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #summary-container h2 {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        #summary-container p {
+            margin: 10px 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #D81B60;
+        }
+
+        #summary-container .kangaroo-message {
+            font-family: 'Pacifico', cursive;
+            color: #4CAF50;
+            font-size: 24px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FFFF8D;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 28px;
+        }
+
+        #flashcard-container h2 {
+            font-family: 'Roboto', sans-serif;
+            color: #4CAF50;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        select,
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: 500;
+            border: 2px solid #FF7043;
+            border-radius: 8px;
+            background-color: #FFE0B2;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 22px;
+            font-weight: 600;
+            background-color: #FF7043;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #FF5722;
+            transform: scale(1.05);
+        }
+
+        #read-aloud-btn {
+            background-color: #FFEB3B;
+            color: black;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        #read-aloud-btn:hover {
+            background-color: #FFC107;
+        }
+
+        #speech-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #speech-controls button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        #speech-controls button:hover {
+            background-color: #3e8e41;
+        }
+
+        #speech-controls-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between images */
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #FFE0B2; /* Subtle background */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #image-container img {
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Create the wave effect with vertical offsets */
+        #image-container img:nth-child(1) {
+            transform: translateY(-20px); /* Slightly up */
+        }
+
+        #image-container img:nth-child(2) {
+            transform: translateY(20px); /* Slightly down */
+        }
+
+        #image-container img:nth-child(3) {
+            transform: translateY(-20px); /* Slightly up */
+        }
+
+        #image-container img:hover {
+            transform: translateY(-30px) scale(1.1); /* Bounce up and scale */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+
+        /* Flashcard Styles */
+        .flashcard {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box;
+            backface-visibility: hidden;
+            font-size: 1.8em;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .front {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        .back {
+            background-color: #FFC107;
+            color: #333;
+            transform: rotateY(180deg);
+            cursor: pointer;
+        }
+
+        .navigation {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .navigation button {
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navigation button:hover {
+            background-color: #388E3C;
+        }
+
+        /* Progress Bar Styles */
+        .progress-bar {
+            width: 200px;
+            height: 15px;
+            background-color: #ECEFF1;
+            border-radius: 8px;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        #progress-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+
+        #progress-label {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        /* Last Card and Congratulations Styles */
+        #last-card-message {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            font-size: 20px;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        #congrats-message {
+            display: none;
+            background-color: #FFEB3B;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            max-width: 400px;
+        }
+
+        #congrats-message h3 {
+            font-family: 'Pacifico', cursive;
+            color: #4CAF50;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        #congrats-message p {
+            font-family: 'Roboto', sans-serif;
+            color: #D81B60;
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        #restart-btn {
+            background-color: #4CAF50;
+        }
+
+        #restart-btn:hover {
+            background-color: #388E3C;
+        }
+
+        /* Hide audio element */
+        #story-audio {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Story Section -->
+<div id="story-container">
+    <h3>
+        <strong id="story-title">How the Kangaroos Got Their Tails</strong>
+    </h3>
+    <p id="story-text">
+        A long, long time ago, two kangaroos lived in the country now known as Australia. The large, brown kangaroo was from the plains and the smaller, grey kangaroo was from the hills. One day, the grey kangaroo really wanted to eat some wild bush honey, so he followed a swarm of bees to their hive in the hole of a rock. The grey kangaroo reached inside and pulled out a handful of gooey honey. It was delicious, and now the big, brown kangaroo also wanted some for himself. The grey kangaroo told him to reach his arm right into the back of the hole to get the tastiest honey. The brown kangaroo did this, but all he pulled out was a handful of spiders. He had been tricked!
+    </p>
+    <div id="speech-controls-container">
+        <button id="read-aloud-btn">🎧 Read Aloud</button>
+        <div id="speech-controls">
+            <button id="rewind-btn">Rewind</button>
+            <button id="toggle-play-btn">Pause</button>
+            <button id="restart-btn">Restart</button>
+        </div>
+    </div>
+    <div id="image-container">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_0.jpg" alt="Kangaroos with Honey and Spiders 1">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_1.jpg" alt="Kangaroos with Honey and Spiders 2">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_3.jpg" alt="Kangaroos with Honey and Spiders 3">
+    </div>
+    <p style="text-align: center; margin-top: 20px;">Please read the story before exploring the flashcards.</p>
+    <div style="margin-top: 20px; text-align: center;">
+        <button id="flashcard-btn">Show Flashcards</button>
+    </div>
+</div>
+
+<!-- Flashcard Section -->
+<div id="flashcard-container">
+    <h2>📚 Story Flashcards 📚</h2>
+    <p id="last-card-message">🎉 This is the last flashcard! 🎉</p>
+    <div class="flashcard" id="flashcard">
+        <div class="flashcard-inner">
+            <div class="front"></div>
+            <div class="back"></div>
+        </div>
+    </div>
+    <div id="congrats-message">
+        <h3>🎉 Hooray, Little Kangaroo! 🎉</h3>
+        <p>You've hopped through all the flashcards! 🦘✨ Great job!</p>
+        <button id="restart-btn">Restart Flashcards</button>
+    </div>
+    <div class="navigation">
+        <button id="prev">Previous</button>
+        <button id="next">Next</button>
+    </div>
+    <p id="progress-label"></p>
+    <div class="progress-bar">
+        <div id="progress-fill"></div>
+    </div>
+</div>
+
+<!-- Audio Elements -->
+<audio id="story-audio" src="audio/WhatsApp%20Audio%202025-04-22%20at%2010.46.55_f5a0a70b.mp3"></audio>
+<audio id="success-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_b0d2b2ec2d.mp3"></audio>
+<audio id="error-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c8a84f49b.mp3"></audio>
+
+<script>
+    const storyAudio = document.getElementById('story-audio');
+    const readAloudBtn = document.getElementById('read-aloud-btn');
+    const togglePlayBtn = document.getElementById('toggle-play-btn');
+    const rewindBtn = document.getElementById('rewind-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const flashcardBtn = document.getElementById('flashcard-btn');
+    const flashcardContainer = document.getElementById('flashcard-container');
+    const flashcard = document.getElementById('flashcard');
+    const front = document.querySelector('.front');
+    const back = document.querySelector('.back');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const progressFill = document.getElementById('progress-fill');
+    const progressLabel = document.getElementById('progress-label');
+    const lastCardMessage = document.getElementById('last-card-message');
+    const congratsMessage = document.getElementById('congrats-message');
+    const restartFlashcardBtn = document.getElementById('restart-btn');
+    const successSound = document.getElementById('success-sound');
+    const errorSound = document.getElementById('error-sound');
+    let currentFlashcardIndex = 0;
+    let hasCompletedFlashcards = false;
+
+    // Flashcard data
+    const flashcardData = [
+        { question: "What animal hops in the story?", answer: "Kangaroo" },
+        { question: "What color is the big kangaroo?", answer: "Brown" },
+        { question: "What color is the small kangaroo?", answer: "Grey" },
+        { question: "What sweet thing did they want?", answer: "Honey" },
+        { question: "Who buzzed to the honey?", answer: "Bees" },
+        { question: "Where was the honey?", answer: "Rock" },
+        { question: "What yucky thing got grabbed?", answer: "Spiders" },
+        { question: "Who played a trick?", answer: "Grey kangaroo" }
+    ];
+
+    // Audio controls
+    readAloudBtn.addEventListener('click', () => {
+        storyAudio.play();
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    togglePlayBtn.addEventListener('click', () => {
+        if (storyAudio.paused) {
+            storyAudio.play();
+            togglePlayBtn.textContent = "Pause";
+        } else {
+            storyAudio.pause();
+            togglePlayBtn.textContent = "Resume";
+        }
+    });
+
+    rewindBtn.addEventListener('click', () => {
+        storyAudio.currentTime = Math.max(0, storyAudio.currentTime - 5); // Rewind by 5 seconds
+    });
+
+    restartBtn.addEventListener('click', () => {
+        storyAudio.currentTime = 0;
+        storyAudio.play();
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    // Update toggle button text when audio naturally pauses or ends
+    storyAudio.addEventListener('pause', () => {
+        togglePlayBtn.textContent = "Resume";
+    });
+
+    storyAudio.addEventListener('play', () => {
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    storyAudio.addEventListener('ended', () => {
+        togglePlayBtn.textContent = "Resume";
+    });
+
+    // Flashcard button functionality
+    flashcardBtn.addEventListener('click', () => {
+        flashcardContainer.style.display = 'block';
+        updateFlashcard();
+    });
+
+    // Flashcard functionality
+    function updateFlashcard() {
+        hasCompletedFlashcards = false;
+        flashcard.style.display = 'block';
+        congratsMessage.style.display = 'none';
+
+        front.textContent = flashcardData[currentFlashcardIndex].question;
+        back.textContent = flashcardData[currentFlashcardIndex].answer;
+        flashcard.classList.remove('flipped');
+
+        // Update progress bar
+        const progressPercentage = ((currentFlashcardIndex + 1) / flashcardData.length) * 100;
+        progressFill.style.width = `${progressPercentage}%`;
+        progressLabel.textContent = `Flashcard ${currentFlashcardIndex + 1} of ${flashcardData.length} 📚`;
+
+        // Show last card message if on the last flashcard
+        lastCardMessage.style.display = currentFlashcardIndex === flashcardData.length - 1 ? 'block' : 'none';
+    }
+
+    flashcard.addEventListener('click', () => {
+        flashcard.classList.toggle('flipped');
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (currentFlashcardIndex === flashcardData.length - 1) {
+            // Show congratulations message when trying to go past the last card
+            hasCompletedFlashcards = true;
+            flashcard.style.display = 'none';
+            lastCardMessage.style.display = 'none';
+            congratsMessage.style.display = 'block';
+            successSound.play();
+        } else {
+            currentFlashcardIndex = (currentFlashcardIndex + 1) % flashcardData.length;
+            updateFlashcard();
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        currentFlashcardIndex = (currentFlashcardIndex - 1 + flashcardData.length) % flashcardData.length;
+        updateFlashcard();
+    });
+
+    restartFlashcardBtn.addEventListener('click', () => {
+        currentFlashcardIndex = 0;
+        updateFlashcard();
+    });
+
+    // Initialize first flashcard (but it won't show until the button is clicked)
+    updateFlashcard();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 1 - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>The Great White Shark Intel</h1>
+        
+        <div class="sec-pic">
+                <img src="https://github.com/Tishetso/Shark-items/blob/main/great%20white%20shark.gif?raw=true" alt="Great White Sharks" >
+                <p class="great-shark">The Great White Shark</p>
+                <!-- Audio controls with icons -->
+        </div >
+        <!-- Audio controls with icons -->
+        <div class="audio-container">
+            <button onclick="playAudio()" title="Play">▶️</button>
+            <button onclick="pauseAudio()" title="Pause">⏸️</button>
+            <button onclick="restartAudio()" title="Restart">🔄</button>
+            <audio id="shark-audio" src="recVideo/voiceOver.mp3">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        
+        <!--button onclick="restartQuiz()">Restart Quiz</button-->
+        <div class="timer" id="timer">Time Remaining: 10:00</div>
+            <div class="quiz">
+                <div class = "word-center">
+
+                <h2>Test Your Shark Knowledge!</h2>
+
+                <div class="question">
+                    <p>1. Where are great white sharks mostly found? <span class="reveal-icon" id="icon-1" onclick="toggleOptions(1)">👁️</span></p>
+                    <div class="radio-options" id="options-1">
+                        <input type="radio" name="q1" value="a" id="q1a" onchange="saveAnswer('q1', this.value)"> a) Warm water far from coast<br>
+                        <input type="radio" name="q1" value="b" id="q1b" onchange="saveAnswer('q1', this.value)"> b) Cool water close to coast<br>
+                        <input type="radio" name="q1" value="c" id="q1c" onchange="saveAnswer('q1', this.value)"> c) In rivers<br>
+                    </div>
+                </div>
+
+                <div id="navigation-section">
+                    <button disabled onclick="window.location.href='index.html'">Previous</button>
+                    <button onclick="window.location.href='question2.html'">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load saved answer
+        const savedAnswer = loadAnswer('q1');
+        if (savedAnswer) {
+            document.querySelector(`input[name="q1"][value="${savedAnswer}"]`).checked = true;
+            // Automatically reveal options if an answer was previously selected
+            const options = document.getElementById('options-1');
+            options.classList.add('visible');
+        }
+        updateTimer();
+    </script>
+</body>
+</html>

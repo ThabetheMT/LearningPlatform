@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fruit Fiesta Learning</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .fruit-card {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+    /* ===== MODERN FRUIT LEARNING PLATFORM ===== */
+    body {
+        font-family: 'Patrick Hand', cursive;
+        background: url('images/background.jpg') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px; /* Added padding for mobile safety */
+        color: #2d3436;
+    }
+
+    /* ===== HEADER FIXES ===== */
+    .header-container {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 3px dashed #e17055;
+        border-top: 3px dashed #e17055;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    /* Add this to your existing CSS */
+    .fruit-image {
+        display: block; /* Removes inline spacing */
+        width: 180px;
+        height: 180px;
+        object-fit: contain;
+        margin: 15px auto;
+        background: rgba(0,0,0,0.05); /* Shows placeholder if image missing */
+        border: 1px solid #eee; /* Visual boundary */
+    }
+
+    /* Force image container to maintain size */
+    .fruit-card {
+        min-height: 400px; /* Prevents layout shift */
+        position: relative;
+    }
+
+    .header {
+        max-width: 800px; /* Constrain width */
+        margin: 0 auto; /* Center horizontally */
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    /* ===== FRUIT CARD CRITICAL FIXES ===== */
+    .fruit-card {
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 25px;
+        padding: 25px;
+        width: 85%;
+        max-width: 500px;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        margin: 20px auto; /* Added top margin */
+        border: 5px solid;
+        position: relative; /* Needed for proper z-index */
+        z-index: 1; /* Ensures card stays above background */
+    }
+
+    /* IMAGE FIXES */
+    .fruit-image {
+        width: 180px;
+        height: 180px;
+        object-fit: contain;
+        margin: 15px auto; /* Centered with margin */
+        display: block; /* Fixes inline gap issues */
+        border-radius: 15px;
+        background: rgba(0,0,0,0.05); /* Shows area even if image missing */
+    }
+
+    /* AUDIO PLAYER FIXES */
+    .audio-player {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin: 25px 0 15px;
+    }
+
+    /* ===== MEDIA QUERIES ===== */
+    @media (max-width: 600px) {
+        body {
+            padding: 10px; /* Smaller padding on mobile */
+        }
+
+        .fruit-card {
+            width: 92%;
+            padding: 20px 15px;
+        }
+
+        .fruit-image {
+            width: 140px;
+            height: 140px;
+            margin: 10px auto;
+        }
+    }
+
+    .fun-fact {
+        background: rgba(255, 255, 255, 0.75);
+        padding: 12px 15px;
+        border-radius: 15px;
+        margin: 15px 0;
+        font-style: italic;
+        border-left: 4px solid;
+        text-align: left;
+    }
+
+    /* AUDIO PLAYER STYLES */
+    .audio-player {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .play-button {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: #00b894;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 1.1rem;
+    }
+
+    .play-button:hover {
+        background: #55efc4;
+        transform: scale(1.1);
+    }
+
+    .play-button.playing {
+        background: #ff7675;
+    }
+
+    .progress-container {
+        width: 65%;
+        height: 8px;
+        background: #dfe6e9;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        height: 100%;
+        background: #00b894;
+        width: 0%;
+        transition: width 0.1s linear;
+    }
+
+    /* NAVIGATION BUTTONS */
+    .navigation {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 25px auto;
+        max-width: 500px;
+    }
+
+    .navigation button {
+        background: #6c5ce7;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-family: 'Patrick Hand', cursive;
+    }
+
+    .navigation button:hover {
+        background: #a29bfe;
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .navigation button:disabled {
+        background: #b2bec3;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* MOBILE RESPONSIVENESS */
+    @media (max-width: 600px) {
+        .header h1 {
+            font-size: 2.2rem;
+        }
+
+        .fruit-card {
+            width: 90%;
+            padding: 20px;
+        }
+
+        .fruit-image {
+            width: 140px;
+            height: 140px;
+        }
+
+        .navigation button {
+            padding: 10px 20px;
+        }
+    }
+</style>
+</head>
+<body>
+<header class="header-container">
+    <div class="header">
+        <h1>🍉🍍🌈🍎🍌🍓☀️🍊✨Fruit Fiesta!✨🍊☀️🍓🍌🍎🌈🍍🍉</h1>
+        <p>Learn, Pronounce & Explore 15 Fruits!</p>
+        <div class="fruit-counter" id="fruit-counter">1/15</div>
+    </div>
+</header>
+
+<!-- SINGLE fruit-container div -->
+<div id="fruit-container"></div>
+
+<div class="navigation">
+    <button id="prev-btn">← Previous</button>
+    <button id="next-btn">Next →</button>
+</div>
+
+<script>
+    (function() {
+        // ===== COMPLETE FRUIT DATA (15 FRUITS - JPG + BOOK EMOJI) =====
+        const fruits = [
+            { name: "Apple", imageUrl: "images/apple.png", pronunciation: "ˈapəl", color: "#ff6b6b", borderColor: "#e84118", funFact: "📚 Apples float because 25% of their volume is air!" },
+            { name: "Banana", imageUrl: "images/banana.png", pronunciation: "bəˈnɑːnə", color: "#ffeaa7", borderColor: "#fdcb6e", funFact: "📚 Bananas are berries, but strawberries aren't!" },
+            { name: "Orange", imageUrl: "images/orange.jpg", pronunciation: "ˈɒrɪndʒ", color: "#ffbe76", borderColor: "#e17055", funFact: "📚 Originally green—color comes from cool nights!" },
+            { name: "Grapes", imageUrl: "images/grapes.jpg", pronunciation: "ɡreɪps", color: "#a55eea", borderColor: "#6c5ce7", funFact: "📚 600 grapes = 1 bottle of wine!" },
+            { name: "Strawberry", imageUrl: "images/strawberry.jpg", pronunciation: "ˈstrɔːbəri", color: "#ff7675", borderColor: "#e84393", funFact: "📚 Only fruit with seeds on the outside!" },
+            { name: "Blueberry", imageUrl: "images/blueberry.jpg", pronunciation: "ˈbluːbəri", color: "#6a5acd", borderColor: "#4b0082", funFact: "📚 One of the only natural blue foods!" },
+            { name: "Pear", imageUrl: "images/pear.jpg", pronunciation: "peər", color: "#d1e189", borderColor: "#a3be8c", funFact: "📚 Ripens from the inside out!" },
+            { name: "Apricot", imageUrl: "images/apricot.jpg", pronunciation: "ˈeɪprɪkɒt", color: "#ffb347", borderColor: "#ff971e", funFact: "📚 Related to almonds (rose family)!" },
+            { name: "Papaya", imageUrl: "images/papaya.jpg", pronunciation: "pəˈpaɪə", color: "#ffefd5", borderColor: "#ffd700", funFact: "📚 Seeds taste like peppercorns!" },
+            { name: "Pineapple", imageUrl: "images/pineapple.jpg", pronunciation: "ˈpaɪnæpəl", color: "#f4d03f", borderColor: "#f1c40f", funFact: "📚 A cluster of 200+ fused berries!" },
+            { name: "Raspberry", imageUrl: "images/raspberry.jpg", pronunciation: "ˈrɑːzbəri", color: "#e91e63", borderColor: "#c2185b", funFact: "📚 Can be gold, purple, or black!" },
+            { name: "Passionfruit", imageUrl: "images/passionfruit.jpg", pronunciation: "ˈpæʃənfruːt", color: "#8e44ad", borderColor: "#9b59b6", funFact: "📚 Flowers last just one day!" },
+            { name: "Guava", imageUrl: "images/guava.jpg", pronunciation: "ˈɡwɑːvə", color: "#e74c3c", borderColor: "#c0392b", funFact: "📚 4x more vitamin C than oranges!" },
+            { name: "Cherry", imageUrl: "images/cherry.jpg", pronunciation: "ˈtʃeri", color: "#e84393", borderColor: "#fd79a8", funFact: "📚 Trees can live 100+ years!" },
+            { name: "Mango", imageUrl: "images/mango.jpg", pronunciation: "ˈmæŋɡoʊ", color: "#ff7f50", borderColor: "#fa5f1a", funFact: "📚 Most eaten fruit in the world!" }
+        ];
+
+        // ===== AUDIO MANAGER =====
+        class AudioManager {
+            constructor() {
+                this.audioElements = {};
+                this.loadAudioFiles();
+            }
+
+            loadAudioFiles() {
+                fruits.forEach(fruit => {
+                    const fruitName = fruit.name.toLowerCase();
+                    const audio = new Audio(`audio/${fruitName}.mp3`);
+                    this.audioElements[fruitName] = audio;
+                    console.log(`Loading audio for ${fruitName}: audio/${fruitName}.mp3`);
+                    audio.addEventListener('loadeddata', () => {
+                        console.log(`Audio loaded successfully for ${fruitName}`);
+                    });
+                    audio.addEventListener('error', () => {
+                        console.error(`Failed to load audio for ${fruitName}`);
+                    });
+                });
+            }
+
+            async play(fruitName, onProgress, onEnd) {
+                try {
+                    console.log(`Attempting to play audio for ${fruitName}`);
+                    this.stopAll();
+                    const audio = this.audioElements[fruitName.toLowerCase()];
+                    if (audio) {
+                        console.log(`Audio element found for ${fruitName}`);
+                        audio.currentTime = 0;
+                        audio.addEventListener('timeupdate', () => {
+                            const progress = (audio.currentTime / audio.duration) * 100;
+                            onProgress(progress);
+                        });
+                        audio.addEventListener('ended', () => {
+                            console.log(`${fruitName} audio ended`);
+                            onEnd(false);
+                        });
+                        audio.addEventListener('error', () => {
+                            console.error(`Error playing ${fruitName} audio`);
+                            this.fallbackToTTS(fruitName, onEnd);
+                        });
+                        await audio.play();
+                        console.log(`${fruitName} audio playing`);
+                        return true;
+                    } else {
+                        console.error(`No audio element for ${fruitName}`);
+                        return this.fallbackToTTS(fruitName, onEnd);
+                    }
+                } catch (error) {
+                    console.error(`Play error for ${fruitName}:`, error);
+                    return this.fallbackToTTS(fruitName, onEnd);
+                }
+            }
+
+            async fallbackToTTS(fruitName, onEnd) {
+                try {
+                    console.log(`Falling back to TTS for ${fruitName}`);
+                    const utterance = new SpeechSynthesisUtterance(fruitName);
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.1;
+                    if (speechSynthesis.getVoices().length === 0) {
+                        await new Promise(resolve => {
+                            speechSynthesis.onvoiceschanged = resolve;
+                        });
+                    }
+                    utterance.onend = () => {
+                        console.log(`${fruitName} TTS ended`);
+                        onEnd(true);
+                    };
+                    speechSynthesis.speak(utterance);
+                    return true;
+                } catch (ttsError) {
+                    console.error("TTS failed:", ttsError);
+                    showAudioError();
+                    return false;
+                }
+            }
+
+            stopAll() {
+                speechSynthesis.cancel();
+                Object.values(this.audioElements).forEach(audio => {
+                    audio.pause();
+                    audio.currentTime = 0;
+                });
+            }
+        }
+
+        // ===== GLOBAL VARIABLES =====
+        let audioManager;
+        let currentFruitIndex = 0;
+
+        // ===== UI FUNCTIONS =====
+        function showAudioError() {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'audio-error';
+            errorDiv.innerHTML = `
+            🔊 Audio disabled - Try Chrome/Edge/Firefox
+            <button onclick="window.location.reload()">Retry</button>
+        `;
+            document.body.appendChild(errorDiv);
+        }
+
+        function displayCurrentFruit() {
+            console.log("Current fruit:", fruits[currentFruitIndex]);
+            console.log("Trying to load image from:", fruits[currentFruitIndex].imageUrl);
+
+            if (!audioManager) {
+                console.error("AudioManager not initialized!");
+                return;
+            }
+
+            const container = document.getElementById('fruit-container');
+            const currentFruit = fruits[currentFruitIndex];
+
+            const img = document.createElement('img');
+            img.className = 'fruit-image';
+            img.alt = currentFruit.name;
+            img.onerror = () => {
+                console.error("Failed to load image:", currentFruit.imageUrl);
+                img.src = 'images/placeholder.jpg';
+            };
+            img.src = currentFruit.imageUrl;
+            img.width = 180;
+            img.height = 180;
+
+            container.innerHTML = `
+            <div class="fruit-card" style="border-color: ${currentFruit.borderColor}">
+                <h2 style="color: ${currentFruit.borderColor}">${currentFruit.name}</h2>
+                <!-- Image will be inserted here -->
+                <p>Pronunciation: <strong>${currentFruit.pronunciation}</strong></p>
+                <div class="fun-fact" style="border-color: ${currentFruit.borderColor}">
+                    <strong>📚 Fun Fact:</strong> ${currentFruit.funFact}
+                </div>
+                <div class="audio-player">
+                    <button class="play-button" id="play-button">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+            container.querySelector('.fruit-card').insertBefore(img, container.querySelector('p'));
+
+            setupAudioPlayer(currentFruit.name);
+            updateNavigationButtons();
+        }
+
+        function setupAudioPlayer(fruitName) {
+            const playButton = document.getElementById('play-button');
+            const progressBar = document.getElementById('progress-bar');
+            let isPlaying = false;
+            let isProcessing = false;
+
+            playButton.addEventListener('click', async () => {
+                if (isProcessing) return;
+                isProcessing = true;
+
+                if (isPlaying) {
+                    audioManager.stopAll();
+                    updateButtonState(false);
+                    isProcessing = false;
+                    return;
+                }
+
+                playButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                const success = await audioManager.play(
+                    fruitName,
+                    (progress) => { progressBar.style.width = `${progress}%`; },
+                    (error) => {
+                        if (error) showAudioError();
+                        updateButtonState(false);
+                        isProcessing = false;
+                    }
+                );
+
+                if (success) updateButtonState(true);
+                isProcessing = false;
+            });
+
+            function updateButtonState(playing) {
+                isPlaying = playing;
+                playButton.innerHTML = playing
+                    ? '<i class="fas fa-stop"></i>'
+                    : '<i class="fas fa-play"></i>';
+                playButton.classList.toggle('playing', playing);
+                progressBar.style.width = playing ? '0%' : '0%';
+            }
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prev-btn').disabled = currentFruitIndex === 0;
+            document.getElementById('next-btn').disabled = currentFruitIndex === fruits.length - 1;
+            document.getElementById('fruit-counter').textContent = `${currentFruitIndex + 1}/${fruits.length}`;
+        }
+
+        function nextFruit() {
+            if (currentFruitIndex < fruits.length - 1) {
+                currentFruitIndex++;
+                displayCurrentFruit();
+            }
+        }
+
+        function prevFruit() {
+            if (currentFruitIndex > 0) {
+                currentFruitIndex--;
+                displayCurrentFruit();
+            }
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener('click', initAudioManager, { once: true });
+            displayCurrentFruit();
+            document.getElementById('next-btn').addEventListener('click', nextFruit);
+            document.getElementById('prev-btn').addEventListener('click', prevFruit);
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') nextFruit();
+                if (e.key === 'ArrowLeft') prevFruit();
+                if (e.key === ' ') document.getElementById('play-button')?.click();
+            });
+        });
+
+        function initAudioManager() {
+            audioManager = new AudioManager();
+            const silentAudio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+            silentAudio.play().catch(e => {});
+        }
+    })();
+</script>
+</body>
+</html>

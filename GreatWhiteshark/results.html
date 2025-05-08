@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    #restart-quiz{
+        margin-top:20px;
+        display:block;
+        margin: 20px auto;
+    }
+
+    #home-btn{
+        margin-top:10px;
+        display:block;
+        margin: 20px auto;
+
+    }
+</style>
+<body>
+    <div class="container">
+    <h1>The Great White Shark Intel</h1>
+    
+  
+    
+    <button id="restart-quiz" onclick="restartQuiz()">Restart Quiz</button>
+        <div class="quiz">
+        <h2>Your Results!</h2>
+        <div id="score">Score: 0</div>
+        <div id="time-taken">Time Taken: Calculating...</div>
+        
+        <div class="question">
+            <p>1. Where are great white sharks mostly found?</p>
+            <p>Your answer: <span id="q1-answer"></span></p>
+            <div id="feedback1" class="feedback"></div>
+        </div>
+
+        <div class="question">
+            <p>2. How many teeth can a great white shark have?</p>
+            <p>Your answer: <span id="q2-answer"></span></p>
+            <div id="feedback2" class="feedback"></div>
+        </div>
+
+        <div class="question">
+            <p>3. What do great white sharks hunt?</p>
+            <p>Your answer: <span id="q3-answer"></span></p>
+            <div id="feedback3" class="feedback"></div>
+        </div>
+
+        <div class="question">
+            <p>4. Find and type the adjective that the author uses to describe the shark’s sense of smell.</p>
+            <p>Your answer: <span id="q4-answer"></span></p>
+            <div id="feedback4" class="feedback"></div>
+        </div>
+
+        <div class="question">
+            <p>5. Why do you think that the great white shark is at the top of the ocean’s food chain?</p>
+            <p>Your answer: <span id="q5-answer"></span></p>
+            <div id="feedback5" class="feedback"></div>
+        </div>
+
+        <div class="question">
+            <p>6. BONUS: What is the name of our planet? 🌍</p>
+            <p>Your answer: <span id="q6-answer"></span></p>
+            <div id="feedback6" class="feedback"></div>
+        </div>
+
+   
+    </div>
+        <button id="home-btn" onclick="location.href='/quizzes'">Home</button>
+</div>
+
+    <script src="script.js"></script>
+    <script>
+        // Display saved answers
+        document.getElementById('q1-answer').textContent = loadAnswer('q1') || 'Not answered';
+        document.getElementById('q2-answer').textContent = loadAnswer('q2') || 'Not answered';
+        document.getElementById('q3-answer').textContent = loadAnswer('q3') || 'Not answered';
+        document.getElementById('q4-answer').textContent = loadAnswer('q4') || 'Not answered';
+        document.getElementById('q5-answer').textContent = loadAnswer('q5') || 'Not answered';
+        document.getElementById('q6-answer').textContent = loadAnswer('q6') || 'Not answered';
+
+        // Calculate and display time taken
+        const startTime = parseInt(localStorage.getItem('quizStartTime')) || 0;
+        const endTime = localStorage.getItem('quizEndTime') ? parseInt(localStorage.getItem('quizEndTime')) : Date.now();
+        const timeTaken = Math.floor((endTime - startTime) / 1000); // Time in seconds
+        document.getElementById('time-taken').textContent = `Time Taken: ${Math.floor(timeTaken / 60)}:${timeTaken % 60 < 10 ? '0' : ''}${timeTaken % 60}`;
+
+        // Calculate and display score
+        const score = calculateScore();
+        const scoreDiv = document.getElementById("score");
+        scoreDiv.textContent = `Score: ${score} / 60`;
+        scoreDiv.style.display = "block";
+
+        // Show victory avatar or consoling shark and play corresponding audio
+        const victoryAvatar = document.getElementById("victory-avatar");
+        const consolingShark = document.getElementById("consoling-shark");
+        const victoryAudio = document.getElementById("victory-audio");
+        const consolingAudio = document.getElementById("consoling-audio");
+
+        if (score > 30) {
+            victoryAvatar.style.display = "block";
+            victoryAudio.play().catch(error => console.log("Victory audio play failed:", error));
+        } else {
+            consolingShark.style.display = "block";
+            consolingAudio.play().catch(error => console.log("Consoling audio play failed:", error));
+        }
+    </script>
+</body>
+</html>

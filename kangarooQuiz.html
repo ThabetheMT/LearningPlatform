@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kangaroo | Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #FFF9C4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #story-container,
+        #quiz-container,
+        #summary-container {
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        #story-container {
+            background-color: #FFCC80;
+            border: 2px solid #FF9800;
+        }
+
+        #quiz-container {
+            background-color: #FFCCFF;
+            border: 2px solid #FF7043;
+            display: none;
+        }
+
+        #summary-container {
+            font-family: 'Roboto', sans-serif;
+            background-color: #B2FF59;
+            border: 2px solid #76FF03;
+            display: none;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #summary-container h2 {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        #summary-container p {
+            margin: 10px 0;
+            font-size: 22px;
+            font-weight: 600;
+            color: #D81B60;
+        }
+
+        #summary-container .kangaroo-message {
+            font-family: 'Pacifico', cursive;
+            color: #4CAF50;
+            font-size: 24px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #FFFF8D;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2, h3 {
+            font-family: 'Pacifico', cursive;
+            color: #FF7043;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 28px;
+        }
+
+        select,
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 20px;
+            font-weight: 500;
+            border: 2px solid #FF7043;
+            border-radius: 8px;
+            background-color: #FFE0B2;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 22px;
+            font-weight: 600;
+            background-color: #FF7043;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #FF5722;
+            transform: scale(1.05);
+        }
+
+        #read-aloud-btn {
+            background-color: #FFEB3B;
+            color: black;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        #read-aloud-btn:hover {
+            background-color: #FFC107;
+        }
+
+        #speech-controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #speech-controls button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        #speech-controls button:hover {
+            background-color: #3e8e41;
+        }
+
+        #speech-controls-container {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #result {
+            font-family: 'Roboto', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 15px;
+            text-align: center;
+            background-color: #FFE0B2;
+            border: 2px solid #FF7043;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .star {
+            font-size: 36px;
+            color: #999;
+            transition: color 0.3s, transform 0.3s;
+            margin: 0 5px;
+        }
+
+        .star.active {
+            color: #FFD700;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+            animation: star-pop 0.3s ease-out;
+        }
+
+        @keyframes star-pop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .score-bar {
+            width: 200px;
+            height: 10px;
+            background-color: #ECEFF1;
+            border-radius: 5px;
+            margin: 10px auto;
+            overflow: hidden;
+        }
+
+        #score-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0;
+            transition: width 0.5s ease;
+        }
+
+        .correct {
+            color: #2E7D32;
+            background-color: #E8F5E9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .incorrect {
+            color: #D32F2F;
+            background-color: #FFEBEE;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        #image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px; /* Space between images */
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #FFE0B2; /* Subtle background */
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #image-container img {
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Create the wave effect with vertical offsets */
+        #image-container img:nth-child(1) {
+            transform: translateY(-20px); /* Slightly up */
+        }
+
+        #image-container img:nth-child(2) {
+            transform: translateY(20px); /* Slightly down */
+        }
+
+        #image-container img:nth-child(3) {
+            transform: translateY(-20px); /* Slightly up */
+        }
+
+        #image-container img:hover {
+            transform: translateY(-30px) scale(1.1); /* Bounce up and scale */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+        }
+    </style>
+</head>
+
+<body>
+<!-- Story Section -->
+<div id="story-container">
+    <h3>
+        <strong id="story-title">How the Kangaroos Got Their Tails</strong>
+    </h3>
+    <p id="story-text">
+        A long, long time ago, two kangaroos lived in the country now known as Australia. The large, brown kangaroo was from the plains and the smaller, grey kangaroo was from the hills. One day, the grey kangaroo really wanted to eat some wild bush honey, so he followed a swarm of bees to their hive in the hole of a rock. The grey kangaroo reached inside and pulled out a handful of gooey honey. It was delicious, and now the big, brown kangaroo also wanted some for himself. The grey kangaroo told him to reach his arm right into the back of the hole to get the tastiest honey. The brown kangaroo did this, but all he pulled out was a handful of spiders. He had been tricked!
+    </p>
+    <div id="speech-controls-container">
+        <button id="read-aloud-btn">🎧 Read Aloud</button>
+        <div id="speech-controls">
+            <button id="rewind-btn">Rewind</button>
+            <button id="toggle-play-btn">Pause</button>
+            <button id="restart-btn">Restart</button>
+        </div>
+    </div>
+    <div id="image-container">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_0.jpg" alt="Kangaroos with Honey and Spiders 1">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_1.jpg" alt="Kangaroos with Honey and Spiders 2">
+        <img src="images/Flux_Dev_I_want_an_image_of_a_small_grey_kangaroo_and_a_big_br_3.jpg" alt="Kangaroos with Honey and Spiders 3">
+    </div>
+    <p style="text-align: center; margin-top: 20px;">Please read the story before taking the quiz.</p>
+    <div style="margin-top: 20px; text-align: center;">
+        <button id="quiz-btn">Take the Quiz</button>
+    </div>
+</div>
+
+<!-- Quiz Section -->
+<div id="quiz-container">
+    <h2>🦘 Kangaroo Quiz 🦘</h2>
+    <div class="question-container">
+        <p>1. How do you think the grey kangaroo was feeling when he followed the bees? (Was he sneaky like a fox or just REALLY hungry?)</p>
+        <textarea id="answer1"></textarea>
+        <p id="result1"></p>
+    </div>
+    <div class="question-container">
+        <p>2. Which kangaroo was the biggest goofball? (Type: Brown or Grey)</p>
+        <input type="text" id="answer2" />
+        <p id="result2"></p>
+    </div>
+    <div class="question-container">
+        <p>3. Find and copy the word that means the same as when your hands are covered in jam!</p>
+        <input type="text" id="answer3" />
+        <p id="result3"></p>
+    </div>
+    <div class="question-container">
+        <p>4. Let's put these silly events in order:</p>
+        <p>a) The brown kangaroo got a face full of spiders! 🕷️</p>
+        <select id="order1">
+            <option value="0">Choose...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <p id="result4a"></p>
+        <p>b) The grey kangaroo chased after some buzzy bees. 🐝</p>
+        <select id="order2">
+            <option value="0">Choose...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <p id="result4b"></p>
+        <p>c) The grey kangaroo enjoyed a sweet treat. 🍯</p>
+        <select id="order3">
+            <option value="0">Choose...</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
+        <p id="result4c"></p>
+    </div>
+    <button id="submit-btn">Submit quiz!</button>
+    <button id="reset-btn">Try again!</button>
+    <button id="summary-btn">View Quiz Summary</button>
+    <div class="stars" id="star-container">
+        <span class="star" id="star1">⭐</span>
+        <span class="star" id="star2">⭐</span>
+        <span class="star" id="star3">⭐</span>
+        <span class="star" id="star4">⭐</span>
+        <div class="score-bar"><div id="score-fill"></div></div>
+    </div>
+    <div id="result"></div>
+</div>
+
+<!-- Summary Section -->
+<div id="summary-container">
+    <h2>🌟 Your Quiz Summary 🌟</h2>
+    <p id="attempts">Attempts: 0 🦘</p>
+    <p id="latest-score">Latest Score: 0/4 🎯</p>
+    <p id="overall-score">Overall Score: 0 🎉</p>
+    <p id="percentage">Percentage: 0% 📊</p>
+    <p id="lowest-score">Lowest Score: 0/4 😅</p>
+    <p id="highest-score">Highest Score: 0/4 🏆</p>
+    <p class="kangaroo-message">Hop-tastic job! Keep bouncing, little kangaroo! 🦘💖</p>
+</div>
+
+<!-- Audio Elements -->
+<audio id="story-audio" src="audio/WhatsApp%20Audio%202025-04-22%20at%2010.46.55_f5a0a70b.mp3"></audio>
+<audio id="success-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_b0d2b2ec2d.mp3"></audio>
+<audio id="error-sound" src="https://cdn.pixabay.com/audio/2022/03/10/audio_2c8a84f49b.mp3"></audio>
+
+<script>
+    const starEls = [1, 2, 3, 4].map(n => document.getElementById(`star${n}`));
+    const storyAudio = document.getElementById('story-audio');
+    const readAloudBtn = document.getElementById('read-aloud-btn');
+    const togglePlayBtn = document.getElementById('toggle-play-btn');
+    const rewindBtn = document.getElementById('rewind-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const quizBtn = document.getElementById('quiz-btn');
+    const quizContainer = document.getElementById('quiz-container');
+    const summaryContainer = document.getElementById('summary-container');
+    const summaryBtn = document.getElementById('summary-btn');
+    const successSound = document.getElementById('success-sound');
+    const errorSound = document.getElementById('error-sound');
+
+    // Reset quiz stats on page load
+    window.addEventListener('load', () => {
+        localStorage.removeItem('quiz-attempts');
+        localStorage.removeItem('quiz-scores');
+        localStorage.removeItem('quiz-overall-score');
+        localStorage.removeItem('kangaroo-quiz-score');
+
+        // Initialize quiz stats in localStorage
+        localStorage.setItem('quiz-attempts', '0');
+        localStorage.setItem('quiz-scores', JSON.stringify([]));
+        localStorage.setItem('quiz-overall-score', '0');
+    });
+
+    // Audio controls
+    readAloudBtn.addEventListener('click', () => {
+        storyAudio.play();
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    togglePlayBtn.addEventListener('click', () => {
+        if (storyAudio.paused) {
+            storyAudio.play();
+            togglePlayBtn.textContent = "Pause";
+        } else {
+            storyAudio.pause();
+            togglePlayBtn.textContent = "Resume";
+        }
+    });
+
+    rewindBtn.addEventListener('click', () => {
+        storyAudio.currentTime = Math.max(0, storyAudio.currentTime - 5); // Rewind by 5 seconds
+    });
+
+    restartBtn.addEventListener('click', () => {
+        storyAudio.currentTime = 0;
+        storyAudio.play();
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    // Update toggle button text when audio naturally pauses or ends
+    storyAudio.addEventListener('pause', () => {
+        togglePlayBtn.textContent = "Resume";
+    });
+
+    storyAudio.addEventListener('play', () => {
+        togglePlayBtn.textContent = "Pause";
+    });
+
+    storyAudio.addEventListener('ended', () => {
+        togglePlayBtn.textContent = "Resume";
+    });
+
+    // Quiz button functionality
+    quizBtn.addEventListener('click', () => {
+        quizContainer.style.display = 'block';
+        summaryContainer.style.display = 'none';
+    });
+
+    // Summary button functionality
+    summaryBtn.addEventListener('click', () => {
+        summaryContainer.style.display = 'block';
+        quizContainer.style.display = 'none';
+
+        // Update summary stats
+        const attempts = parseInt(localStorage.getItem('quiz-attempts')) || 0;
+        const scores = JSON.parse(localStorage.getItem('quiz-scores')) || [];
+        const overallScore = parseInt(localStorage.getItem('quiz-overall-score')) || 0;
+        const latestScore = scores.length > 0 ? scores[scores.length - 1] : 0;
+        const percentage = attempts > 0 ? Math.round((overallScore / (attempts * 4)) * 100) : 0;
+        const lowestScore = scores.length > 0 ? Math.min(...scores) : 0;
+        const highestScore = scores.length > 0 ? Math.max(...scores) : 0;
+
+        document.getElementById('attempts').innerText = `Attempts: ${attempts} 🦘`;
+        document.getElementById('latest-score').innerText = `Latest Score: ${latestScore}/4 🎯`;
+        document.getElementById('overall-score').innerText = `Overall Score: ${overallScore} 🎉`;
+        document.getElementById('percentage').innerText = `Percentage: ${percentage}% 📊`;
+        document.getElementById('lowest-score').innerText = `Lowest Score: ${lowestScore}/4 😅`;
+        document.getElementById('highest-score').innerText = `Highest Score: ${highestScore}/4 🏆`;
+    });
+
+    // Submit functionality
+    document.getElementById("submit-btn").addEventListener("click", function() {
+        let score = 0;
+
+        const answer1 = document.getElementById("answer1").value.trim().toLowerCase();
+        const answer2 = document.getElementById("answer2").value.trim().toLowerCase();
+        const answer3 = document.getElementById("answer3").value.trim().toLowerCase();
+        const order1 = document.getElementById("order1").value;
+        const order2 = document.getElementById("order2").value;
+        const order3 = document.getElementById("order3").value;
+
+        let isCorrect1 = answer1.includes("hopeful") || answer1.includes("excited") || answer1.includes("sneaky");
+        let isCorrect2 = answer2 === "brown";
+        let isCorrect3 = answer3 === "gooey";
+        let isCorrect4 = order1 === "3" && order2 === "1" && order3 === "2";
+
+        if (isCorrect1) score++;
+        if (isCorrect2) score++;
+        if (isCorrect3) score++;
+        if (isCorrect4) score++;
+
+        document.getElementById("result1").innerText = isCorrect1 ? "✅ You betcha! That kangaroo was up to something!" : "❌ Nope, not quite! Think about what he was planning...";
+        document.getElementById("result1").className = isCorrect1 ? "correct" : "incorrect";
+
+        document.getElementById("result2").innerText = isCorrect2 ? "✅ Haha! You got it! Brownie was a goof!" : "❌ Not this time! The brown kangaroo was the silly one.";
+        document.getElementById("result2").className = isCorrect2 ? "correct" : "incorrect";
+
+        document.getElementById("result3").innerText = isCorrect3 ? "✅ Yummy! Gooey is the word!" : "❌ Almost! Think of sticky and sweet...";
+        document.getElementById("result3").className = isCorrect3 ? "correct" : "incorrect";
+
+        document.getElementById("result4a").innerText = (order1 === "3") ? "✅" : "❌";
+        document.getElementById("result4a").className = (order1 === "3") ? "correct" : "incorrect";
+        document.getElementById("result4b").innerText = (order2 === "1") ? "✅" : "❌";
+        document.getElementById("result4b").className = (order2 === "1") ? "correct" : "incorrect";
+        document.getElementById("result4c").innerText = (order3 === "2") ? "✅" : "❌";
+        document.getElementById("result4c").className = (order3 === "2") ? "correct" : "incorrect";
+
+        if (score === 4) {
+            successSound.play();
+        } else {
+            errorSound.play();
+        }
+
+        starEls.forEach((star, idx) => {
+            star.classList.toggle("active", idx < score);
+        });
+
+        document.getElementById("score-fill").style.width = `${score * 25}%`;
+
+        document.getElementById("result").innerText =
+            score === 4 ? "🎉 You're a Kangaroo Quiz Whiz! Perfect score! 🏆" : `You scored ${score}/4. Keep hopping and try again!`;
+
+        // Update quiz stats
+        let attempts = parseInt(localStorage.getItem('quiz-attempts')) || 0;
+        let scores = JSON.parse(localStorage.getItem('quiz-scores')) || [];
+        let overallScore = parseInt(localStorage.getItem('quiz-overall-score')) || 0;
+
+        attempts++;
+        scores.push(score);
+        overallScore += score;
+
+        localStorage.setItem('quiz-attempts', attempts.toString());
+        localStorage.setItem('quiz-scores', JSON.stringify(scores));
+        localStorage.setItem('quiz-overall-score', overallScore.toString());
+        localStorage.setItem("kangaroo-quiz-score", score);
+    });
+
+    // Reset functionality
+    document.getElementById("reset-btn").addEventListener("click", () => {
+        ["answer1", "answer2", "answer3"].forEach(id => document.getElementById(id).value = "");
+        ["order1", "order2", "order3"].forEach(id => document.getElementById(id).value = "0");
+        starEls.forEach(star => star.classList.remove("active"));
+        document.getElementById("score-fill").style.width = "0%";
+        document.getElementById("result").innerText = "";
+        document.getElementById("result1").innerText = "";
+        document.getElementById("result2").innerText = "";
+        document.getElementById("result3").innerText = "";
+        document.getElementById("result4a").innerText = "";
+        document.getElementById("result4b").innerText = "";
+        document.getElementById("result4c").innerText = "";
+        localStorage.removeItem("kangaroo-quiz-score");
+    });
+
+    // Restore previous score (will be reset on page load, so this will not apply)
+    const savedScore = parseInt(localStorage.getItem("kangaroo-quiz-score"));
+    if (!isNaN(savedScore)) {
+        starEls.forEach((star, idx) => {
+            star.classList.toggle("active", idx < savedScore);
+        });
+        document.getElementById("score-fill").style.width = `${savedScore * 25}%`;
+    }
+</script>
+</body>
+
+</html>

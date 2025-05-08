@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Story Categorization Game - Extended</title>
+    <style>
+        body {
+            background: #FFF4E6; /* A soft pastel cream background */
+            color: #4E342E; /* Dark brown text for contrast */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            position: relative;
+        }
+        h1 {
+            color: #6A1B9A;  /* Bold purple for headings */
+            margin-bottom: 10px;
+        }
+        p#instructions {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #BF360C;  /* A warm, bright orange-brown */
+        }
+        /* Sticker styles – decorative background images */
+        .sticker {
+            position: fixed;
+            z-index: 0;
+            width: 80px; /* Adjust size as needed */
+            pointer-events: none;
+            opacity: 0.9;
+        }
+        .sticker.sticker1 { top: 10px; left: 10px; }
+        .sticker.sticker2 { top: 10px; right: 10px; }
+        .sticker.sticker3 { bottom: 10px; left: 10px; }
+        .sticker.sticker4 { bottom: 10px; right: 10px; }
+        .sticker.sticker5 { top: 50%; left: 10px; transform: translateY(-50%); }
+        .sticker.sticker6 { top: 50%; right: 10px; transform: translateY(-50%); }
+        /* Container for drop zones */
+        .dropzone-container {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+        .dropzone {
+            border: 2px dashed #8E24AA;  /* Deep purple dashed border */
+            border-radius: 8px;
+            width: 45%;
+            min-height: 200px;
+            padding: 10px;
+            background: #C8E6C9;  /* Light pastel green */
+            position: relative;
+            z-index: 1;
+        }
+        .dropzone h2 {
+            margin-top: 0;
+            color: #1B5E20;  /* Dark green */
+        }
+        /* Card styles */
+        #cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .card {
+            background: #FFCC80;  /* Soft orange */
+            color: #BF360C;
+            padding: 10px;
+            border-radius: 6px;
+            width: 250px;
+            cursor: move;
+            transition: background 0.2s ease;
+            font-size: 16px;
+        }
+        .card:hover {
+            background: #FFB74D;  /* A brighter orange on hover */
+        }
+        button {
+            background-color: #F4511E;  /* A vivid, warm red-orange */
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #E64A19;  /* Slightly darker red-orange */
+        }
+        #result {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Decorative Stickers -->
+<img src="/images/mandus1.png" alt="Sticker 1" class="sticker sticker1">
+<img src="/images/mandus2.png" alt="Sticker 2" class="sticker sticker2">
+<img src="/images/mandus3.png" alt="Sticker 3" class="sticker sticker3">
+<img src="/images/mandus4.png" alt="Sticker 4" class="sticker sticker4">
+<img src="/images/mandus5.png" alt="Sticker 5" class="sticker sticker5">
+<img src="/images/mandus6.png" alt="Sticker 6" class="sticker sticker6">
+
+<h1>Story Categorization Game – Detailed Edition</h1>
+<p id="instructions">
+    Drag each detailed story card into the correct story zone: "Mandu’s Running Shoes" or "Anansi and the Talking Watermelon".
+</p>
+
+<div class="dropzone-container">
+    <div class="dropzone" data-category="mandu">
+        <h2>Mandu’s Running Shoes</h2>
+    </div>
+    <div class="dropzone" data-category="anansi">
+        <h2>Anansi and the Talking Watermelon</h2>
+    </div>
+</div>
+
+<div id="cards">
+    <!-- Mandu story cards -->
+    <div class="card" draggable="true" data-story="mandu">
+        Mandu was in Grade 4 and loved running, even though other children teased her for not having shoes.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        She wished for running shoes because her feet hurt on the hot ground.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        One Saturday, she went to the sports shop with her saved money.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        She saw the shoes but didn’t have enough money to buy them.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        Mrs Masondo said Mandu could have them for free if she won the race.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        Mandu trained hard every day, telling herself not to give up.
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        On race day, she was nervous but ran like the wind and won!
+    </div>
+    <div class="card" draggable="true" data-story="mandu">
+        She shouted with joy and looked at her new "magic" shoes.
+
+    </div>
+
+    <!-- Anansi story cards -->
+    <div class="card" draggable="true" data-story="anansi">
+        Anansi watched the elephant work in his watermelon patch.
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        Anansi broke off a thorn and made a hole in a big watermelon.
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        He squeezed in and ate until he was round and couldn’t get out.
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        Hearing the elephant return, Anansi planned to make the watermelon talk.
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        The elephant believed it and rushed to show the king.
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        The king was angry and threw the watermelon — it burst open!
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        Anansi was free and hungry again — he looked for bananas!
+    </div>
+    <div class="card" draggable="true" data-story="anansi">
+        He tricked the elephant again by pretending to be the "banana king".
+    </div>
+</div>
+
+<button id="checkButton">Check Answers</button>
+<p id="result"></p>
+
+<script>
+    // Same Drag & Drop logic as your current game
+    const cards = document.querySelectorAll('.card');
+    const dropzones = document.querySelectorAll('.dropzone');
+    let draggedCard = null;
+
+    cards.forEach(card => {
+        card.addEventListener('dragstart', (e) => {
+            draggedCard = card;
+            card.style.opacity = '0.5';
+        });
+        card.addEventListener('dragend', (e) => {
+            card.style.opacity = '1';
+            draggedCard = null;
+        });
+    });
+
+    dropzones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            zone.style.background = "#DCEDC8";
+        });
+        zone.addEventListener('dragleave', (e) => {
+            zone.style.background = "#C8E6C9";
+        });
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            zone.style.background = "#C8E6C9";
+            if (draggedCard) {
+                zone.appendChild(draggedCard);
+            }
+        });
+    });
+
+    document.getElementById('checkButton').addEventListener('click', () => {
+        let allCorrect = true;
+        dropzones.forEach(zone => {
+            const category = zone.getAttribute('data-category');
+            const zoneCards = zone.querySelectorAll('.card');
+            zoneCards.forEach(card => {
+                if (card.getAttribute('data-story') !== category) {
+                    allCorrect = false;
+                }
+            });
+        });
+        const resultEl = document.getElementById('result');
+        if (allCorrect) {
+            resultEl.textContent = "Great job! You’ve matched all story parts correctly!";
+            resultEl.style.color = "green";
+        } else {
+            resultEl.textContent = "Oops! Some cards are in the wrong story zone.";
+            resultEl.style.color = "red";
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Your Learning Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: grey;
+            text-align: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('/images/index_back.png'); /* Replace with your actual image path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            opacity: 0.6; /* Optional: control how visible it is behind content */
+        }
+
+
+        /* Sticker styles */
+        .sticker {
+            position: fixed;
+            z-index: 0;
+            opacity: 0.8;  /* Adjust opacity as needed */
+            pointer-events: none; /* Makes sure stickers don't interfere with clicks */
+        }
+        .sticker.sticker1 {
+            top: 10%;
+            left: 5%;
+            width: 100px;  /* Adjust width as needed */
+            transform: rotate(-10deg);
+        }
+        .sticker.sticker2 {
+            top: 20%;
+            right: 5%;
+            width: 120px;
+            transform: rotate(15deg);
+        }
+        .sticker.sticker3 {
+            bottom: 15%;
+            left: 10%;
+            width: 110px;
+            transform: rotate(-5deg);
+        }
+        .sticker.sticker4 {
+            bottom: 10%;
+            right: 10%;
+            width: 90px;
+            transform: rotate(20deg);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+        }
+
+        h1 {
+            color: #2c3e50;
+            background: #ffc107;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: black;
+            background: #ffc107;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .option {
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 150px;
+        }
+
+        .option:hover {
+            transform: scale(1.05);
+        }
+
+        .gaming { background-color: #007bff; }
+        .animation { background-color: #dc3545; }
+        .quizzes { background-color: #ffc107; color: #212529; }
+        .flashcards { background-color: #28a745; }
+        .audiobooks { background-color: #6f42c1; }
+
+        .footer {
+            margin-top: 40px;
+            background: #ffc107;
+            font-size: 14px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<!-- Main background image -->
+<div class="background-image"></div>
+
+<!-- Background stickers -->
+<img src="/images/index_umrella_sticker_back.jpg" alt="Sticker 1" class="sticker sticker1">
+<img src="/images/giraffe.jpg" alt="Sticker 2" class="sticker sticker2">
+<img src="/images/whats-next.png" alt="Sticker 3" class="sticker sticker3">
+<img src="/images/skeleton.png" alt="Sticker 4" class="sticker sticker4">
+
+<!-- Main content container -->
+<div class="container">
+    <h1>Welcome to Your Learning Hub!</h1>
+    <p><strong>4</strong> Interactive content types to enhance your learning experience: GRADE 3</p>
+    <div class="options">
+        <div class="option gaming" onclick="location.href='gamingDashboard.html'">Gaming</div>
+        <div class="option animation" onclick="location.href='animationDashboard.html'">Animation</div>
+        <div class="option quizzes" onclick="location.href='quizzesDashboard.html'">Quizzes</div>
+        <div class="option flashcards" onclick="location.href='flashcardDashboard.html'">Flashcards</div>
+        <div class="option audiobooks" onclick="location.href='audiobookDashboard.html'">Audiobooks</div>
+    </div>
+    <div class="footer">
+        Engaging content. Powered by your curiosity.
+    </div>
+</div>
+</body>
+</html>

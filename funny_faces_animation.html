@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Faces Recipe Animator</title>
+    <style>
+        /* Vibrant Color Palette for Kids */
+        :root {
+            --primary: hsl(0, 100%, 68%);
+            --secondary: #03f7e6;
+            --accent: #FFE66D;
+            --background: #F7FFF7;
+            --text: #292F36;
+            --highlight: #FF9F1C;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Marker Felt', sans-serif;
+            background-image: url(images/background.jpeg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text);
+            padding: 10px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            color: var(--primary);
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.3);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-top: 0;
+        }
+
+        .recipe-container {
+            width: 90%;
+            max-width: 800px;
+            background: var(--accent);
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            padding: 10px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .animation-viewport {
+            margin-top: 10px;
+            width: 100%;
+            height: 300px;
+            background-color: var(--background);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 3px dashed var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Image elements */
+        .anim-image {
+            position: absolute;
+            object-fit: contain;
+            background-color: transparent;
+            mix-blend-mode: multiply;
+            display: none; /* Initially hidden */
+        }
+
+        #bowl-img {
+            width: 150px;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #blue-icing-bowl-img {
+            width: 150px;
+            bottom: 50px;
+            left: 30%;
+            transform: translateX(-50%);
+        }
+
+        #yellow-icing-bowl-img {
+            width: 180px;
+            bottom: 50px;
+            left: 70%;
+            transform: translateX(-50%);
+        }
+
+        #sieve-img {
+            width: 100px;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        #knife-img {
+            width: 120px;
+            bottom: 100px;
+            left: -130px;
+            transform: rotate(15deg);
+            z-index: 3;
+        }
+
+        #icing-img {
+            width: 100px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        #spread-icing-img {
+            width: 150px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        #decorated-biscuit-img {
+            width: 150px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        #final-biscuit-img {
+            width: 150px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        #smooth-icing-img {
+            width: 100px;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        /* Sugar particles */
+        .sugar-particle {
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="white" stroke="%23FF6B6B" stroke-width="2"/></svg>');
+            background-size: contain;
+            filter: drop-shadow(0 0 2px white);
+        }
+
+        /* Water particles */
+        .water-particle {
+            width: 10px;
+            height: 10px;
+            position: absolute;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="45" fill="%234ECDC4" stroke="%23292F36" stroke-width="2"/></svg>');
+            background-size: contain;
+        }
+
+        /* Emoji decoration */
+        .emoji {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .step-counter {
+            background-color: var(--secondary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+        }
+
+        /* Instructions */
+        .step-instruction {
+            background-color: var(--highlight);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        #step-title {
+            color: var(--secondary);
+            margin-top: 0;
+        }
+
+        #step-description {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        /* Speech Controls */
+        .speech-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .voice-select {
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 2px solid var(--secondary);
+            font-family: inherit;
+        }
+
+        /* Decoration elements */
+        .decoration {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            opacity: 0;
+            background-size: contain;
+        }
+
+        .smartie {
+            background-color: #FF5252;
+            background-image: none;
+        }
+
+        .jelly {
+            background-color: #4ECDC4;
+            background-image: none;
+        }
+
+        .lace {
+            background-color: #FFE66D;
+            background-image: none;
+            border-radius: 5px;
+            width: 40px;
+            height: 5px;
+        }
+
+        /* Accessibility features */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+
+        /* Loading state */
+        .loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: loading 1.5s infinite;
+            z-index: 10;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .animation-viewport {
+                height: 250px;
+            }
+
+            .btn {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+
+            /* Adjust image sizes for mobile */
+            #bowl-img, #blue-icing-bowl-img {
+                width: 120px;
+            }
+
+            #yellow-icing-bowl-img {
+                width: 150px;
+            }
+
+            #sieve-img {
+                width: 80px;
+            }
+
+            #knife-img {
+                width: 100px;
+            }
+
+            #icing-img, #spread-icing-img, #decorated-biscuit-img, #final-biscuit-img {
+                width: 120px;
+            }
+
+            #smooth-icing-img {
+                width: 80px;
+            }
+
+            .speech-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .emoji {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .recipe-container {
+                padding: 15px;
+            }
+
+            .step-instruction {
+                padding: 15px;
+            }
+
+            .btn {
+                padding: 8px 12px;
+            }
+
+            #bowl-img, #blue-icing-bowl-img {
+                width: 100px;
+            }
+
+            #yellow-icing-bowl-img {
+                width: 130px;
+            }
+
+            #sieve-img {
+                width: 70px;
+            }
+
+            #icing-img, #spread-icing-img, #decorated-biscuit-img, #final-biscuit-img {
+                width: 100px;
+            }
+
+            #smooth-icing-img {
+                width: 70px;
+            }
+
+            .emoji {
+                font-size: 14px;
+            }
+        }
+
+        /* Animation Classes */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .bounce {
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes emojiPop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .emoji-pop {
+            animation: emojiPop 0.5s ease forwards;
+        }
+        .quiz-link {
+            top: 20px;
+            right: 60px;
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .quiz-link:hover {
+            background-color: #FF5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+    </style>
+</head>
+<body>
+<h1>Funny Faces Recipe</h1>
+<p class="subtitle">Let's make delicious funny face biscuits!</p>
+
+<div class="recipe-container">
+
+    <div class="animation-viewport" id="animation-scene" aria-live="polite" aria-atomic="true">
+        <span class="sr-only" id="animation-description">Animation showing the current recipe step</span>
+        <!-- Image elements for animation with local images -->
+        <img id="bowl-img" class="anim-image" src="images/bowl.jpg" alt="Mixing bowl">
+        <img id="blue-icing-bowl-img" class="anim-image" src="images/blue icing sugar.png" alt="Bowl with blue icing">
+        <img id="yellow-icing-bowl-img" class="anim-image" src="images/yellow_icing.png" alt="Bowl with yellow icing">
+        <img id="sieve-img" class="anim-image" src="images/siftting.jpg" alt="Sieve">
+        <img id="knife-img" class="anim-image" src="images/knife.jpg" alt="Knife">
+        <img id="icing-img" class="anim-image" src="images/cookie.jpg" alt="Icing">
+        <img id="spread-icing-img" class="anim-image" src="images/cookie_spread_icing.jpg" alt="Biscuit with spread icing">
+        <img id="decorated-biscuit-img" class="anim-image" src="images/faces buiscuits.jpg" alt="Decorated biscuit">
+        <img id="final-biscuit-img" class="anim-image" src="images/enjoy.jpeg" alt="Final funny face biscuit">
+        <img id="smooth-icing-img" class="anim-image" src="images/smooth icing.jpg" alt="Smoothly mixed icing">
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-circle" id="prev-step" aria-label="Previous step">←</button>
+        <button class="btn btn-circle" id="play-pause" aria-label="Play animation">▶</button>
+        <button class="btn btn-circle" id="next-step" aria-label="Next step">→</button>
+        <div class="step-counter">Step <span id="current-step">1</span>/6</div>
+        <a href="funny_faces_quiz.html" class="quiz-link">Take a Quiz</a>
+        <a href="funny_faces_flashcards.html" class="quiz-link">Take a Lesson</a>
+    </div>
+
+    <div class="step-instruction">
+        <h3 id="step-title">Sift the icing sugar</h3>
+        <p id="step-description">Sift the icing sugar into a bowl.</p>
+
+        <div class="speech-controls">
+            <button class="btn" id="speak-btn" aria-label="Read current step aloud">Read Step</button>
+            <select class="voice-select" id="voice-select" aria-label="Select voice">
+                <option value="">Default Voice</option>
+            </select>
+            <button class="btn" id="stop-speech" aria-label="Stop speech">Stop</button>
+        </div>
+    </div>
+
+    <div class="sr-only" aria-live="polite" id="step-announcer"></div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Recipe steps data
+        const steps = [
+            {
+                title: "Sift the icing sugar",
+                description: "Sift the icing sugar into a bowl.",
+                animation: animateSifting,
+                ariaDescription: "Animation showing sifting icing sugar into a bowl"
+            },
+            {
+                title: "Add water and mix",
+                description: "Add water to the icing sugar and mix until smooth.",
+                animation: animateMixing,
+                ariaDescription: "Animation showing pouring water, mixing, and smooth icing"
+            },
+            {
+                title: "Divide and color",
+                description: "Divide the icing mixture into 2 bowls. Add the blue colouring to one bowl and the yellow to the other.",
+                animation: animateColoring,
+                ariaDescription: "Animation showing dividing icing into two colored bowls"
+            },
+            {
+                title: "Spread on biscuits",
+                description: "Use a blunt knife to spread the icing mixture onto the biscuits.",
+                animation: animateSpreading,
+                ariaDescription: "Animation showing spreading icing on biscuits"
+            },
+            {
+                title: "Decorate faces",
+                description: "Decorate the biscuits to look like faces using the Smarties, JellyTots and the shoelaces. Leave to set.",
+                animation: animateDecorating,
+                ariaDescription: "Animation showing decorating biscuits with candy faces"
+            },
+            {
+                title: "Enjoy your treat!",
+                description: "Let the icing set, then enjoy your funny face biscuits!",
+                animation: animateCelebration,
+                ariaDescription: "Animation showing final funny face biscuit with happy emojis"
+            }
+        ];
+
+        // DOM elements
+        const scene = document.getElementById('animation-scene');
+        const animationDescription = document.getElementById('animation-description');
+        const stepTitle = document.getElementById('step-title');
+        const stepDesc = document.getElementById('step-description');
+        const currentStepDisplay = document.getElementById('current-step');
+        const prevBtn = document.getElementById('prev-step');
+        const nextBtn = document.getElementById('next-step');
+        const playBtn = document.getElementById('play-pause');
+        const speakBtn = document.getElementById('speak-btn');
+        const stopBtn = document.getElementById('stop-speech');
+        const voiceSelect = document.getElementById('voice-select');
+
+        // Image elements
+        const bowlImg = document.getElementById('bowl-img');
+        const blueIcingBowlImg = document.getElementById('blue-icing-bowl-img');
+        const yellowIcingBowlImg = document.getElementById('yellow-icing-bowl-img');
+        const sieveImg = document.getElementById('sieve-img');
+        const knifeImg = document.getElementById('knife-img');
+        const icingImg = document.getElementById('icing-img');
+        const spreadIcingImg = document.getElementById('spread-icing-img');
+        const decoratedBiscuitImg = document.getElementById('decorated-biscuit-img');
+        const finalBiscuitImg = document.getElementById('final-biscuit-img');
+        const smoothIcingImg = document.getElementById('smooth-icing-img');
+
+        // Speech synthesis variables
+        let speechSynthesis = window.speechSynthesis;
+        let voices = [];
+        let currentUtterance = null;
+
+        // State variables
+        let currentStep = 0;
+        let isPlaying = false;
+        let playInterval;
+        let animationTimeout;
+
+        // Initialize
+        updateStepDisplay();
+        steps[currentStep].animation();
+        populateVoiceList();
+
+        // Event listeners
+        prevBtn.addEventListener('click', goToPreviousStep);
+        nextBtn.addEventListener('click', goToNextStep);
+        playBtn.addEventListener('click', togglePlay);
+        speakBtn.addEventListener('click', speakCurrentStep);
+        stopBtn.addEventListener('click', stopSpeech);
+        voiceSelect.addEventListener('change', setVoice);
+
+        // Load available voices
+        function populateVoiceList() {
+            if (!speechSynthesis) return;
+            voices = speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                updateVoiceList();
+            } else {
+                speechSynthesis.onvoiceschanged = function() {
+                    voices = speechSynthesis.getVoices();
+                    updateVoiceList();
+                };
+            }
+        }
+
+        function updateVoiceList() {
+            voiceSelect.innerHTML = '<option value="">Default Voice</option>';
+
+            voices.forEach(voice => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.setAttribute('data-name', voice.name);
+                option.setAttribute('data-lang', voice.lang);
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        // Text-to-speech functions
+        function speakCurrentStep(callback) {
+            if (!speechSynthesis) {
+                if (callback) callback();
+                return;
+            }
+
+            stopSpeech();
+
+            const step = steps[currentStep];
+            const text = `${step.title}. ${step.description}`;
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+
+            const selectedOption = voiceSelect.selectedOptions[0];
+            if (selectedOption.value) {
+                const selectedVoice = voices.find(voice =>
+                    voice.name === selectedOption.getAttribute('data-name') &&
+                    voice.lang === selectedOption.getAttribute('data-lang')
+                );
+                if (selectedVoice) {
+                    currentUtterance.voice = selectedVoice;
+                }
+            }
+
+            currentUtterance.rate = 0.9;
+            currentUtterance.pitch = 1.2;
+
+            currentUtterance.onend = function() {
+                currentUtterance = null;
+                if (callback) callback();
+            };
+
+            speechSynthesis.speak(currentUtterance);
+        }
+
+        function stopSpeech() {
+            if (speechSynthesis) {
+                speechSynthesis.cancel();
+            }
+        }
+
+        function setVoice() {
+            if (currentUtterance && speechSynthesis) {
+                const selectedOption = voiceSelect.selectedOptions[0];
+                if (selectedOption.value) {
+                    const selectedVoice = voices.find(voice =>
+                        voice.name === selectedOption.getAttribute('data-name') &&
+                        voice.lang === selectedOption.getAttribute('data-lang')
+                    );
+                    if (selectedVoice) {
+                        currentUtterance.voice = selectedVoice;
+                        stopSpeech();
+                        speechSynthesis.speak(currentUtterance);
+                    }
+                }
+            }
+        }
+
+        // Animation functions
+        function animateSifting() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            sieveImg.style.display = 'block';
+            bowlImg.style.display = 'block';
+
+            sieveImg.style.top = '50px';
+            bowlImg.style.bottom = '50px';
+
+            const animation = [
+                { transform: 'translateX(-50%) rotate(0deg)', top: '50px' },
+                { transform: 'translateX(-50%) rotate(10deg)', top: '60px' },
+                { transform: 'translateX(-50%) rotate(-10deg)', top: '50px' }
+            ];
+
+            const timing = {
+                duration: 1000,
+                iterations: 3
+            };
+
+            sieveImg.animate(animation, timing).onfinish = function() {
+                createSugarParticles();
+            };
+        }
+
+        function createSugarParticles() {
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'sugar-particle';
+                particle.setAttribute('aria-hidden', 'true');
+                particle.style.left = `${45 + Math.random() * 10}%`;
+                particle.style.top = '80px';
+                scene.appendChild(particle);
+
+                particle.animate(
+                    [
+                        { top: '80px', opacity: 1 },
+                        { top: '180px', opacity: 0 }
+                    ],
+                    {
+                        duration: 800 + Math.random() * 500,
+                        delay: i * 50
+                    }
+                ).onfinish = () => particle.remove();
+            }
+        }
+
+        function animateMixing() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            bowlImg.style.display = 'block';
+            knifeImg.style.display = 'block';
+            smoothIcingImg.style.display = 'block';
+
+            bowlImg.style.bottom = '50px';
+            knifeImg.style.bottom = '100px';
+            knifeImg.style.left = '50%';
+            knifeImg.style.transform = 'translateX(-50%) rotate(15deg)';
+            smoothIcingImg.style.opacity = '0';
+
+            // Pour water
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'water-particle';
+                particle.setAttribute('aria-hidden', 'true');
+                particle.style.left = `${50 + Math.random() * 5}%`;
+                particle.style.top = '20px';
+                scene.appendChild(particle);
+
+                particle.animate(
+                    [
+                        { top: '20px', opacity: 1 },
+                        { top: '150px', opacity: 0 }
+                    ],
+                    {
+                        duration: 1000,
+                        delay: i * 100
+                    }
+                ).onfinish = () => particle.remove();
+            }
+
+            // Stirring after water
+            setTimeout(() => {
+                knifeImg.animate(
+                    [
+                        { transform: 'translateX(-50%) rotate(15deg)' },
+                        { transform: 'translateX(-50%) rotate(-15deg)' },
+                        { transform: 'translateX(-50%) rotate(15deg)' }
+                    ],
+                    {
+                        duration: 1500,
+                        iterations: 2
+                    }
+                ).onfinish = () => {
+                    // Show smooth icing image
+                    smoothIcingImg.animate(
+                        [
+                            { opacity: 0, transform: 'scale(0.5)' },
+                            { opacity: 1, transform: 'scale(1)' }
+                        ],
+                        {
+                            duration: 1000,
+                            fill: 'forwards'
+                        }
+                    );
+                };
+            }, 2000);
+        }
+
+        function animateColoring() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            blueIcingBowlImg.style.display = 'block';
+            yellowIcingBowlImg.style.display = 'block';
+
+            const fadeIn = [
+                { opacity: 0 },
+                { opacity: 1 }
+            ];
+
+            blueIcingBowlImg.animate(fadeIn, { duration: 1000, fill: 'forwards' });
+            yellowIcingBowlImg.animate(fadeIn, { duration: 1000, fill: 'forwards', delay: 500 });
+        }
+
+        function animateSpreading() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            spreadIcingImg.style.display = 'block';
+            knifeImg.style.display = 'block';
+
+            spreadIcingImg.style.opacity = '0';
+            knifeImg.style.left = '50%';
+            knifeImg.style.transform = 'translateX(-50%) rotate(15deg)';
+
+            const spreadAnim = knifeImg.animate(
+                [
+                    { transform: 'translateX(-50%) rotate(15deg)', left: '40%' },
+                    { transform: 'translateX(-50%) rotate(-15deg)', left: '60%' }
+                ],
+                {
+                    duration: 1000,
+                    iterations: 3
+                }
+            );
+
+            spreadAnim.onfinish = function() {
+                spreadIcingImg.animate(
+                    [
+                        { opacity: 0 },
+                        { opacity: 1 }
+                    ],
+                    {
+                        duration: 500,
+                        fill: 'forwards'
+                    }
+                );
+            };
+        }
+
+        function animateDecorating() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            decoratedBiscuitImg.style.display = 'block';
+
+            decoratedBiscuitImg.style.opacity = '0';
+
+            decoratedBiscuitImg.animate(
+                [
+                    { opacity: 0 },
+                    { opacity: 1 }
+                ],
+                {
+                    duration: 1000,
+                    fill: 'forwards'
+                }
+            );
+
+            // Add happy emojis on top and across the div
+            const emojis = ['😊', '🥳', '🎉'];
+            for (let i = 0; i < 15; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.setAttribute('aria-hidden', 'true');
+
+                // Position: some near biscuit, others scattered
+                if (i < 5) {
+                    // Near biscuit
+                    emoji.style.left = `${45 + Math.random() * 10}%`;
+                    emoji.style.top = `${100 + Math.random() * 50}px`;
+                } else {
+                    // Scattered across div
+                    emoji.style.left = `${Math.random() * 100}%`;
+                    emoji.style.top = `${Math.random() * 250}px`;
+                }
+
+                scene.appendChild(emoji);
+
+                setTimeout(() => {
+                    emoji.classList.add('emoji-pop');
+                }, i * 200);
+            }
+        }
+
+        function animateCelebration() {
+            clearScene();
+            updateAnimationDescription(steps[currentStep].ariaDescription);
+
+            finalBiscuitImg.style.display = 'block';
+
+            finalBiscuitImg.style.opacity = '0';
+
+            finalBiscuitImg.animate(
+                [
+                    { opacity: 0, transform: 'scale(0.5)' },
+                    { opacity: 1, transform: 'scale(1)' }
+                ],
+                {
+                    duration: 1000,
+                    fill: 'forwards'
+                }
+            );
+
+            // Add scattered happy emojis
+            const emojis = ['😊', '🥳', '🎉'];
+            for (let i = 0; i < 20; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.setAttribute('aria-hidden', 'true');
+                emoji.style.left = `${Math.random() * 100}%`;
+                emoji.style.top = `${Math.random() * 250}px`;
+                scene.appendChild(emoji);
+
+                emoji.animate(
+                    [
+                        { transform: 'translateY(0) scale(0)', opacity: 0 },
+                        { transform: 'translateY(-20px) scale(1)', opacity: 1 }
+                    ],
+                    {
+                        duration: 1000,
+                        delay: i * 100,
+                        fill: 'forwards'
+                    }
+                ).onfinish = () => {
+                    emoji.animate(
+                        [
+                            { transform: 'translateY(-20px)' },
+                            { transform: 'translateY(-40px)', opacity: 0 }
+                        ],
+                        {
+                            duration: 1000,
+                            delay: Math.random() * 500
+                        }
+                    ).onfinish = () => emoji.remove();
+                };
+            }
+        }
+
+        function getRandomColor() {
+            const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#FF9F1C', '#A5D8FF'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function clearScene() {
+            clearTimeout(animationTimeout);
+
+            [bowlImg, blueIcingBowlImg, yellowIcingBowlImg, sieveImg, knifeImg, icingImg, spreadIcingImg, decoratedBiscuitImg, finalBiscuitImg, smoothIcingImg].forEach(img => {
+                img.getAnimations().forEach(anim => anim.cancel());
+                img.style.display = 'none';
+            });
+
+            document.querySelectorAll('#animation-scene > div:not(.anim-image)').forEach(el => el.remove());
+
+            bowlImg.style.left = '50%';
+            bowlImg.style.filter = 'none';
+            blueIcingBowlImg.style.filter = 'none';
+            yellowIcingBowlImg.style.filter = 'none';
+            icingImg.style.opacity = '0';
+            icingImg.style.width = '100px';
+            spreadIcingImg.style.opacity = '0';
+            decoratedBiscuitImg.style.opacity = '0';
+            finalBiscuitImg.style.opacity = '0';
+            smoothIcingImg.style.opacity = '0';
+            knifeImg.style.left = '-130px';
+            knifeImg.style.transform = 'rotate(15deg)';
+            sieveImg.style.top = '50px';
+            sieveImg.style.transform = 'translateX(-50%)';
+        }
+
+        function updateAnimationDescription(text) {
+            animationDescription.textContent = text;
+        }
+
+        // Navigation functions
+        function goToNextStep() {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateStepDisplay();
+                steps[currentStep].animation();
+                speakCurrentStep();
+            } else if (isPlaying) {
+                isPlaying = false;
+                playBtn.textContent = '▶';
+                playBtn.setAttribute('aria-label', 'Play animation');
+                clearInterval(playInterval);
+            }
+        }
+
+        function goToPreviousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepDisplay();
+                steps[currentStep].animation();
+                speakCurrentStep();
+            }
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+
+            if (isPlaying) {
+                playBtn.textContent = '❚❚';
+                playBtn.setAttribute('aria-label', 'Pause animation');
+                steps[currentStep].animation();
+                speakCurrentStep(() => {
+                    if (isPlaying) autoPlay();
+                });
+            } else {
+                playBtn.textContent = '▶';
+                playBtn.setAttribute('aria-label', 'Play animation');
+                clearInterval(playInterval);
+                stopSpeech();
+            }
+        }
+
+        function autoPlay() {
+            if (!isPlaying) return;
+
+            const animationDuration = 3000; // Reduced for faster transitions
+
+            // Wait for both animation and speech
+            const proceedToNextStep = () => {
+                if (!isPlaying) return;
+
+                if (currentStep >= steps.length - 1) {
+                    currentStep = -1;
+                    isPlaying = false;
+                    playBtn.textContent = '▶';
+                    playBtn.setAttribute('aria-label', 'Play animation');
+                    return;
+                }
+
+                goToNextStep();
+
+                if (isPlaying) {
+                    steps[currentStep].animation();
+                    speakCurrentStep(() => {
+                        if (isPlaying) autoPlay();
+                    });
+                }
+            };
+
+            // Schedule next step after animation duration or speech end
+            playInterval = setTimeout(proceedToNextStep, animationDuration);
+        }
+
+        function updateStepDisplay() {
+            stepTitle.textContent = steps[currentStep].title;
+            stepDesc.textContent = steps[currentStep].description;
+            currentStepDisplay.textContent = currentStep + 1;
+            document.getElementById('step-announcer').textContent = `Step ${currentStep + 1}: ${steps[currentStep].title}`;
+        }
+    });
+</script>
+</body>
+</html>

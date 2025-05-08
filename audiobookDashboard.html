@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Audiobooks Library</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ede7f6, #ffffff);
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #6f42c1;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 18px;
+      color: #444;
+      margin-bottom: 30px;
+    }
+
+    .audiobook-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .audiobook-card {
+      width: 90%;
+      max-width: 700px;
+      background-color: #f3e5f5;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: left;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .audiobook-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #4a148c;
+      margin-bottom: 10px;
+    }
+
+    audio {
+      width: 100%;
+      outline: none;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Audiobooks Library</h1>
+  <p>Listen and learn with our collection of educational audiobooks!</p>
+
+  <div class="audiobook-list">
+    <div class="audiobook-card">
+      <div class="audiobook-title">The Solar System</div>
+      <audio controls>
+        <source src="./audio/solar-system.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <div class="audiobook-card">
+      <div class="audiobook-title">Grammar Basics</div>
+      <audio controls>
+        <source src="./audio/grammar-basics.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <div class="audiobook-card">
+      <div class="audiobook-title">Math Tips & Tricks</div>
+      <audio controls>
+        <source src="./audio/math-tricks.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <div class="audiobook-card">
+      <div class="audiobook-title">Story: The Clever Rabbit</div>
+      <audio controls>
+        <source src="./audio/clever-rabbit.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <div class="audiobook-card">
+      <div class="audiobook-title">How the Kangaroos Got Their Tails</div>
+      <audio controls>
+        <source src="./audio/WhatsApp Audio 2025-04-22 at 10.46.55_f5a0a70b.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <div class="footer">
+    Keep listening, keep learning!
+  </div>
+</div>
+</body>
+</html>

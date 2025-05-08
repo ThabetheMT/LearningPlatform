@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Flashcards by Book</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: burlywood;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: palegoldenrod;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 36px;
+            color: #1976d2; /* Primary Blue */
+            margin-bottom: 10px;
+        }
+        .buttons {
+            margin-bottom: 30px;
+        }
+        .buttons button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            background-color: #f44336; /* Primary Red */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .buttons button:hover {
+            background-color: #d32f2f;
+        }
+
+        .flashcard-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 400px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 0 auto;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flip .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .flashcard-front {
+            background-color: #ffeb3b; /* Primary Yellow */
+            color: #000;
+        }
+
+        .flashcard-back {
+            background-color: #4caf50; /* Primary Green */
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .nav-buttons {
+            margin-top: 10px;
+        }
+
+        .nav-buttons button {
+            margin: 0 10px;
+            padding: 8px 16px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            background-color: #1976d2; /* Primary Blue */
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #0d47a1;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Flashcards</h1>
+    <p>Click a book to start, then flip the card and navigate!</p>
+
+    <div class="buttons">
+        <button onclick="location.href='funny_faces_flashcards.html'">Funny Faces</button>
+        <button onclick="selectBook('toast')">Hot Toast Coming</button>
+        <button onclick="selectBook('mandu')">Mandu’s Running Shoes</button>
+        <button onclick="selectBook('monster')">Monster in My Cupboard</button>
+        <button onclick="location.href='kangarooFlashcard.html'">How the Kangaroos Got Their Tails</button>
+    </div>
+
+    <div class="flashcard-wrapper">
+        <div class="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner" id="cardInner">
+                <div class="flashcard-front" id="cardFront"></div>
+                <div class="flashcard-back" id="cardBack"></div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="nav-buttons">
+        <button onclick="prevCard()">Prev</button>
+        <button onclick="nextCard()">Next </button>
+    </div>
+
+    <div class="footer">
+        Flip and learn one card at a time!
+    </div>
+</div>
+
+<script>
+    const flashcards = {
+        funny: [
+            { front: "What is the first step in making funny face biscuits?", back: "Sift icing sugar into a bowl and add water" },
+            { front: "How do you create different colours for the icing?", back: "Divide icing and add blue to one bowl, yellow to the other" },
+            { front: "What is used to decorate the funny faces?", back: "Smarties®, Jelly Tots®, and laces" },
+            { front: "What should you do after decorating the biscuits?", back: "Leave them to set" },
+            { front: "What skills does it build?", back: "Creativity and fun with food" },
+            { front: "What do you need to decorate the cupcakes?", back: "Icing, Smarties®, and sprinkles" },
+            { front: "At what temperature are the cupcakes baked?", back: "180°C for 20–30 minutes" },
+            { front: "Why do you use a sieve when baking?", back: "To mix flour and baking powder evenly and remove lumps" },
+            { front: "What ingredients are used to make cupcake batter?", back: "Flour, sugar, baking powder, margarine, milk, eggs, vanilla" },
+            { front: "What should be done before spreading icing on cupcakes?", back: "Let the cupcakes cool after baking" }
+        ],
+        toast: [
+            { front: "What is 'Hot Toast Coming Up!' about?", back: "A girl named Sibongile caring for her sick mother" },
+            { front: "What does Sibongile try to make for her mom?", back: "Hot toast" },
+            { front: "Why does the toast keep going cold?", back: "Sibongile keeps forgetting about it" },
+            { front: "What does Sibongile make out of an old sock?", back: "A red sock puppet monster" },
+            { front: "What does Sibongile do with the monster puppet?", back: "Performs a puppet show to cheer up her mom" },
+            { front: "What sound repeats in the story?", back: "“Hot toast coming!”" },
+            { front: "What lesson can be learned from the story?", back: "Kindness and caring for loved ones" },
+            { front: "What is 'How the Moon Became Happy' about?", back: "A lonely moon who finds joy in listening to stories" },
+            { front: "Why was the moon sad at first?", back: "Because it was stuck in the sky, alone and unable to hear stories" },
+            { front: "How did the moon become happy again?", back: "Mother Sky brought the moon closer to hear stories from Earth" },
+            { front: "What do stars and the moon symbolize in the story?", back: "Listeners and sharers of stories and joy" },
+            { front: "What message does the moon story teach?", back: "Stories bring joy and connect us" }
+        ],
+        mandu: [
+            { front: "What grade was Mandu in and where did she go to school?", back: "Grade 4 at Greenway Primary School in Durban" },
+            { front: "Why did Mandu wish she had running shoes?", back: "Because her feet hurt on hot ground and other children teased her" },
+            { front: "Why couldn't Mandu buy the shoes at first?", back: "She didn't have enough money to buy them" },
+            { front: "What offer did Mrs Masondo make?", back: "If Mandu won the race, she could get the shoes for free" },
+            { front: "How did Mandu prepare for the race?", back: "She practiced running every day until her legs ached" },
+            { front: "What happened on the day of the race?", back: "Mandu was nervous but ran fast and won the race" },
+            { front: "How did Mandu feel after the race?", back: "Joyful and proud to own the magic running shoes" }
+        ],
+        monster: [
+            { front: "What does the child fear?", back: "A monster in the cupboard" },
+            { front: "What is the story really about?", back: "Imagination and overcoming fear" },
+            { front: "Why did John's mom tell him to stop playing Nintendo?", back: "It was bedtime and he needed to sleep" },
+            { front: "What strange noises did John hear?", back: "Scratching and bumping from the cupboard" },
+            { front: "What did John think was inside the cupboard?", back: "A monster or a prehistoric dinosaur" },
+            { front: "How did John try to stop the cupboard from opening?", back: "He slammed the door shut and pushed a chair against it" },
+            { front: "What did Robert think was happening at first?", back: "He thought John was dreaming about his game" },
+            { front: "What did they see when they opened the cupboard?", back: "Two glowing eyes and then something jumped out" },
+            { front: "What was the monster actually?", back: "It was John’s cat hiding in the cupboard" },
+            { front: "What is the story really about?", back: "A child’s imagination and how fear can be caused by it" }
+        ]
+    };
+
+    let currentBook = "funny";
+    let currentIndex = 0;
+    let flipped = false;
+
+    function renderCard() {
+        const card = flashcards[currentBook][currentIndex];
+        document.getElementById("cardFront").innerText = card.front;
+        document.getElementById("cardBack").innerText = card.back;
+        document.getElementById("cardInner").parentElement.classList.remove("flip");
+        flipped = false;
+    }
+
+    function selectBook(bookKey) {
+        currentBook = bookKey;
+        currentIndex = 0;
+        renderCard();
+    }
+
+    function nextCard() {
+        if (currentIndex < flashcards[currentBook].length - 1) {
+            currentIndex++;
+            renderCard();
+        }
+    }
+
+    function prevCard() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            renderCard();
+        }
+    }
+
+    function flipCard() {
+        flipped = !flipped;
+        document.getElementById("cardInner").parentElement.classList.toggle("flip");
+    }
+
+    // Initialize
+    renderCard();
+</script>
+</body>
+</html>

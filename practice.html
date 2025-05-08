@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garden Adventure Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .quiz-container {
+            background: white;
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+<div class="quiz-container">
+    <h1>🌿 Garden Adventure Quiz 🌿</h1>
+    <p>Answer the questions below and test your comprehension!</p>
+
+    <form id="quiz-form">
+        <div class="question">
+            <label>1. Who was Ollie visiting?</label>
+            <input type="text" id="q1">
+        </div>
+
+        <div class="question">
+            <label>2. How many times did he visit the bottom of the garden?</label>
+            <input type="number" id="q2">
+        </div>
+
+        <div class="question">
+            <label>3. Where did he think the old bone came from?</label>
+            <input type="text" id="q3">
+        </div>
+
+        <div class="question">
+            <label>4. On which trip did he discover the pottery?</label>
+            <input type="text" id="q4">
+        </div>
+
+        <div class="question">
+            <label>5. How do you think the shell got into the garden?</label>
+            <textarea id="q5" placeholder="Your answer..."></textarea>
+        </div>
+
+        <button type="button" onclick="checkAnswers()">Submit Answers</button>
+    </form>
+
+    <div id="result"></div>
+</div>
+
+<script>
+
+    function checkAnswers() {
+        // Correct answers
+        let answers = {
+            q1: "Aunty Kate",
+            q2: "4",
+            q3: "A Dinosaur",
+            q4: "Fourth trip"
+        };
+
+        let score = 0;
+
+        // Get user answers
+        let userAnswers = {
+            q1: document.getElementById("q1").value.trim(),
+            q2: document.getElementById("q2").value.trim(),
+            q3: document.getElementById("q3").value.trim(),
+            q4: document.getElementById("q4").value.trim(),
+            q5: document.getElementById("q5").value.trim()  // Open-ended question
+        };
+
+        // Check answers
+        if (userAnswers.q1.toLowerCase() === answers.q1.toLowerCase()) score++;
+        if (userAnswers.q2 === answers.q2) score++;
+        if (userAnswers.q3.toLowerCase() === answers.q3.toLowerCase()) score++;
+        if (userAnswers.q4.toLowerCase() === answers.q4.toLowerCase()) score++;
+
+        // Display result
+        let resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `✅ You got ${score} out of 4 correct!`;
+
+        // Encourage open-ended answer
+        if (userAnswers.q5) {
+            resultDiv.innerHTML += `<br>📝 Your opinion on the shell: <em>${userAnswers.q5}</em>`;
+        }
+    }
+
+</script>
+</body>
+</html>

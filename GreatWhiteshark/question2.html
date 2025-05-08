@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 2 - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class = "container">
+    <h1>The Great White Shark Intel</h1>
+        <div class="sec-pic">
+            <img src="https://github.com/Tishetso/Shark-items/blob/main/great%20white%20shark.gif?raw=true" alt="Great White Sharks" >
+            <p class="great-shark">The Great White Shark</p>
+            <!-- Audio controls with icons -->
+        </div >
+    
+    <!-- Audio controls with icons -->
+    <div class="audio-container">
+        <button onclick="playAudio()" title="Play">▶️</button>
+        <button onclick="pauseAudio()" title="Pause">⏸️</button>
+        <button onclick="restartAudio()" title="Restart">🔄</button>
+        <audio id="shark-audio" src="recVideo/voiceOver.mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    
+    <!--button onclick="restartQuiz()">Restart Quiz</button-->
+    <div class="timer" id="timer">Time Remaining: 10:00</div>
+    <div class="quiz">
+        <div class = "word-center">
+        <h2>Test Your Shark Knowledge!</h2>
+     
+
+        <div class="question">
+            <p>2. How many teeth can a great white shark have? <span class="reveal-icon" id="icon-2" onclick="toggleOptions(2)">👁️</span></p>
+            <div class="radio-options" id="options-2">
+                <input type="radio" name="q2" value="a" id="q2a" onchange="saveAnswer('q2', this.value)"> a) Up to 50<br>
+                <input type="radio" name="q2" value="b" id="q2b" onchange="saveAnswer('q2', this.value)"> b) Up to 300<br>
+                <input type="radio" name="q2" value="c" id="q2c" onchange="saveAnswer('q2', this.value)"> c) Up to 1000<br>
+            </div>
+         </div>
+
+        <div id="navigation-section">
+            <button onclick="window.location.href='question1.html'">Previous</button>
+            <button onclick="window.location.href='question3.html'">Next</button>
+        </div>
+    </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+    <script>
+        // Load saved answer
+        const savedAnswer = loadAnswer('q2');
+        if (savedAnswer) {
+            document.querySelector(`input[name="q2"][value="${savedAnswer}"]`).checked = true;
+            const options = document.getElementById('options-2');
+            options.classList.add('visible');
+        }
+        updateTimer();
+    </script>
+</body>
+</html>

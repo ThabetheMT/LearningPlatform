@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Console user - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       
+        #navigation-section{
+            margin-bottom: 20px;
+        }
+
+        #navigation-section button{
+            border-color:yellow;
+        }
+        .console{
+            border-radius:0px;
+        }
+        .vid-text{
+            justify-content: center;
+
+        }
+        
+                /* Video & text container */
+                .vid-text {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;            /* Adds space between video & text */
+        }
+                /* Wise words styling */
+                .wise-words {
+            max-width: 600px;      /* Prevents text from being too wide */
+            font-family: Arial, sans-serif;
+            line-height: 1.5;
+        }
+        .wise-words p {
+            margin: 10px 0;
+            font-size:22px;
+            color:yellow;
+        }
+     .wise-words b {
+            color: White;        /* Matches button color */
+        }
+
+       
+    </style>
+</head>
+
+<body>
+    <div class="container">
+    <h1>The Great White Shark Intel</h1>
+    
+
+    <div class="console">
+        
+
+        <div id="navigation-section">
+           
+            <button  onclick="window.location.href='results.html'">See Results</button>
+
+            
+        </div>
+
+        <div class = "vid-text">
+            <video width="640" height="360" controls>
+                <source src="recVideo/dontworry.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <div class = "wise-words">
+                <p>Don’t worry, little fish! Even great white sharks learn from their swims.</p>
+                <p>“<b>The ocean is vast, and every wave brings a new lesson.</b>” Try again—you’ve got the ❤️ of a shark! </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+    <script src="script.js"></script>
+    <script>
+        
+
+    </script>
+</body>
+</html>

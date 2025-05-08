@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Baking Adventure: Order the Cupcake Recipe!</title>
+    <style>
+        body {
+            background: #FFF4E6;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            position: relative;
+        }
+        h1 {
+            color: blue;
+            margin-bottom: 10px;
+        }
+        #instructions {
+            font-size: 20px;
+            color: #004d40;
+            margin-bottom: 30px;
+        }
+        #stepsList {
+            list-style: none;
+            padding: 0;
+            max-width: 700px;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 1;
+        }
+        #stepsList li {
+            margin: 8px 0;
+            padding: 16px;
+            border-radius: 8px;
+            cursor: move;
+            font-size: 18px;
+            color: #ffffff;
+            transition: background-color 0.2s ease;
+        }
+        #stepsList li:nth-child(1) { background-color: #ef5350; }
+        #stepsList li:nth-child(2) { background-color: #ab47bc; }
+        #stepsList li:nth-child(3) { background-color: #5c6bc0; }
+        #stepsList li:nth-child(4) { background-color: #29b6f6; }
+        #stepsList li:nth-child(5) { background-color: #26a69a; }
+        #stepsList li:nth-child(6) { background-color: #66bb6a; }
+        #stepsList li:nth-child(7) { background-color: #ffa726; }
+        #stepsList li:nth-child(8) { background-color: #8d6e63; }
+        #stepsList li:nth-child(9) { background-color: #78909c; }
+
+        #stepsList li.dragging {
+            opacity: 0.5;
+        }
+        button {
+            background-color: #00897b;
+            border: none;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #00695c;
+        }
+        #message {
+            font-size: 22px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .sticker {
+            position: fixed;
+            z-index: 0;
+            width: 80px;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+        .sticker.sticker1 { top: 10px; left: 10px; }
+        .sticker.sticker2 { top: 10px; right: 10px; }
+        .sticker.sticker3 { bottom: 10px; left: 10px; }
+        .sticker.sticker4 { bottom: 10px; right: 10px; }
+        .sticker.sticker5 { top: 50%; left: 10px; transform: translateY(-50%); }
+        .sticker.sticker6 { top: 50%; right: 10px; transform: translateY(-50%); }
+    </style>
+</head>
+<body>
+
+<!-- Sticker images -->
+<img src="/images/funny1.jpg" alt="Sticker 1" class="sticker sticker1">
+<img src="/images/funny2.jpg" alt="Sticker 2" class="sticker sticker2">
+<img src="/images/cupcake.png" alt="Sticker 3" class="sticker sticker3">
+<img src="/images/cupcake-2.png" alt="Sticker 4" class="sticker sticker4">
+<img src="/images/cup-cake-3.png" alt="Sticker 5" class="sticker sticker5">
+<img src="/images/muffin.png" alt="Sticker 6" class="sticker sticker6">
+
+<h1>Baking Adventure!</h1>
+<p id="instructions">Drag and drop the cupcake recipe steps into the correct order.</p>
+
+<!-- Speak Button -->
+<button onclick="speakRecipe()">🔊 Listen to Recipe Instructions</button>
+
+<ul id="stepsList">
+    <li draggable="true" data-order="3">Mix until smooth and sift the flour and baking powder into the mixture.</li>
+    <li draggable="true" data-order="8">Decorate with Smarties® and sprinkles.</li>
+    <li draggable="true" data-order="6">Prepare the icing by mixing the icing with water (and food colouring if you want).</li>
+    <li draggable="true" data-order="5">Bake at 180°C for 20–30 minutes until golden brown, then allow the cupcakes to cool.</li>
+    <li draggable="true" data-order="2">Beat the eggs until fluffy, then add the eggs, milk, and vanilla essence.</li>
+    <li draggable="true" data-order="1">Cream the margarine and sugar together using a wooden spoon.</li>
+    <li draggable="true" data-order="7">Use a blunt knife to spread the icing onto the cupcakes.</li>
+    <li draggable="true" data-order="4">Spoon the mixture into the paper cups and place the cups onto a tray.</li>
+    <li draggable="true" data-order="9">Place the decorated cupcakes on a serving plate and enjoy your treat!</li>
+</ul>
+
+<button id="checkButton">Check Order</button>
+<p id="message"></p>
+
+<script>
+    const list = document.getElementById('stepsList');
+    let draggedItem = null;
+
+    document.querySelectorAll('#stepsList li').forEach(item => {
+        item.addEventListener('dragstart', function () {
+            draggedItem = this;
+            setTimeout(() => this.classList.add('dragging'), 0);
+        });
+
+        item.addEventListener('dragend', function () {
+            this.classList.remove('dragging');
+            draggedItem = null;
+        });
+
+        item.addEventListener('dragover', function (e) {
+            e.preventDefault();
+        });
+
+        item.addEventListener('drop', function (e) {
+            e.preventDefault();
+            if (draggedItem !== this) {
+                const items = Array.from(list.children);
+                const draggedIndex = items.indexOf(draggedItem);
+                const targetIndex = items.indexOf(this);
+                if (draggedIndex < targetIndex) {
+                    this.after(draggedItem);
+                } else {
+                    this.before(draggedItem);
+                }
+            }
+        });
+    });
+
+    document.getElementById('checkButton').addEventListener('click', function () {
+        const items = document.querySelectorAll('#stepsList li');
+        let isCorrect = true;
+        for (let i = 0; i < items.length; i++) {
+            const order = parseInt(items[i].getAttribute('data-order'));
+            if (order !== i + 1) {
+                isCorrect = false;
+                break;
+            }
+        }
+        const messageEl = document.getElementById('message');
+        if (isCorrect) {
+            messageEl.textContent = "Great job! You put the recipe steps in the right order!";
+            messageEl.style.color = "green";
+        } else {
+            messageEl.textContent = "Oops! That's not quite right. Try rearranging the steps again.";
+            messageEl.style.color = "red";
+        }
+    });
+
+    function speakRecipe() {
+        const recipeText = `
+        Let's begin your cupcake adventure!
+        Cream the margarine and sugar together using a wooden spoon.
+        Beat the eggs until fluffy, then add the eggs, milk, and vanilla essence.
+        Mix until smooth and sift in the flour and baking powder.
+        Spoon the mixture into the paper cups and place them onto a tray.
+        Bake at 180 degrees Celsius for 20 to 30 minutes until golden brown. Let them cool.
+
+        Prepare the icing by mixing icing sugar with water and food colouring if you like.
+        Use a blunt knife to spread the icing onto the cupcakes.
+        Decorate with Smarties and sprinkles.
+        Place the decorated cupcakes on a plate and enjoy your treat!
+        `;
+
+        const utterance = new SpeechSynthesisUtterance(recipeText);
+        utterance.lang = 'en-US';
+        utterance.pitch = 1;
+        utterance.rate = 1;
+        utterance.volume = 1;
+
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length > 0) {
+            utterance.voice = voices.find(voice => voice.name.includes('Google') || voice.lang === 'en-US') || voices[0];
+        }
+
+        window.speechSynthesis.speak(utterance);
+    }
+</script>
+</body>
+</html>

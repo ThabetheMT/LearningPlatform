@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Great White Shark Adventure</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    .word-center p {
+        color:blue;
+        font-weight:bold;
+        font-size:20px;
+    }
+    h3{
+        font-size:28px;
+        color:white;
+        font-weight:bold;
+        text-decoration: underline;
+    }
+    #green{
+        color:green;
+    }
+    #blue{
+        color:blue;
+    }
+    #red{
+        color:red;
+    }
+    #white{
+        color:white;
+
+    }
+</style>
+<body>
+    <div class="container">
+    <h1>The Great White Shark Intel</h1>
+    <div class="head-pic">
+        <img src="https://github.com/Tishetso/Shark-items/blob/main/great%20white%20shark.gif?raw=true" alt="Great White Sharks" >
+        <p class="great-shark">The Great White Shark</p>
+    <!-- Audio controls with icons -->
+    </div >
+
+    
+    <div class="audio-container">
+        <button onclick="playAudio()" title="Play">▶️</button>
+        <button onclick="pauseAudio()" title="Pause">⏸️</button>
+        <button onclick="restartAudio()" title="Restart">🔄</button>
+        <audio id="shark-audio" src="recVideo/voiceOver.mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    
+    <div class="text">
+        <p>The Great White Shark</p>
+        <p>Great white sharks are the top of the ocean’s food chain. They are the biggest fish on our planet which eat other fish and animals. They are known to live between thirty and one hundred years old and can be found in all of the world’s oceans, but they are mostly found in cool water close to the coast.</p>
+        <p>Even though they are mostly grey, they get their name from their white underbelly. The great white shark has been known to grow up to six metres long and have up to three hundred sharp teeth, in seven rows. Their amazing sense of smell allows them to hunt for prey, such as seals, rays and small whales from miles away.</p>
+    </div>
+
+    <div class="start-quiz">
+        <div class = "word-center">   
+            <h2>Test Your Shark Knowledge!</h2>
+            <div id="navigation-section">
+                <button onclick="startQuiz()">Start Quiz</button>
+            </div>
+            <H3>Instructions:</H3>
+            <P id = "red">You will have 10 minutes to complete the quiz</P>
+            <p id = "green">Once you start you will have to finish the quiz at a go✅</p>
+            <p id = "blue">⚠️And you can't come back to this page, 💡 <span id="white">if you get stuck <b>play</b> the <b>audio</b></span></p>
+        </div>
+    </div>
+ 
+    <audio id="start-sound" src="recVideo/game-start-6104.mp3" preload="auto"></audio>
+    </div>
+    <script src="script.js"></script>
+    <script>
+
+        function startQuiz() {
+        const startSound = document.getElementById('start-sound');
+        localStorage.clear(); // Clear any previous quiz data
+        startTimer(); // Start the timer
+        startSound.play(); // Play the start sound
+
+        // Delay navigation until after the sound plays (e.g., 1 second)
+        setTimeout(() => {
+            window.location.href = 'question1.html';
+        }, 1000); // Adjust delay to match sound length if needed
+    }
+
+    </script>
+</body>
+</html>

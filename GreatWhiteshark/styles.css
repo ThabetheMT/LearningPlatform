@@ -1,0 +1,488 @@
+/* styles.css */
+*{
+    margin:0px;
+}
+body {
+    font-family: 'Comic Sans MS', Arial, sans-serif;
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 20px;
+    background-color: #1e90ff; /* Vibrant blue for the ocean */
+      
+    overflow-x: hidden;
+    color: #000000; /* Black font */
+}
+
+h1 {
+    color: #ff4500; /* Bright red-orange for energy */
+    text-align: center;
+    font-size: 48px;
+    text-shadow: 1px 1px 3px #32cd32; /* Lime green shadow for a playful twist */
+}
+
+h2 {
+    color: #ffff00; /* Bold yellow for excitement */
+    font-size: 28px;
+    text-align: center;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 18px;
+    background-color: #87ceeb; /* Sky blue for a fun vibe */
+    color: #000000; /* Black font */
+    border: 2px solid #228b22; /* Forest green border for nature vibe */
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover:not(:disabled) {
+    background-color: #ffd700; /* Golden yellow on hover */
+}
+
+button:disabled {
+    background-color: #d3d3d3; /* Light gray when disabled */
+    cursor: not-allowed;
+}
+
+.text {
+    background-color: #f0f8ff; /* Alice blue for a clean look */
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border: 3px dashed #ff4500; /* Red dashed border */
+    font-size: 22px;
+    color: #000000; /* Black font */
+}
+.head-pic{
+    margin-top:60px;
+}
+.head-pic img{
+   width:800px;
+    height:330px;
+    border-radius:10px;
+    display:block;
+    margin: 0 auto;
+    
+}
+.sec-pic{
+    margin-top:60px;
+}
+.sec-pic img{
+    width:800px;
+     height:220px;
+     border-radius:10px;
+     display:block;
+     margin: 0 auto;
+     
+ }
+
+.quiz {
+    margin-top: 30px;
+    background-color: #4682b4; /* Steel blue for depth */
+    background-image:url("images/main.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 15px;
+    border-radius: 10px;
+    border: 3px solid #9acd32; /* Yellow-green border for a fresh look */
+    position: relative; /* Positioning context for images */
+    min-height: 300px; /* Adjusted fixed height to fit all content */
+}
+
+.victory {
+    margin-top: 100px;
+    margin-left:50px;
+    background-color: #4682b4; /* Steel blue for depth */
+    background-image:url("images/shark-dancing.gif");
+        background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 15px;
+    border-radius: 10px;
+    /*border: 5px solid green;  Yellow-green border for a fresh look */
+    position: relative; /* Positioning context for images */
+    min-height: 600px; /* Adjusted fixed height to fit all content */
+   width: 700px;
+}
+
+.console {
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* Centers horizontally */
+    justify-content: center; /* Centers vertically */
+    min-height: 100vh;     /* Ensures full viewport height */
+    text-align: center;   /* Centers text inside elements */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.start-quiz{
+    margin-top: 30px;
+    background-color: #4682b4; /* Steel blue for depth */
+    background-image:url("images/main.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 15px;
+    border-radius: 10px;
+    border: 3px solid #9acd32; /* Yellow-green border for a fresh look */
+    position: relative; /* Positioning context for images */
+    min-height: 340px; /* Adjusted fixed height to fit all content */
+}
+
+.word-center{
+    margin-top:50px;
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    gap:20px;
+
+}
+/*  display: flex;
+    flex-direction: column;  /* Stacks children vertically 
+    align-items: center;     /* Centers items horizontally inside .word-center 
+    gap: 20px;               /* Adds spacing between h2 and button 
+}
+*/
+
+.question {
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #fefe; /* Tomato red for warmth */
+    border-radius: 8px;
+    border: 2px solid #3cb371; /* Medium sea green for a coastal feel */
+    font-size: 20px;
+    color: #000000; /* Black font */
+    width:800px;
+    height:auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .question {
+        padding: 15px;
+        border-radius: 10px;
+        width: 95%; /* More width on smaller screens */
+    }
+    
+    .question .radio-options {
+        padding-left: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .question {
+        padding: 12px;
+        font-size: 16px;
+    }
+    
+    .question input[type="radio"] {
+        transform: scale(1.1);
+        margin-right: 8px;
+    }
+}
+
+.question p {
+    color: #000000; /* Black font */
+    margin: 0 0 8px 0;
+    font-weight: bold;
+}
+
+input[type="radio"], input[type="text"] {
+    margin: 5px;
+    transform: scale(1.3);
+}
+
+input[type="text"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 2px solid #ffff00; /* Yellow border */
+    font-size: 14px;
+    width: 180px;
+    color: #000000; /* Black font */
+}
+
+.feedback {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #000000; /* Black font */
+}
+
+#score {
+    font-size: 20px;
+    text-align: center;
+    margin: 10px 0;
+    color: #000000; /* Black font */
+    background-color: #98fb98; /* Pale green for a cheerful score display */
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #ff0000; /* Red border */
+}
+
+#victory-avatar, #consoling-shark {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#victory-avatar img {
+    width: 120px;
+    animation: dance 1s infinite;
+}
+#consoling-shark img{
+    width: 120px;
+    animation: dance 3s infinite
+}
+
+#consoling-shark p{
+    font-size:22px;
+}
+
+#victory-avatar p {
+    font-size: 22px;
+    color:red;
+    animation: dance 3s infinite
+}
+
+@keyframes dance {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-10px) rotate(5deg); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-10px) rotate(-5deg); }
+    100% { transform: translateY(0); }
+}
+
+#submit-section, #navigation-section {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#shark-img {
+    height: 125px;
+    width: 250px;
+}
+#wise-shark-img {
+    height: 125px;
+    width: 350px;
+}
+
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: #ff0000; /* Red default, overridden by JS */
+    top: 50%;
+    left: 50%;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: confetti-fall 3s ease-out forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) rotate(var(--rotate));
+        opacity: 0;
+    }
+}
+
+.image-container {
+    position: absolute;
+    text-align: center; /* Center the label under the image */
+}
+
+.side-image {
+    width: 230px; /* Consistent size */
+    height: auto;
+    border: 3px solid #32cd32; /* Green border to match theme */
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+.great-shark{
+    margin-top:10px;
+    text-align:center;
+    font-size: 18px;
+    color: #ffff00; /* Yellow to match the theme */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000000;
+}
+.image-label {
+    margin-top: 5px; /* Space between image and label */
+    font-size: 24px;
+    color: #ffff00; /* Yellow to match the theme */
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000000; /* Black shadow for readability */
+}
+
+#image-right-top {
+    right: -260px;
+    top: 190px;
+}
+
+#image-right-bottom {
+    right: -250px;
+    top:260px;
+    
+}
+
+#image-left-bottom {
+    left:  -250px;
+    top:260px;
+    
+}
+
+#image-left-top {
+    left: -250px;
+    top: 0px;
+    
+}
+
+#image-right-whale {
+    right: -220px;
+    top: 0px;
+   
+}
+
+#image-right-bottom .side-image,
+#image-left-bottom .side-image,
+#image-left-top .side-image,
+#image-right-whale .side-image {
+    width: 200px;
+    height: 200px;
+    
+}
+
+.timer {
+    text-align: center;
+    font-size: 24px;
+    color: red; /* Yellow to match the theme */
+     /* Steel blue background */
+    padding: 10px;
+    border-radius: 8px;
+     /* Yellow-green border */
+    margin: 10px 0;
+    text-shadow: 1px 1px 2px #000000; /* Black shadow for readability */
+}
+
+@media (max-width: 900px) {
+    .image-container {
+        display: none; /* Hide entire container on smaller screens */
+    }
+}
+
+#submit-btn:hover {
+    background-color: green;
+}
+
+.audio-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+#shark-audio {
+    display: none;
+}
+
+.audio-container button {
+    font-size: 24px; /* Larger icons for visibility */
+    padding: 10px 20px; /* Adjust padding for icon size */
+}
+/* Container for radio buttons to hide/show */
+.radio-options {
+    display: none; /* Hidden by default */
+}
+
+/* Style for the reveal icon */
+.reveal-icon {
+    font-size: 24px;
+    cursor: pointer;
+    color: #ffff00; /* Yellow to match theme */
+    text-shadow: 1px 1px 2px #000000;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+/* Show radio options when the 'visible' class is added */
+.radio-options.visible {
+    display: block;
+}
+
+button:disabled {
+    opacity: 0.5; /* Makes it semi-transparent */
+    cursor: not-allowed; /* Changes the cursor to indicate it’s not clickable */
+}
+/*id style for victory page*/
+#white-shark{
+    color:white;
+}
+#cong{
+    color:green
+}
+.encouragement {
+    animation: bounce 1s ease infinite;
+    transform-origin: center bottom; /* Makes it bounce from the bottom */
+    text-align: center;
+    padding: 20px;
+    
+    background-color:orange;
+    border-radius: 10px;
+   margin-top:150px;
+   margin-left:-200px;
+    max-width: 300px;
+    min-height: 200px;
+    border: 1px solid #00ff00; /* Green border */
+    
+}
+.encouragement p {
+    font-weight:bold;
+    font-size:24px;
+
+}
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px); /* Adjust this value for bigger/smaller bounce */
+    }
+}
+.wise-words{
+    animation: bounce 1s ease infinite;
+    
+
+}
+/* Applies to all pages */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.page-content img, 
+.page-content video {
+    max-width: 100%;
+    height: auto;
+}
+button {
+    min-width: 120px; /* Prevents too-small buttons */
+    padding: 12px 24px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+    button {
+        width: 50%; /* Full-width buttons on mobile */
+        margin: 8px 0;
+    }
+}

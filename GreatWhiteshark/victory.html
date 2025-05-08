@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victory - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+       
+        #navigation-section{
+            margin-top:-50px;
+            margin-left:50px;
+        }
+
+        #navigation-section button{
+            border-color:yellow;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+       
+    </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>The Great White Shark Intel</h1>
+    
+
+  
+    <!--button onclick="restartQuiz()">Restart Quiz</button-->
+   
+   
+    <div class="victory">
+        <div id="navigation-section">
+           
+            <button  onclick="window.location.href='results.html'">See Results</button>
+
+            
+        </div>
+        <div class = "encouragement">
+            <p><span id = "cong">Tap the shark<br>Congratulations!!!</span> <br><span id = "white-shark">You’re a Great White Shark Expert! </span>🦈</p>
+            <p>The word '<b>Expert</b>' <br>means being well informed-<br> towards a specific topic! 🦈</p>
+        </div>
+    </div>
+
+    <!-- 🎉 Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <audio id="applause" autoplay loop>
+    <source src="https://www.soundjay.com/human/applause-01.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+</div>
+    <script src="script.js"></script>
+    <script>
+        
+
+        <!-- 🔊 Applause Audio -->
+
+    // 🔁 Infinite Confetti from center
+    function launchInfiniteConfetti() {
+      setInterval(() => {
+        confetti({
+          particleCount: 30,
+          startVelocity: 30,
+          spread: 360,
+          origin: { x: 0.5, y: 0.5 },
+          ticks: 60
+        });
+      },400); // Frequency in ms
+    }
+
+    window.onload = () => {
+      launchInfiniteConfetti();
+
+      // Ensure audio plays even if browser blocks autoplay
+      const applause = document.getElementById("applause");
+      applause.volume = 0.2;
+      applause.play().catch(() => {
+        // If autoplay is blocked, play on first interaction
+        document.body.addEventListener("click", () => {
+          applause.play();
+        }, { once: true });
+      });
+    };
+        
+       
+    </script>
+</body>
+</html>

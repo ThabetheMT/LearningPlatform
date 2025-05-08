@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baking Flashcards</title>
+    <style>
+        :root {
+            --primary: hsl(0, 100%, 68%);
+            --secondary: #03f7e6;
+            --accent: #FFE66D;
+            --background: #F7FFF7;
+            --text: #292F36;
+            --highlight: #FF9F1C;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: var(--background);
+            background-image: url(images/background.jpeg);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            min-height: 90vh;
+            width: 90%;
+            max-height: 900px;
+            max-width: 900px;
+            background: var(--background);
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            margin-top: 10px;
+
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .flashcard-container {
+            margin-top: 30px;
+            perspective: 1000px;
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .flashcard {
+            margin-top: 60px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.7s;
+            cursor: pointer;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            will-change: transform;
+        }
+
+        .flashcard:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg) scale(1.02);
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            font-weight: bolder;
+            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .flashcard-front {
+            background-color: var(--accent);
+            color: var(--primary);
+            font-weight: bolder;
+        }
+
+        .flashcard-back {
+            background-color: var(--highlight);
+            color: var(--text);
+            font-weight: bold;
+            transform: rotateY(180deg);
+        }
+
+        .card-image {
+            width: 250px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+
+        .card-text {
+            padding: 10px 15px;
+            border-radius: 10px;
+            width: 90%;
+            font-size: 1.1rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            padding: 8px 15px;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 0 5px rgba(8, 240, 248, 0.7);
+            transition: all 0.5s ease-in-out;
+        }
+
+        button:hover,
+        button:focus {
+            background-color: #c0392b;
+            transform: scale(1.2);
+            outline: none;
+        }
+
+        button:focus {
+            box-shadow: 0 0 0 3px var(--highlight);
+        }
+
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .celebration.show {
+            display: flex;
+            opacity: 1;
+            transform: scale(1);
+            animation: pulse 2s infinite;
+        }
+
+        .celebration-content {
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 80%;
+            position: relative;
+            z-index: 1001;
+            transform: translateY(20px);
+            transition: transform 0.5s ease-out;
+        }
+
+        .celebration.show .celebration-content {
+            transform: translateY(0);
+        }
+
+        .emoji {
+            font-size: 100px;
+            animation: bounce 1s infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        .falling-emoji {
+            position: absolute;
+            font-size: 30px;
+            animation: fall linear forwards;
+            z-index: 1000;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .floating-sticker {
+            position: absolute;
+            animation: float 4s ease-in-out infinite;
+            font-size: 40px;
+            z-index: 1000;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2c3e50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .flashcard-container:hover .tooltip {
+            opacity: 1;
+        }
+
+        .status-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 50px;
+        }
+
+        .status-btn {
+            padding: 8px 15px;
+            font-size: 18px;
+            border-radius: 20px;
+        }
+
+        .known-btn {
+            background-color: #2ecc71;
+        }
+
+        .unknown-btn {
+            background-color: #e74c3c;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-30px);
+            }
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+
+            100% {
+                transform: translateY(calc(100vh + 100px)) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(10deg);
+            }
+
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                background-color: rgba(255, 255, 255, 0.95);
+            }
+
+            50% {
+                background-color: rgba(255, 250, 240, 0.95);
+            }
+
+            100% {
+                background-color: rgba(255, 255, 255, 0.95);
+            }
+        }
+
+        .sticker-1 {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .sticker-2 {
+            top: 30%;
+            right: 15%;
+            animation-delay: 0.5s;
+        }
+
+        .sticker-3 {
+            bottom: 25%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .sticker-4 {
+            bottom: 15%;
+            right: 25%;
+            animation-delay: 1.5s;
+        }
+
+        /* Print styles */
+        @media print {
+
+            .nav-buttons,
+            .status-buttons,
+            .progress-container,
+            .tooltip {
+                display: none !important;
+            }
+
+            .flashcard {
+                box-shadow: none !important;
+                page-break-inside: avoid;
+                height: 200px;
+                margin-bottom: 20px;
+            }
+
+            body {
+                background: white !important;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+
+    <h1>🌟 Funny Faces Flashcards 🌟</h1>
+
+    <div class="progress-text">
+        <span id="cards-progress">0</span>/<span id="cards-total">0</span> cards viewed
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="flashcard-container" id="flashcard-container">
+        <div class="tooltip" aria-hidden="true">Click to flip the card!</div>
+        <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false"
+             aria-label="Flashcard. Click to flip.">
+            <div class="flashcard-front" id="flashcard-front">
+                <!-- Content will be dynamically inserted -->
+            </div>
+            <div class="flashcard-back" id="flashcard-back">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <div class="status-buttons">
+        <button class="status-btn" id="known-btn">I Know This 👍</button>
+        <button class="status-btn" id="unknown-btn">Need Practice 👎</button>
+    </div>
+
+    <div class="nav-buttons">
+        <button id="prev-btn" disabled>⬅️ Previous</button>
+        <button id="shuffle-btn" title="Shuffle the deck">🔀 Shuffle</button>
+        <button id="next-btn">Next ➡️</button>
+        <button id="quiz-btn" style="display: none;">Take Quiz</button>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <div class="floating-sticker sticker-1">🌼</div>
+        <div class="floating-sticker sticker-2">⭐</div>
+        <div class="floating-sticker sticker-3">🌈</div>
+        <div class="floating-sticker sticker-4">🍎</div>
+
+        <div class="celebration-content">
+            <div class="emoji">🎉</div>
+            <h2>Great Job!</h2>
+            <p style="font-size: 1.2em; margin-bottom: 20px;">You've viewed all the flashcards!</p>
+            <button class="restart-btn" id="restart-btn">🔄 Start Again</button>
+            <button class="restart-btn" onclick="location.href='funny_faces_quiz.html'">Take a Quiz</button>
+        </div>
+    </div>
+</div>
+<audio id="flipSound" src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3" preload="auto"></audio>
+<audio id="celebrationSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3"
+       preload="auto"></audio>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Clear previous progress (for testing)
+        localStorage.removeItem('flashcardsProgress');
+
+        // Flashcard data with image references
+        let flashcards = [
+            {
+                front: "Step 1",
+                back: "Sift the icing sugar into a bowl. Add the water. Mix until smooth.",
+                frontImg: "images/pure-icing-sugar.webp",
+                backImg: "images/icing suger.webp",
+                known: false
+            },
+            {
+                front: "Step 2",
+                back: "Divide the icing mixture into 2 bowls. Add the blue colouring to one bowl and the yellow to the other.",
+                frontImg: "images/mixed_icing_sugar.webp",
+                backImg: "images/add_colouring.jpeg",
+                known: false
+            },
+            {
+                front: "Step 3",
+                back: "Place the biscuits on a tray",
+                frontImg: "images/buiscuits.jpg",
+                backImg: "images/buscuits in  a tray.jpg",
+                known: false
+            },
+            {
+                front: "Step 4",
+                back: "Use a blunt knife to spread the icing mixture onto the biscuits.",
+                frontImg: "images/knife.jpg",
+                backImg: "images/spreading icing_sugar.jpg",
+                known: false
+            },
+            {
+                front: "Step 5",
+                back: "Decorate the biscuits to look like faces using the Smarties, JellyTots and the shoelaces. Leave to set.",
+                frontImg: "images/frosting-pressed-on-sugar-cookies-scaled.jpg",
+                backImg: "images/cakes on tray.jpg",
+                known: false
+            },
+            {
+                front: "Step 6",
+                back: "Enjoy your treat.",
+                frontImg: "images/cakes on tray.jpg",
+                backImg: "images/enjoy.jpeg",
+                known: false
+            },
+            {
+                front: "Icing sugar Recipe",
+                back: "Sift the icing sugar into a bowl. Add water. Mix until smooth.",
+                frontImg: "images/icing suger.webp",
+                backImg: "images/smooth icing.jpg",
+                known: false
+            },
+            {
+                front: "Baking Temperature",
+                back: "180°C for 20-30 minutes for cupcakes.",
+                frontImg: "images/baking heat.jpeg",
+                backImg: "images/baking heat.jpeg",
+                known: false
+            },
+            {
+                front: "Why use a blunt knife for icing?",
+                back: "To prevent cuts or injuries while spreading.",
+                frontImg: "images/knife.jpg",
+                backImg: "images/cupcake with icing.jpeg",
+                known: false
+            },
+            {
+                front: "What the first step in making icing suger?",
+                back: "Sift the icing sugar into a bowl.",
+                frontImg: "images/icing suger.webp",
+                backImg: "images/pure-icing-sugar.webp",
+                known: false
+            },
+            {
+                front: "How long should you bake the cupcakes?",
+                back: "20-30 minutes at 180°C",
+                frontImg: "images/baking cupcake.webp",
+                backImg: "images/baking heat.jpeg",
+                known: false
+            },
+            {
+                front: "Tool for spreading icing?",
+                back: "A blunt knife",
+                frontImg: "images/cookie_spread_icing.jpg",
+                backImg: "images/spreading icing_sugar.jpg",
+                known: false
+            },
+            {
+                front: "What are the two colors of icing mentioned?",
+                back: "Blue and yellow",
+                backImg: "images/color icing.jpg",
+                known: false
+            },
+            {
+                front: "What do you decorate the biscuits with?",
+                back: "Smarties, Jelly Tots, and shoelaces",
+                frontImg: "images/happy face.jpeg",
+                backImg: "images/happy face.jpeg",
+                known: false
+            },
+            {
+                front: "What might happen if you forget to sift the icing sugar?",
+                back: "The icing could be lumpy and hard to spread.",
+                frontImg: "images/pure-icing-sugar.webp",
+                backImg: "images/hard_icing.webp",
+                known: false
+            },
+            {
+                front: "Why is it important to let the cupcakes cool before icing them?",
+                back: "The icing suger would melt or slide off if the cupcakes are hot.",
+                frontImg: "images/23ptajbq-720.jpg",
+                backImg: "images/icing_on_hot.jpg",
+                known: false
+            }
+        ];
+
+        // DOM elements
+        const flashcardElement = document.getElementById('flashcard');
+        const flashcardFront = document.getElementById('flashcard-front');
+        const flashcardBack = document.getElementById('flashcard-back');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const shuffleBtn = document.getElementById('shuffle-btn');
+        const knownBtn = document.getElementById('known-btn');
+        const unknownBtn = document.getElementById('unknown-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const cardsProgress = document.getElementById('cards-progress');
+        const cardsTotal = document.getElementById('cards-total');
+        const celebrationDiv = document.getElementById('celebration');
+        const restartBtn = document.getElementById('restart-btn');
+        const flipSound = document.getElementById('flipSound');
+        const celebrationSound = document.getElementById('celebrationSound');
+        const flashcardContainer = document.getElementById('flashcard-container');
+        const resetBtn = document.getElementById('reset-btn');
+
+        // State variables
+        let currentCardIndex = 0;
+        let viewedCards = new Set();
+        let celebrationInterval;
+        let fallingEmojis = [];
+
+        // Initialize flashcards
+        function initFlashcards() {
+            cardsTotal.textContent = flashcards.length;
+            // Reset progress display initially
+            cardsProgress.textContent = "0";
+            progressBar.style.width = "0%";
+
+            // Enable Next button initially (unless it's the last card)
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+
+            updateCard();
+
+            // Set up event listeners
+            flashcardElement.addEventListener('click', flipCard);
+            flashcardElement.addEventListener('touchstart', flipCard, { passive: true });
+            flashcardElement.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    flipCard();
+                }
+            });
+            prevBtn.addEventListener('click', goToPrevCard);
+            nextBtn.addEventListener('click', goToNextCard);
+            shuffleBtn.addEventListener('click', shuffleDeck);
+            knownBtn.addEventListener('click', () => markCardStatus(true));
+            unknownBtn.addEventListener('click', () => markCardStatus(false));
+            restartBtn.addEventListener('click', restartFlashcards);
+            resetBtn.addEventListener('click', restartFlashcards);
+
+            // Try to load progress from localStorage
+            loadProgress();
+        }
+
+        // Update card display with images
+        function updateCard() {
+            if (!flashcards[currentCardIndex]) {
+                console.error("No card data available at index", currentCardIndex);
+                return;
+            }
+
+            const card = flashcards[currentCardIndex];
+
+            // Update front side
+            flashcardFront.innerHTML = `
+                    <img src="${card.frontImg}" alt="${card.front}" class="card-image">
+                    <div class="card-text">${card.front}</div>
+                `;
+
+            // Update back side
+            flashcardBack.innerHTML = `
+                    <img src="${card.backImg}" alt="${card.back}" class="card-image">
+                    <div class="card-text">${card.back}</div>
+                `;
+
+            // Update ARIA attributes
+            flashcardElement.setAttribute('aria-label', `Flashcard: ${card.front}. Click to flip.`);
+            flashcardElement.setAttribute('aria-pressed', flashcardElement.classList.contains('flipped') ? 'true' : 'false');
+
+            // Reset card to front
+            flashcardElement.classList.remove('flipped');
+
+            // Update navigation buttons
+            prevBtn.disabled = currentCardIndex === 0;
+            nextBtn.disabled = currentCardIndex === flashcards.length - 1;
+
+            // Update status buttons
+            knownBtn.disabled = card.known;
+            unknownBtn.disabled = !card.known && card.known !== undefined;
+        }
+
+        // Flip card animation
+        function flipCard() {
+            try {
+                // Play flip sound
+                flipSound.currentTime = 0;
+                flipSound.play().catch(e => console.log("Audio playback failed:", e));
+
+                flashcardElement.classList.toggle('flipped');
+                flashcardElement.setAttribute('aria-pressed', flashcardElement.classList.contains('flipped') ? 'true' : 'false');
+
+                // Mark card as viewed
+                if (!viewedCards.has(currentCardIndex)) {
+                    viewedCards.add(currentCardIndex);
+                    updateProgress();
+                    saveProgress();
+
+                    // Check if all cards have been viewed
+                    if (viewedCards.size === flashcards.length) {
+                        // If this is the last card being viewed
+                        if (currentCardIndex === flashcards.length - 1) {
+                            // Show back for 4 seconds before celebration
+                            setTimeout(() => {
+                                showCelebration();
+                            }, 4000);
+                        } else {
+                            showCelebration();
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error flipping card:", error);
+            }
+        }
+
+        // Update progress
+        function updateProgress() {
+            const progress = (viewedCards.size / flashcards.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            cardsProgress.textContent = viewedCards.size;
+
+            // Change color based on progress
+            if (progress < 30) {
+                progressBar.style.backgroundColor = '#e74c3c';
+            } else if (progress < 70) {
+                progressBar.style.backgroundColor = '#f1c40f';
+            } else {
+                progressBar.style.backgroundColor = '#2ecc71';
+            }
+        }
+
+        // Navigation functions
+        function goToPrevCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        function goToNextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        }
+
+        // Shuffle deck
+        function shuffleDeck() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+
+            // Reset to first card
+            currentCardIndex = 0;
+            updateCard();
+
+            // Show shuffle animation
+            flashcardElement.style.transform = 'rotateY(360deg)';
+            setTimeout(() => {
+                flashcardElement.style.transition = 'transform 0.6s';
+                flashcardElement.style.transform = '';
+            }, 600);
+        }
+
+        // Mark card status
+        function markCardStatus(known) {
+            if (!flashcards[currentCardIndex]) return;
+
+            flashcards[currentCardIndex].known = known;
+            saveProgress();
+
+            // Visual feedback
+            const feedback = document.createElement('div');
+            feedback.textContent = known ? '👍 Great job!' : '👎 Keep practicing!';
+            feedback.style.position = 'absolute';
+            feedback.style.top = '-40px';
+            feedback.style.left = '50%';
+            feedback.style.transform = 'translateX(-50%)';
+            feedback.style.fontSize = '20px';
+            feedback.style.opacity = '0';
+            feedback.style.transition = 'opacity 0.5s, transform 0.5s';
+            flashcardContainer.appendChild(feedback);
+
+            setTimeout(() => {
+                feedback.style.opacity = '1';
+                feedback.style.transform = 'translateX(-50%) translateY(-10px)';
+            }, 10);
+
+            setTimeout(() => {
+                feedback.style.opacity = '0';
+                feedback.style.transform = 'translateX(-50%) translateY(-30px)';
+                setTimeout(() => feedback.remove(), 500);
+            }, 1500);
+
+            updateCard();
+        }
+
+        // Celebration functions
+        function showCelebration() {
+            celebrationDiv.style.display = 'flex';
+            // Trigger reflow to enable animation
+            void celebrationDiv.offsetWidth;
+            celebrationDiv.classList.add('show');
+
+            try {
+                celebrationSound.play().catch(e => console.log("Celebration sound failed:", e));
+            } catch (error) {
+                console.error("Error playing celebration sound:", error);
+            }
+
+            startCelebration();
+        }
+
+        function startCelebration() {
+            // Clear any existing emojis
+            clearFallingEmojis();
+
+            // Celebration items
+            const celebrationItems = [
+                "🎉", "🌟", "🌈", "🍎", "🌼", "⭐", "🌸", "🍭", "🎈", "🏆",
+                "✏️", "📚", "🎨", "🍎", "🐝", "🦋", "🌞", "🌻", "🍦", "🎨"
+            ];
+
+            // Create initial burst
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createFallingEmoji(celebrationItems);
+                }, i * 100);
+            }
+
+            // Continue celebration
+            celebrationInterval = setInterval(() => {
+                if (fallingEmojis.length < 20) {
+                    createFallingEmoji(celebrationItems);
+                }
+            }, 800);
+        }
+
+        function createFallingEmoji(items) {
+            const emoji = document.createElement('div');
+            emoji.className = 'falling-emoji';
+            emoji.textContent = items[Math.floor(Math.random() * items.length)];
+            emoji.setAttribute('aria-hidden', 'true');
+
+            // Random position across the screen
+            emoji.style.left = `${Math.random() * 100}vw`;
+
+            // Random animation duration (3-6 seconds)
+            const duration = 3 + Math.random() * 3;
+            emoji.style.animationDuration = `${duration}s`;
+
+            // Random size
+            const size = 20 + Math.random() * 30;
+            emoji.style.fontSize = `${size}px`;
+
+            // Random rotation
+            emoji.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+            document.body.appendChild(emoji);
+            fallingEmojis.push(emoji);
+
+            // Remove after animation completes
+            setTimeout(() => {
+                emoji.remove();
+                fallingEmojis = fallingEmojis.filter(e => e !== emoji);
+            }, duration * 1000);
+        }
+
+        function clearFallingEmojis() {
+            fallingEmojis.forEach(emoji => emoji.remove());
+            fallingEmojis = [];
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            try {
+                localStorage.setItem('flashcardsProgress', JSON.stringify({
+                    currentCardIndex,
+                    viewedCards: Array.from(viewedCards),
+                    flashcards: flashcards.map(card => ({ known: card.known }))
+                }));
+            } catch (error) {
+                console.error("Error saving progress:", error);
+            }
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            try {
+                const saved = localStorage.getItem('flashcardsProgress');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    currentCardIndex = data.currentCardIndex || 0;
+                    viewedCards = new Set(data.viewedCards || []);
+
+                    if (data.flashcards && data.flashcards.length === flashcards.length) {
+                        data.flashcards.forEach((savedCard, i) => {
+                            if (flashcards[i]) {
+                                flashcards[i].known = savedCard.known;
+                            }
+                        });
+                    }
+
+                    updateCard();
+                    updateProgress();
+                }
+            } catch (error) {
+                console.error("Error loading progress:", error);
+            }
+        }
+
+        // Restart flashcards
+        function restartFlashcards() {
+            // Reset state
+            currentCardIndex = 0;
+            viewedCards = new Set();
+            flashcards.forEach(card => card.known = false);
+
+            // Clear celebration
+            clearInterval(celebrationInterval);
+            clearFallingEmojis();
+            celebrationDiv.classList.remove('show');
+            setTimeout(() => {
+                celebrationDiv.style.display = 'none';
+            }, 500);
+
+            // Clear saved progress
+            try {
+                localStorage.removeItem('flashcardsProgress');
+            } catch (error) {
+                console.error("Error clearing progress:", error);
+            }
+
+            // Reset progress
+            updateCard();
+            updateProgress();
+        }
+
+        // Initialize the flashcards
+        initFlashcards();
+    });
+</script>
+</body>
+
+</html>

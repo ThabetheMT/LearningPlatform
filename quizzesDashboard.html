@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzes Hub</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff9c4, #ffffff);
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            max-width: 1000px;
+            margin: 50px auto;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/images/baking_quiz_back.png'); /* Your background image path */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 100%;
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #ee00ff;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #444;
+            margin-bottom: 30px;
+            background-color: #ffcc00;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .quiz-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .quiz-card {
+            border-radius: 15px;
+            padding: 25px;
+            width: 220px;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .quiz-card:hover {
+            transform: scale(1.05);
+        }
+
+        .blue { background-color: #007bff; }
+        .red { background-color: #dc3545; }
+        .yellow { background-color: #ffc107; color: #212529; }
+        .green { background-color: #28a745; }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: black;
+            background-color: #ffcc00;
+            padding: 5px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Story Quizzes</h1>
+    <p>Test your memory and understanding from these fun-filled story adventures!</p>
+
+    <div class="quiz-list">
+        <div class="quiz-card blue" onclick="location.href='funnyFacesQuizPage.html'">Funny Faces</div>
+        <div class="quiz-card red" onclick="location.href='hotToastComingQuizPage.html'">Hot Toast Coming Up</div>
+        <div class="quiz-card yellow" onclick="location.href='mandusRunningShoesQuizPage.html'">Mandus Running Shoes</div>
+        <div class="quiz-card green" onclick="location.href='thereIsMonsterQuizPage.html'">There Is a Monster in My Cupboard</div>
+        <div class="quiz-card green" onclick="location.href='kangarooQuiz.html'">How the Kangaroos Got Their Tails</div>
+        <div class="quiz-card red" onclick="location.href='./GreatWhiteshark/index.html'">The great white shark</div>
+    </div>
+
+    <div class="footer">
+        Learn while you play — every quiz brings a new surprise!
+    </div>
+</div>
+</body>
+</html>

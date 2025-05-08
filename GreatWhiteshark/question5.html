@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 5 - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+    <h1>The Great White Shark Intel</h1>
+        <div class="sec-pic">
+            <img src="https://github.com/Tishetso/Shark-items/blob/main/great%20white%20shark.gif?raw=true" alt="Great White Sharks" >
+            <p class="great-shark">The Great White Shark</p>
+            <!-- Audio controls with icons -->
+        </div >
+    
+    <!-- Audio controls with icons -->
+    <div class="audio-container">
+        <button onclick="playAudio()" title="Play">▶️</button>
+        <button onclick="pauseAudio()" title="Pause">⏸️</button>
+        <button onclick="restartAudio()" title="Restart">🔄</button>
+        <audio id="shark-audio" src="recVideo/voiceOver.mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    
+    <!--button onclick="restartQuiz()">Restart Quiz</button-->
+    <div class="timer" id="timer">Time Remaining: 10:00</div>
+    <div class="quiz">
+        <h2>Test Your Shark Knowledge!</h2>
+        
+        <!-- Side images with labels -->
+
+
+        <div class="question">
+            <p>5. Why do you think that the great white shark is at the top of the ocean’s food chain?</p>
+            <input type="text" id="q5" placeholder="Type your answer here..." oninput="saveAnswer('q5', this.value)">
+            
+        </div>
+
+        <div id="navigation-section">
+            <button onclick="window.location.href='question4.html'">Previous</button>
+            <button onclick="window.location.href='question6.html'">Next</button>
+        </div>
+    </div>
+</div>
+    <script src="script.js"></script>
+    <script>
+        // Load saved answer
+        const savedAnswer = loadAnswer('q5');
+        if (savedAnswer) {
+            document.querySelector(`input[name="q5"][value="${savedAnswer}"]`).checked = true;
+        }
+        updateTimer();
+    </script>
+</body>
+</html>

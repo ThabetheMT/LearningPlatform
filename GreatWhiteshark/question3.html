@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 3 - Great White Shark Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class = "container">
+    <h1>The Great White Shark Intel</h1>
+        <div class="sec-pic">
+            <img src="https://github.com/Tishetso/Shark-items/blob/main/great%20white%20shark.gif?raw=true" alt="Great White Sharks" >
+            <p class="great-shark">The Great White Shark</p>
+            <!-- Audio controls with icons -->
+        </div >
+    
+    <!-- Audio controls with icons -->
+    <div class="audio-container">
+        <button onclick="playAudio()" title="Play">▶️</button>
+        <button onclick="pauseAudio()" title="Pause">⏸️</button>
+        <button onclick="restartAudio()" title="Restart">🔄</button>
+        <audio id="shark-audio" src="recVideo/voiceOver.mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    
+    <!--button onclick="restartQuiz()">Restart Quiz</button-->
+    <div class="timer" id="timer">Time Remaining: 10:00</div>
+    <div class="quiz">
+        <div class = "word-center">
+        <h2>Test Your Shark Knowledge!</h2>
+        
+        <!-- Side images with labels -->
+      
+        <div class="image-container" id="image-left-top">
+            <p class="image-label" style="color:rgb(204, 131, 20)">Rays</p>
+            <img src="images/rays.gif" alt="rays" class="side-image">
+            
+        </div>
+        <div class="image-container" id="image-right-bottom">
+            <p class="image-label" style="color:purple">Seals</p>
+            <img src="https://github.com/Tishetso/Shark-items/blob/main/seals.gif?raw=true" alt="seals" class="side-image">
+            
+        </div>
+        <div class="image-container" id="image-left-bottom">
+            <p class="image-label" style="color:green">Fish</p>
+            <img src="https://github.com/Tishetso/Shark-items/blob/main/fish.gif?raw=true" alt="fish" class="side-image">
+            
+        </div>
+        <div class="image-container" id="image-right-whale">
+            <p class="image-label" style="color:cyan">Whale</p>
+            <img src="images/whale.gif" alt="whale" class="side-image">
+            
+        </div>
+
+        <div class="question">
+            <p>3. What do great white sharks hunt?<span class="reveal-icon" id="icon-3" onclick="toggleOptions(3)">👁️</span></p>
+            <div class="radio-options" id="options-3">
+                <input type="radio" name="q3" value="a" id="q3a" onchange="saveAnswer('q3', this.value)"> a) Seals, rays, and small whales<br>
+                <input type="radio" name="q3" value="b" id="q3b" onchange="saveAnswer('q3', this.value)"> b) Only plants<br>
+                <input type="radio" name="q3" value="c" id="q3c" onchange="saveAnswer('q3', this.value)"> c) Only tiny fish<br>
+             </div>
+        </div>
+
+
+
+
+
+
+      
+
+
+
+
+        <div id="navigation-section">
+            <button onclick="window.location.href='question2.html'">Previous</button>
+            <button onclick="window.location.href='question4.html'">Next</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load saved answer
+        const savedAnswer = loadAnswer('q3');
+        if (savedAnswer) {
+            document.querySelector(`input[name="q3"][value="${savedAnswer}"]`).checked = true;
+            const options = document.getElementById('options-3');
+            options.classList.add('visible');
+        }
+        updateTimer();
+    </script>
+</body>
+</html>

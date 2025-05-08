@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Story Quiz: There’s a Monster in My Cupboard</title>
+  <style>
+    body {
+      background: #FFF4E6;
+      color: #333;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      position: relative;
+    }
+    h1 {
+      color: darkgreen;
+      margin-bottom: 20px;
+    }
+    .quiz-container {
+      background: #fefbd8;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+    .options {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      background: #ef5350;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      font-size: 18px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .option:hover {
+      background: #d32f2f;
+    }
+    #nextButton, #restartButton {
+      background-color: #00897b;
+      border: none;
+      color: #fff;
+      padding: 12px 24px;
+      font-size: 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      margin-top: 10px;
+    }
+    #nextButton:hover, #restartButton:hover {
+      background-color: #00695c;
+    }
+    #feedback {
+      font-size: 18px;
+      margin-top: 10px;
+      min-height: 24px;
+    }
+    .sticker {
+      position: fixed;
+      z-index: 0;
+      width: 80px;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+    .sticker.sticker1 { top: 10px; left: 10px; }
+    .sticker.sticker2 { top: 10px; right: 10px; }
+    .sticker.sticker3 { bottom: 10px; left: 10px; }
+    .sticker.sticker4 { bottom: 10px; right: 10px; }
+    .sticker.sticker5 { top: 50%; left: 10px; transform: translateY(-50%); }
+    .sticker.sticker6 { top: 50%; right: 10px; transform: translateY(-50%); }
+  </style>
+</head>
+<body>
+
+<!-- Decorative Sticker Images -->
+<img src="/images/monster6.png" alt="Sticker 1" class="sticker sticker1">
+<img src="/images/monster5.png" alt="Sticker 2" class="sticker sticker2">
+<img src="/images/monster4.png" alt="Sticker 3" class="sticker sticker3">
+<img src="/images/monster3.png" alt="Sticker 4" class="sticker sticker4">
+<img src="/images/monster2.jpg" alt="Sticker 5" class="sticker sticker5">
+<img src="/images/monster1.png" alt="Sticker 6" class="sticker sticker6">
+
+<h1>Story Quiz: There’s a Monster in My Cupboard</h1>
+<div class="quiz-container">
+  <div id="quiz"></div>
+  <div id="feedback"></div>
+  <button id="nextButton" style="display:none;">Next</button>
+  <button id="restartButton" style="display:none;">Restart Quiz</button>
+</div>
+
+<script>
+  const quizQuestions = [
+    {
+      question: "What game was John playing before bed?",
+      options: ["Minecraft", "Chess", "Nintendo", "Tag"],
+      answer: "Nintendo"
+    },
+    {
+      question: "Where were the strange sounds coming from?",
+      options: ["Under the bed", "The window", "The cupboard", "The ceiling"],
+      answer: "The cupboard"
+    },
+    {
+      question: "What did John use to block the cupboard door?",
+      options: ["A table", "A pillow", "A chair", "A toy box"],
+      answer: "A chair"
+    },
+    {
+      question: "What did Robert say the monster could be?",
+      options: ["A robot", "A dinosaur", "A ghost", "An alien"],
+      answer: "A dinosaur"
+    },
+    {
+      question: "What did the boys discover was really in the cupboard?",
+      options: ["A toy", "A monster", "A cat", "A sock puppet"],
+      answer: "A cat"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  const quizContainer = document.getElementById('quiz');
+  const feedbackEl = document.getElementById('feedback');
+  const nextButton = document.getElementById('nextButton');
+  const restartButton = document.getElementById('restartButton');
+
+  function showQuestion(index) {
+    const q = quizQuestions[index];
+    quizContainer.innerHTML = `
+            <div class="question">${q.question}</div>
+            <div class="options">
+                ${q.options.map(option => `<button class="option">${option}</button>`).join('')}
+            </div>
+        `;
+    feedbackEl.textContent = "";
+    nextButton.style.display = "none";
+
+    document.querySelectorAll('.option').forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (this.textContent === q.answer) {
+          feedbackEl.textContent = "Correct!";
+          feedbackEl.style.color = "green";
+          score++;
+        } else {
+          feedbackEl.textContent = `Sorry, the correct answer is "${q.answer}".`;
+          feedbackEl.style.color = "red";
+        }
+        document.querySelectorAll('.option').forEach(btn => btn.disabled = true);
+        nextButton.style.display = "inline-block";
+      });
+    });
+  }
+
+  nextButton.addEventListener('click', function() {
+    currentQuestion++;
+    if (currentQuestion < quizQuestions.length) {
+      showQuestion(currentQuestion);
+    } else {
+      quizContainer.innerHTML = `<div class="question">Quiz Completed! You scored ${score} out of ${quizQuestions.length}.</div>`;
+      nextButton.style.display = "none";
+      restartButton.style.display = "inline-block";
+    }
+  });
+
+  restartButton.addEventListener('click', function() {
+    currentQuestion = 0;
+    score = 0;
+    restartButton.style.display = "none";
+    showQuestion(currentQuestion);
+  });
+
+  // Start quiz
+  showQuestion(currentQuestion);
+</script>
+</body>
+</html>
