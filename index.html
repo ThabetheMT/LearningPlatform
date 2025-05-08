@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Your Learning Hub</title>
     <style>
         body {
@@ -20,26 +21,25 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: url('./images/index_back.png'); /* Replace with your actual image path */
+            background-image: url('./images/index_back.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             z-index: -1;
-            opacity: 0.6; /* Optional: control how visible it is behind content */
+            opacity: 0.6;
         }
-
 
         /* Sticker styles */
         .sticker {
             position: fixed;
             z-index: 0;
-            opacity: 0.8;  /* Adjust opacity as needed */
-            pointer-events: none; /* Makes sure stickers don't interfere with clicks */
+            opacity: 0.8;
+            pointer-events: none;
         }
         .sticker.sticker1 {
             top: 10%;
             left: 5%;
-            width: 100px;  /* Adjust width as needed */
+            width: 100px;
             transform: rotate(-10deg);
         }
         .sticker.sticker2 {
@@ -65,44 +65,45 @@
             position: relative;
             z-index: 1;
             max-width: 800px;
-            margin: 50px auto;
-            padding: 40px;
+            margin: 20px auto;
+            padding: 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-
         }
 
         h1 {
             color: #2c3e50;
             background: #ffc107;
-            font-size: 36px;
+            font-size: 2.5rem;
             margin-bottom: 20px;
         }
 
         p {
             color: black;
             background: #ffc107;
-            font-size: 18px;
-            margin-bottom: 30px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
 
         .options {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
         }
 
         .option {
             color: white;
-            padding: 20px 30px;
-            border-radius: 15px;
-            font-size: 18px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: transform 0.2s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            min-width: 150px;
+            flex: 1 1 120px;
+            max-width: 200px;
+            text-align: center;
         }
 
         .option:hover {
@@ -116,10 +117,88 @@
         .audiobooks { background-color: #6f42c1; }
 
         .footer {
-            margin-top: 40px;
+            margin-top: 20px;
             background: #ffc107;
-            font-size: 14px;
+            font-size: 0.9rem;
             color: black;
+            padding: 10px;
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .option {
+                padding: 12px 20px;
+                font-size: 1rem;
+                flex: 1 1 100px;
+                max-width: 150px;
+            }
+
+            .sticker {
+                width: 60px; /* Smaller stickers on tablets */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                margin: 5px;
+                padding: 10px;
+            }
+
+            .options {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .option {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+
+            .sticker {
+                width: 40px; /* Even smaller stickers on phones */
+                opacity: 0.5; /* Reduce opacity to avoid clutter */
+            }
+
+            .sticker.sticker1 {
+                top: 5%;
+                left: 2%;
+            }
+            .sticker.sticker2 {
+                top: 15%;
+                right: 2%;
+            }
+            .sticker.sticker3 {
+                bottom: 20%;
+                left: 5%;
+            }
+            .sticker.sticker4 {
+                bottom: 10%;
+                right: 5%;
+            }
         }
     </style>
 </head>
